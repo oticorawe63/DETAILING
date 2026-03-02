@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #dc2626; /* Using a unified bold red */
+  --color-background-light: #e0e3ea;
+  --color-background-dark: #121214;
+  --color-card-light: #ffffff;
+  --color-card-dark: #1e1e22;
+
+  --font-sans: var(--font-public-sans), sans-serif;
+  --font-display: var(--font-chakra-petch), var(--font-public-sans), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-pill: 9999px;
+
+  --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  --shadow-float: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 20px rgba(220, 38, 38, 0.3);
+  --shadow-platform: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@layer base {
+  body {
+    @apply antialiased overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .glass-effect {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .dark .glass-effect {
+    background: rgba(30, 30, 30, 0.7);
+  }
+
+  .car-platform {
+    background: radial-gradient(closest-side, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+  }
+  .dark .car-platform {
+    background: radial-gradient(closest-side, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%);
+  }
+}
