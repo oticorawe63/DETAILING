@@ -2,7 +2,7 @@ import { MaterialIcon } from "./MaterialIcon";
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-white w-full">
+    <footer className="bg-primary text-white w-full font-display">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-12">
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-16">

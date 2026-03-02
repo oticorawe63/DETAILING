@@ -20,13 +20,13 @@ export default function Home() {
     <>
       <Navbar />
 
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="flex min-h-screen flex-col items-center snap-y snap-mandatory overflow-y-auto h-screen w-full overflow-x-hidden hide-scrollbar">
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
+          className="w-full h-screen snap-start snap-always shrink-0"
         >
           <HeroSection />
         </motion.div>
@@ -36,27 +36,7 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
-          <PricingSection />
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
-          <ConfiguratorSection />
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
+          className="w-full h-screen snap-start snap-always shrink-0"
         >
           <ResultsSection />
         </motion.div>
@@ -66,7 +46,27 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
+          className="w-full h-screen snap-start snap-always shrink-0"
+        >
+          <ConfiguratorSection />
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={FADE_UP_ANIMATION_VARIANTS}
+          className="w-full h-screen snap-start snap-always shrink-0"
+        >
+          <PricingSection />
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={FADE_UP_ANIMATION_VARIANTS}
+          className="w-full h-screen snap-start snap-always shrink-0"
         >
           <TestimonialsSection />
         </motion.div>
@@ -76,13 +76,12 @@ export default function Home() {
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
           variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
+          className="w-full h-screen snap-start snap-always shrink-0 flex flex-col justify-between"
         >
           <QuoteSection />
+          <Footer />
         </motion.div>
       </main>
-
-      <Footer />
     </>
   );
 }

@@ -9,7 +9,7 @@ export function QuoteSection() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center py-24 px-6 md:px-12 lg:px-20 bg-background-light dark:bg-background-dark">
+    <section className="h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-6 md:p-12 lg:p-20 mt-auto font-display">
       <div className="w-full max-w-6xl">
         <div className="mb-12">
           <span className="text-primary font-black uppercase tracking-[0.2em] text-xs mb-2 block">

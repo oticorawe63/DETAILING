@@ -28,7 +28,7 @@ const RESULTS = [
 
 export function ResultsSection() {
   return (
-    <section className="flex flex-col px-6 md:px-12 lg:px-20 py-24 min-h-screen justify-center">
+    <section className="flex flex-col px-6 md:px-12 lg:px-20 py-24 h-screen justify-center">
       <div className="flex justify-between mb-10 md:mb-16">
         <div>
           <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase text-slate-900 dark:text-white mb-2">

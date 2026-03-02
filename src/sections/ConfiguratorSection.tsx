@@ -2,7 +2,7 @@ import { MaterialIcon } from "@/components/MaterialIcon";
 
 export function ConfiguratorSection() {
   return (
-    <section className="relative flex flex-col w-full min-h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-center py-24 overflow-hidden bg-background-light dark:bg-background-dark">
+    <section className="relative flex flex-col w-full h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-center py-24 overflow-hidden bg-background-light dark:bg-background-dark">
       {/* Decorative Radial Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl aspect-square car-platform rounded-full -z-10" />
 
