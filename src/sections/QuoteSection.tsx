@@ -9,9 +9,9 @@ export function QuoteSection() {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-6 md:p-12 lg:p-20 mt-auto font-display">
+    <section className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark p-6 md:p-12 lg:p-20 font-display">
       <div className="w-full max-w-6xl">
-        <div className="mb-12">
+        <div className="mb-12 mt-12 md:mt-0">
           <span className="text-primary font-black uppercase tracking-[0.2em] text-xs mb-2 block">
             Connect With Us
           </span>

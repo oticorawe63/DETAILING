@@ -35,7 +35,7 @@ const SERVICES = [
 
 export function PricingSection() {
   return (
-    <section className="h-screen flex flex-col px-4 md:px-12 py-16 max-w-7xl mx-auto w-full justify-center font-display">
+    <section className="min-h-screen flex flex-col px-4 md:px-12 py-16 max-w-7xl mx-auto w-full justify-center font-display">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 mt-4 md:mt-0">
         <div className="w-full text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight uppercase">

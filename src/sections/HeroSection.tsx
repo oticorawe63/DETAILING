@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 export function HeroSection() {
   return (
-    <section className="relative w-full h-screen flex flex-col items-center pb-32 justify-center">
+    <section className="relative w-full min-h-screen flex flex-col items-center pb-32 justify-center">
       <div className="w-full max-w-7xl px-8 flex flex-col items-center z-10 relative text-center justify-start">
         <div>
           <h1 className="font-display text-6xl md:text-8xl tracking-tighter uppercase text-slate-900 dark:text-white leading-none italic font-semibold">

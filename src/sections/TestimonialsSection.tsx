@@ -26,7 +26,7 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
   return (
-    <section className="h-screen flex flex-col items-center px-8 md:px-20 py-4 pt-20 bg-background-light dark:bg-background-dark justify-center font-display">
+    <section className="min-h-screen flex flex-col items-center px-8 md:px-20 py-24 bg-background-light dark:bg-background-dark justify-center font-display">
       <div className="max-w-6xl w-full">
         {/* Heading */}
         <div className="text-center mb-10">
