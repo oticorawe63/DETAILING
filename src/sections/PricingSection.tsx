@@ -35,22 +35,42 @@ function ServiceCard({ service, selectedBrand, selectedModel }: { service: typeo
 
   return (
     <div className="liquid-glass p-3 md:p-4 transition-all duration-300 transform group hover:-translate-y-1 hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)] flex flex-col h-full min-h-[160px]">
-      <div className="relative z-10 flex flex-col flex-grow items-center text-center">
-        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors mb-2 md:mb-3">
-          <MaterialIcon name={service.icon} outline className="text-lg md:text-xl" />
+      <div className="relative z-10 flex flex-col flex-grow text-left">
+        <div className="flex justify-between items-start mb-4">
+          <h3 className="font-bold text-sm md:text-base tracking-wide uppercase text-slate-900 leading-none pt-1">
+            {service.title}
+          </h3>
+          <div className="text-slate-500 group-hover:text-primary transition-colors flex items-center justify-center">
+            <MaterialIcon name={service.icon} outline className="text-sm md:text-base" style={{ fontSize: '1em' }} />
+          </div>
         </div>
-        <h3 className="font-bold text-sm md:text-base tracking-wide uppercase text-slate-900 mb-4">
-          {service.title}
-        </h3>
 
-        <div className="mt-auto w-full">
+        <div className="mt-auto w-full pt-4 border-t border-slate-200/30">
           {selectedBrand && selectedModel ? (
-            <div className="flex flex-col items-center justify-center">
-              <span className="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">Стоимость</span>
-              <span className="text-xl md:text-2xl font-black text-slate-900">{getPrice()} ₽</span>
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center text-xs text-slate-700">
+                <span>Базовая мойка</span>
+                <span className="font-bold">{Math.round(parseInt(getPrice().replace(/\s/g, '')) * 0.1).toLocaleString("ru-RU")} ₽</span>
+              </div>
+              <div className="flex justify-between items-center text-xs text-slate-700">
+                <span>Глубокая очистка</span>
+                <span className="font-bold">{Math.round(parseInt(getPrice().replace(/\s/g, '')) * 0.2).toLocaleString("ru-RU")} ₽</span>
+              </div>
+              <div className="flex justify-between items-center text-xs text-slate-700">
+                <span>Подготовка</span>
+                <span className="font-bold">{Math.round(parseInt(getPrice().replace(/\s/g, '')) * 0.15).toLocaleString("ru-RU")} ₽</span>
+              </div>
+              <div className="flex justify-between items-center text-xs text-slate-700">
+                <span>Основная работа</span>
+                <span className="font-bold">{Math.round(parseInt(getPrice().replace(/\s/g, '')) * 0.4).toLocaleString("ru-RU")} ₽</span>
+              </div>
+              <div className="flex justify-between items-center text-xs text-slate-700">
+                <span>Финальное покрытие</span>
+                <span className="font-bold">{Math.round(parseInt(getPrice().replace(/\s/g, '')) * 0.15).toLocaleString("ru-RU")} ₽</span>
+              </div>
             </div>
           ) : (
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center cursor-default">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center cursor-default pt-2">
               ВЫБЕРИТЕ МАРКУ И МОДЕЛЬ АВТО
             </p>
           )}
@@ -72,7 +92,7 @@ export function PricingSection() {
   };
 
   return (
-    <section id="pricing" className="h-full flex flex-col px-4 md:px-12 py-8 max-w-7xl mx-auto w-full justify-center font-display bg-background-light text-slate-900">
+    <section id="pricing" className="h-full flex flex-col px-4 md:px-12 pt-28 pb-8 max-w-7xl mx-auto w-full justify-center font-display bg-background-light text-slate-900">
       <div className="w-full text-center mb-6">
         <h2 className="text-3xl md:text-5xl font-black tracking-tight uppercase text-slate-900 mb-6">
           УСЛУГИ И ЦЕНЫ
@@ -88,7 +108,7 @@ export function PricingSection() {
                      <MaterialIcon name="close" className="text-sm" />
                   </button>
                </div>
-               <div className="flex-col overflow-y-auto p-2 space-y-1" style={{ maxHeight: "150px" }}>
+               <div className="flex-col p-2 space-y-1 grid grid-cols-2 gap-1 h-auto" style={{ maxHeight: "none", overflowY: "visible" }}>
                   {BRANDS.map(b => (
                      <button key={b} onClick={() => { setSelectedBrand(b); setSelectedModel(null); setActiveSelect(null); }} className="w-full text-left px-3 py-2 text-sm bg-white hover:bg-primary hover:text-white rounded-lg transition-colors text-slate-800">
                         {b}
@@ -117,13 +137,13 @@ export function PricingSection() {
                      <MaterialIcon name="close" className="text-sm" />
                   </button>
                </div>
-               <div className="flex-col overflow-y-auto p-2 space-y-1" style={{ maxHeight: "150px" }}>
+               <div className="flex-col p-2 space-y-1 grid grid-cols-2 gap-1 h-auto" style={{ maxHeight: "none", overflowY: "visible" }}>
                   {selectedBrand ? CAR_DATA[selectedBrand].map(m => (
                      <button key={m} onClick={() => { setSelectedModel(m); setActiveSelect(null); }} className="w-full text-left px-3 py-2 text-sm bg-white hover:bg-primary hover:text-white rounded-lg transition-colors text-slate-800">
                         {m}
                      </button>
                   )) : (
-                     <p className="text-xs text-slate-500 text-center py-4">Сначала выберите марку</p>
+                     <p className="text-xs text-slate-500 text-center py-4 col-span-2">Сначала выберите марку</p>
                   )}
                </div>
             </div>
@@ -153,7 +173,7 @@ export function PricingSection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 w-full mb-4 relative z-10 max-w-4xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-full mb-4 relative z-10 max-w-5xl mx-auto">
         {SERVICES.map((service) => (
           <ServiceCard key={service.id} service={service} selectedBrand={selectedBrand} selectedModel={selectedModel} />
         ))}

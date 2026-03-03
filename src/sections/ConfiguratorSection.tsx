@@ -130,7 +130,7 @@ export function ConfiguratorSection() {
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
             <div className="relative w-48 h-12 flex justify-center !overflow-visible">
-              <AnimatePresence initial={false} custom={colorDirection}>
+              <AnimatePresence initial={false} custom={colorDirection} mode="wait">
                 <motion.div
                   key={colorPage}
                   custom={colorDirection}
@@ -138,7 +138,7 @@ export function ConfiguratorSection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.1 } }}
                   className="absolute flex gap-8 items-center justify-center w-full"
                 >
                   {COLORS_PAGES[colorPage].map((color) => (
@@ -188,7 +188,7 @@ export function ConfiguratorSection() {
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
             <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
-              <AnimatePresence initial={false} custom={wheelDirection}>
+              <AnimatePresence initial={false} custom={wheelDirection} mode="wait">
                 <motion.div
                   key={wheelPage}
                   custom={wheelDirection}
@@ -196,7 +196,7 @@ export function ConfiguratorSection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.1 } }}
                   className="absolute flex gap-8 items-center justify-center w-full h-full"
                 >
                   {WHEELS_PAGES[wheelPage].map((wheel) => (
@@ -249,7 +249,7 @@ export function ConfiguratorSection() {
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
             <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
-              <AnimatePresence initial={false} custom={detailDirection}>
+              <AnimatePresence initial={false} custom={detailDirection} mode="wait">
                 <motion.div
                   key={detailPage}
                   custom={detailDirection}
@@ -257,7 +257,7 @@ export function ConfiguratorSection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.2 } }}
+                  transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.1 } }}
                   className="absolute flex gap-8 items-center justify-center w-full h-full"
                 >
                   {DETAILS_PAGES[detailPage].map((detail) => (

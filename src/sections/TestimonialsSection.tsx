@@ -26,10 +26,10 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="h-full flex flex-col items-center px-8 md:px-20 py-12 md:py-16 bg-background-light justify-center font-display">
+    <section id="testimonials" className="h-full flex flex-col items-center px-8 md:px-20 pt-20 pb-12 bg-background-light justify-center font-display">
       <div className="max-w-6xl w-full">
         {/* Heading */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <span className="text-primary text-[10px] md:text-xs font-black tracking-[0.3em] uppercase mb-2 block">
             Отзывы
           </span>
@@ -39,10 +39,10 @@ export function TestimonialsSection() {
         </div>
 
         {/* Testimonial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">
           {TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className="flex flex-col space-y-3 liquid-glass p-4">
-              <div className="mb-2 overflow-hidden rounded-xl aspect-video md:aspect-square w-full relative">
+            <div key={testimonial.id} className="flex flex-col space-y-2 liquid-glass p-4">
+              <div className="mb-2 overflow-hidden rounded-xl aspect-video md:aspect-square w-full max-h-[160px] md:max-h-[200px] relative">
                 <img
                   alt={testimonial.name}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -54,14 +54,14 @@ export function TestimonialsSection() {
                   <MaterialIcon key={star} name="star" className="text-sm" />
                 ))}
               </div>
-              <p className="text-sm md:text-base leading-relaxed font-light italic text-slate-700 text-center md:text-left">
+              <p className="text-xs md:text-sm leading-relaxed font-light italic text-slate-700 text-center md:text-left">
                 &quot;{testimonial.quote}&quot;
               </p>
               <div className="pt-2 text-center md:text-left mt-auto">
-                <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-slate-900">
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-900">
                   {testimonial.name}
                 </p>
-                <p className="text-[10px] uppercase tracking-widest text-slate-500 mt-1">
+                <p className="text-[9px] uppercase tracking-widest text-slate-500 mt-1">
                   {testimonial.role}
                 </p>
               </div>
