@@ -41,8 +41,11 @@ export default function Home() {
           <TestimonialsSection />
         </div>
 
-        <div className="w-full h-screen overflow-hidden shrink-0 flex flex-col justify-between">
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <QuoteSection />
+        </div>
+
+        <div className="w-full shrink-0">
           <Footer />
         </div>
       </main>

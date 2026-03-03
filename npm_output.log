@@ -4630,3 +4630,13 @@ https://nextjs.org/docs/messages/module-not-found
 ✓ Compiled in 2.3s
 ✓ Compiled in 692ms
 ✓ Compiled in 134ms
+✓ Compiled in 1589ms
+✓ Compiled in 2.4s
+Persisting failed: Unable to open static sorted file referenced from 00000597.meta
+
+Caused by:
+    0: Unable to open static sorted file 00000596.sst
+    1: No such file or directory (os error 2)
+✓ Compiled in 50ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)

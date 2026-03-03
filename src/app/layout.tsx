@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="ru" className="scroll-smooth light" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
@@ -34,7 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${publicSans.variable} font-sans antialiased text-white bg-[#121214] min-h-screen transition-colors duration-300`}
+        className={`${publicSans.variable} font-sans antialiased text-slate-900 bg-[#e0e3ea] min-h-screen transition-colors duration-300`}
       >
         {children}
       </body>

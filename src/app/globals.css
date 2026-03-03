@@ -2,8 +2,8 @@
 
 @theme {
   --color-primary: #dc2626; /* Using a unified bold red */
-  --color-background-dark: #121214;
-  --color-card-dark: #1e1e22;
+  --color-background-light: #e0e3ea;
+  --color-card-light: #ffffff;
 
   --font-sans: var(--font-public-sans), sans-serif;
   --font-display: var(--font-public-sans), sans-serif;
@@ -38,10 +38,10 @@
   .glass-effect {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(30, 30, 30, 0.7);
+    background: rgba(255, 255, 255, 0.7);
   }
 
   .car-platform {
-    background: radial-gradient(closest-side, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%);
+    background: radial-gradient(closest-side, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
   }
 }

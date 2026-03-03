@@ -26,43 +26,62 @@ const RESULTS = [
   },
 ];
 
+import { useState } from "react";
+
 export function ResultsSection() {
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+
   return (
-    <section id="results" className="flex flex-col px-6 md:px-12 lg:px-20 py-24 min-h-screen justify-center font-display">
+    <section id="results" className="flex flex-col px-6 md:px-12 lg:px-20 py-24 min-h-screen justify-center font-display bg-background-light">
       <div className="flex justify-between mb-10 md:mb-16">
         <div>
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase text-white mb-2">
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase text-slate-900 mb-2">
             Результат
           </h2>
-          <p className="text-slate-400 font-medium tracking-wide text-primary">
+          <p className="font-medium tracking-wide text-primary uppercase">
             РАБОТЫ DETAILING23
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full max-w-[1600px] mx-auto">
-        {RESULTS.map((result) => (
+        {RESULTS.map((result) => {
+          const isDraggingThis = draggingId === result.id;
+          const isDraggingOther = draggingId !== null && draggingId !== result.id;
+
+          let cardClasses = "bg-white rounded-3xl p-4 shadow-xl transition-all duration-300 transform group ";
+          if (isDraggingThis) {
+             cardClasses += "-translate-y-1 shadow-2xl"; // Keep elevated while dragging
+          } else if (isDraggingOther) {
+             cardClasses += "shadow-xl"; // Don't allow hover effect if another is dragging
+          } else {
+             cardClasses += "hover:-translate-y-1 hover:shadow-2xl"; // Normal hover behavior
+          }
+
+          return (
           <div
             key={result.id}
-            className="bg-card-dark rounded-3xl p-4 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 group"
+            className={cardClasses}
           >
             <div className="h-64 md:h-80 w-full rounded-2xl overflow-hidden relative">
               <Slider
                 beforeImage={result.beforeImage}
                 afterImage={result.afterImage}
+                onDragStateChange={(dragging) => setDraggingId(dragging ? result.id : null)}
               />
             </div>
 
             <div className="mt-6 px-2">
-              <h3 className="text-xl font-bold text-white">
+              <h3 className="text-xl font-bold text-slate-900">
                 {result.title}
               </h3>
-              <p className="text-slate-400 text-sm mt-1">
+              <p className="text-slate-500 text-sm mt-1">
                 {result.description}
               </p>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

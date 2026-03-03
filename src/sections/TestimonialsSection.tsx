@@ -26,42 +26,42 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="h-full flex flex-col items-center px-8 md:px-20 py-24 bg-background-dark justify-center font-display">
+    <section id="testimonials" className="h-full flex flex-col items-center px-8 md:px-20 py-12 md:py-16 bg-background-light justify-center font-display">
       <div className="max-w-6xl w-full">
         {/* Heading */}
-        <div className="text-center mb-10">
-          <span className="text-primary text-xs font-black tracking-[0.3em] uppercase mb-4 block">
+        <div className="text-center mb-8">
+          <span className="text-primary text-[10px] md:text-xs font-black tracking-[0.3em] uppercase mb-2 block">
             Отзывы
           </span>
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none text-white">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none text-slate-900">
             Мнения клиентов
           </h2>
         </div>
 
         {/* Testimonial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className="flex flex-col space-y-6">
-              <div className="mb-6 overflow-hidden rounded-xl aspect-square w-full">
+            <div key={testimonial.id} className="flex flex-col space-y-4">
+              <div className="mb-2 overflow-hidden rounded-xl aspect-square w-[70%] max-w-[200px] mx-auto md:w-full md:max-w-none">
                 <img
                   alt={testimonial.name}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   src={testimonial.image}
                 />
               </div>
-              <div className="flex gap-1 text-primary">
+              <div className="flex gap-1 text-primary justify-center md:justify-start">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <MaterialIcon key={star} name="star" className="text-sm" />
                 ))}
               </div>
-              <p className="text-lg leading-relaxed font-light italic text-slate-700 text-slate-300">
-                "{testimonial.quote}"
+              <p className="text-sm md:text-base leading-relaxed font-light italic text-slate-700 text-center md:text-left">
+                &quot;{testimonial.quote}&quot;
               </p>
-              <div className="pt-4">
-                <p className="text-sm font-bold uppercase tracking-widest text-slate-900 text-white">
+              <div className="pt-2 text-center md:text-left">
+                <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-slate-900">
                   {testimonial.name}
                 </p>
-                <p className="text-[10px] uppercase tracking-widest text-slate-400 mt-1">
+                <p className="text-[10px] uppercase tracking-widest text-slate-500 mt-1">
                   {testimonial.role}
                 </p>
               </div>
@@ -70,24 +70,24 @@ export function TestimonialsSection() {
         </div>
 
         {/* Summary Bar */}
-        <div className="mt-16 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex gap-8 md:gap-12">
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-white">4.9</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400">
+              <span className="text-lg font-bold text-slate-900">4.9</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
                 Средняя оценка
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-white">124</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-400">
+              <span className="text-lg font-bold text-slate-900">124</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
                 Проверенных отзыва
               </span>
             </div>
           </div>
           <a
             href="#"
-            className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-white hover:text-primary transition-colors group"
+            className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 hover:text-primary transition-colors group"
           >
             Читать все истории
             <MaterialIcon

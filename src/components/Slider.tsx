@@ -4,12 +4,13 @@ import { useState, useRef, useEffect, MouseEvent, TouchEvent } from "react";
 import { cn } from "@/lib/utils";
 import { MaterialIcon } from "./MaterialIcon";
 
-interface SliderProps {
+export interface SliderProps {
   beforeImage: string;
   afterImage: string;
   beforeLabel?: string;
   afterLabel?: string;
   className?: string;
+  onDragStateChange?: (isDragging: boolean) => void;
 }
 
 export function Slider({
@@ -18,10 +19,15 @@ export function Slider({
   beforeLabel = "До",
   afterLabel = "После",
   className,
+  onDragStateChange,
 }: SliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    onDragStateChange?.(isDragging);
+  }, [isDragging, onDragStateChange]);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;

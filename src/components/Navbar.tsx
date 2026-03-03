@@ -41,17 +41,17 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-center items-center pointer-events-none">
       <div className="pointer-events-auto flex flex-col gap-1 absolute left-6">
-        <div className="font-display text-2xl tracking-tighter text-white flex items-center font-semibold italic">
+        <div className="font-display text-2xl tracking-tighter text-slate-900 flex items-center font-semibold italic">
           DETAILING<span className="text-primary not-italic">23</span>
         </div>
       </div>
-      <div className="pointer-events-auto bg-card-dark rounded-full px-2 py-2 flex gap-2 items-center shadow-lg border border-slate-800">
+      <div className="pointer-events-auto bg-card-light rounded-full px-2 py-2 flex gap-2 items-center shadow-lg border border-slate-200">
         <button
           onClick={() => scrollTo("hero")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
             activeSection === "hero"
-              ? "bg-slate-800 text-slate-200"
-              : "text-slate-400 hover:bg-slate-700"
+              ? "bg-slate-200 text-slate-800"
+              : "text-slate-500 hover:bg-slate-100"
           }`}
         >
           <MaterialIcon
@@ -65,8 +65,8 @@ export function Navbar() {
           onClick={() => scrollTo("configurator")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
             activeSection === "configurator"
-              ? "bg-slate-800 text-slate-200"
-              : "text-slate-400 hover:bg-slate-700"
+              ? "bg-slate-200 text-slate-800"
+              : "text-slate-500 hover:bg-slate-100"
           }`}
         >
           <MaterialIcon
@@ -80,8 +80,8 @@ export function Navbar() {
           onClick={() => scrollTo("pricing")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
             activeSection === "pricing"
-              ? "bg-slate-800 text-slate-200"
-              : "text-slate-400 hover:bg-slate-700"
+              ? "bg-slate-200 text-slate-800"
+              : "text-slate-500 hover:bg-slate-100"
           }`}
         >
           <MaterialIcon
@@ -95,8 +95,8 @@ export function Navbar() {
           onClick={() => scrollTo("testimonials")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
             activeSection === "testimonials"
-              ? "bg-slate-800 text-slate-200"
-              : "text-slate-400 hover:bg-slate-700"
+              ? "bg-slate-200 text-slate-800"
+              : "text-slate-500 hover:bg-slate-100"
           }`}
         >
           <MaterialIcon
@@ -110,8 +110,8 @@ export function Navbar() {
           onClick={() => scrollTo("quote")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
             activeSection === "quote"
-              ? "bg-slate-800 text-slate-200"
-              : "text-slate-400 hover:bg-slate-700"
+              ? "bg-slate-200 text-slate-800"
+              : "text-slate-500 hover:bg-slate-100"
           }`}
         >
           <MaterialIcon
