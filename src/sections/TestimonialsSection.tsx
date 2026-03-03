@@ -39,10 +39,10 @@ export function TestimonialsSection() {
         </div>
 
         {/* Testimonial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-5xl mx-auto">
           {TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className="flex flex-col space-y-4">
-              <div className="mb-2 overflow-hidden rounded-xl aspect-square w-[70%] max-w-[200px] mx-auto md:w-full md:max-w-none">
+            <div key={testimonial.id} className="flex flex-col space-y-3 liquid-glass p-4">
+              <div className="mb-2 overflow-hidden rounded-xl aspect-video md:aspect-square w-full relative">
                 <img
                   alt={testimonial.name}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -57,7 +57,7 @@ export function TestimonialsSection() {
               <p className="text-sm md:text-base leading-relaxed font-light italic text-slate-700 text-center md:text-left">
                 &quot;{testimonial.quote}&quot;
               </p>
-              <div className="pt-2 text-center md:text-left">
+              <div className="pt-2 text-center md:text-left mt-auto">
                 <p className="text-xs md:text-sm font-bold uppercase tracking-widest text-slate-900">
                   {testimonial.name}
                 </p>
@@ -70,24 +70,24 @@ export function TestimonialsSection() {
         </div>
 
         {/* Summary Bar */}
-        <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex gap-8 md:gap-12">
-            <div className="flex flex-col">
+        <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 max-w-5xl mx-auto px-4">
+          <div className="flex gap-8 md:gap-12 w-full md:w-auto justify-center md:justify-start">
+            <div className="flex flex-col items-center md:items-start">
               <span className="text-lg font-bold text-slate-900">4.9</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 text-center">
                 Средняя оценка
               </span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center md:items-start">
               <span className="text-lg font-bold text-slate-900">124</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 text-center">
                 Проверенных отзыва
               </span>
             </div>
           </div>
           <a
             href="#"
-            className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 hover:text-primary transition-colors group"
+            className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 hover:text-primary transition-colors group w-full md:w-auto"
           >
             Читать все истории
             <MaterialIcon

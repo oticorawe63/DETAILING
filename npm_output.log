@@ -1,0 +1,159 @@
+
+> app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 3.1s
+○ Compiling / ...
+Error: `@utility liquid-glass:hover` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [2m[at /app/node_modules/tailwindcss/dist/lib.js:32:3856][0m
+    [2m[at Pr (/app/node_modules/tailwindcss/dist/lib.js:3:1733)][0m
+    [2m[at _ (/app/node_modules/tailwindcss/dist/lib.js:3:1377)][0m
+    [2m[at pn (/app/node_modules/tailwindcss/dist/lib.js:32:2712)][0m
+    [2m[at async dn (/app/node_modules/tailwindcss/dist/lib.js:38:631)][0m
+    [2m[at async Xr (/app/node_modules/@tailwindcss/node/dist/index.js:10:3417)][0m
+    [2m[at async N (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:3979)][0m
+    [2m[at async Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:4251)][0m
+    [2m[at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)][0m
+    [2m[at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)][0m
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /app/src/app/globals.css:1:1: `@utility liquid-glass:hover` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 9.6s (compile: 9.3s, render: 277ms)
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /app/src/app/globals.css:1:1: `@utility liquid-glass:hover` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 26ms (compile: 10ms, render: 16ms)
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /app/src/app/globals.css:1:1: `@utility liquid-glass:hover` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 19ms (compile: 7ms, render: 12ms)
+Error: `@utility hide-scrollbar::-webkit-scrollbar` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [2m[at /app/node_modules/tailwindcss/dist/lib.js:32:3856][0m
+    [2m[at Pr (/app/node_modules/tailwindcss/dist/lib.js:3:1733)][0m
+    [2m[at _ (/app/node_modules/tailwindcss/dist/lib.js:3:1377)][0m
+    [2m[at pn (/app/node_modules/tailwindcss/dist/lib.js:32:2712)][0m
+    [2m[at async dn (/app/node_modules/tailwindcss/dist/lib.js:38:631)][0m
+    [2m[at async Xr (/app/node_modules/@tailwindcss/node/dist/index.js:10:3417)][0m
+    [2m[at async N (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:3979)][0m
+    [2m[at async Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:4251)][0m
+    [2m[at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)][0m
+    [2m[at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)][0m
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /app/src/app/globals.css:1:1: `@utility hide-scrollbar::-webkit-scrollbar` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 25ms (compile: 8ms, render: 17ms)
+⨯ ./src/app/globals.css
+Error evaluating Node.js code
+CssSyntaxError: tailwindcss: /app/src/app/globals.css:1:1: `@utility hide-scrollbar::-webkit-scrollbar` defines an invalid utility name. Utilities should be alphanumeric and start with a lowercase letter.
+    [at Input.error (turbopack:///[project]/node_modules/postcss/lib/input.js:135:16)]
+    [at Root.error (turbopack:///[project]/node_modules/postcss/lib/node.js:146:32)]
+    [at Object.Once (/app/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+    [at async LazyResult.runAsync (turbopack:///[project]/node_modules/postcss/lib/lazy-result.js:293:11)]
+    [at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34)]
+    [at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 18ms (compile: 7ms, render: 11ms)
+⨯ ./src/app/globals.css:1575:7
+Parsing CSS source code failed
+[0m [90m 1573 |[39m   }
+ [90m 1574 |[39m }
+[31m[1m>[22m[39m[90m 1575 |[39m [33m.[39mdark [33m@[39mutility liquid[33m-[39mglass {
+ [90m      |[39m       [31m[1m^[22m[39m
+ [90m 1576 |[39m   background[33m-[39mcolor[33m:[39m rgba([35m0[39m[33m,[39m [35m0[39m[33m,[39m [35m0[39m[33m,[39m [35m0.2[39m)[33m;[39m
+ [90m 1577 |[39m   border[33m:[39m [35m1[39mpx solid rgba([35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m0.1[39m)[33m;[39m
+ [90m 1578 |[39m   box[33m-[39mshadow[33m:[39m inset [35m0[39m [35m0[39m [35m15[39mpx rgba([35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m0.05[39m)[33m;[39m[0m
+
+Invalid dangling combinator in selector
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 85ms (compile: 75ms, render: 11ms)
+⨯ ./src/app/globals.css:1575:7
+Parsing CSS source code failed
+[0m [90m 1573 |[39m   }
+ [90m 1574 |[39m }
+[31m[1m>[22m[39m[90m 1575 |[39m [33m.[39mdark [33m@[39mutility liquid[33m-[39mglass {
+ [90m      |[39m       [31m[1m^[22m[39m
+ [90m 1576 |[39m   background[33m-[39mcolor[33m:[39m rgba([35m0[39m[33m,[39m [35m0[39m[33m,[39m [35m0[39m[33m,[39m [35m0.2[39m)[33m;[39m
+ [90m 1577 |[39m   border[33m:[39m [35m1[39mpx solid rgba([35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m0.1[39m)[33m;[39m
+ [90m 1578 |[39m   box[33m-[39mshadow[33m:[39m inset [35m0[39m [35m0[39m [35m15[39mpx rgba([35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m255[39m[33m,[39m [35m0.05[39m)[33m;[39m[0m
+
+Invalid dangling combinator in selector
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+ GET / 500 in 69ms (compile: 58ms, render: 11ms)
+✓ Compiled in 125ms
+ GET / 200 in 719ms (compile: 311ms, render: 408ms)
+[?25h

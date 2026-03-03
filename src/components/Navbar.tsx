@@ -45,7 +45,7 @@ export function Navbar() {
           DETAILING<span className="text-primary not-italic">23</span>
         </div>
       </div>
-      <div className="pointer-events-auto bg-card-light rounded-full px-2 py-2 flex gap-2 items-center shadow-lg border border-slate-200">
+      <div className="pointer-events-auto liquid-glass !rounded-full px-2 py-2 flex gap-2 items-center">
         <button
           onClick={() => scrollTo("hero")}
           className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${

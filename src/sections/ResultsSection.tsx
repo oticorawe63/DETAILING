@@ -49,13 +49,11 @@ export function ResultsSection() {
           const isDraggingThis = draggingId === result.id;
           const isDraggingOther = draggingId !== null && draggingId !== result.id;
 
-          let cardClasses = "bg-white rounded-3xl p-4 shadow-xl transition-all duration-300 transform group ";
+          let cardClasses = "liquid-glass p-4 transition-all duration-300 transform group ";
           if (isDraggingThis) {
-             cardClasses += "-translate-y-1 shadow-2xl"; // Keep elevated while dragging
-          } else if (isDraggingOther) {
-             cardClasses += "shadow-xl"; // Don't allow hover effect if another is dragging
-          } else {
-             cardClasses += "hover:-translate-y-1 hover:shadow-2xl"; // Normal hover behavior
+             cardClasses += "-translate-y-1 shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
+          } else if (!isDraggingOther) {
+             cardClasses += "hover:-translate-y-1 hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
           }
 
           return (

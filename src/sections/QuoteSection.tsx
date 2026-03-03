@@ -23,9 +23,9 @@ export function QuoteSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start mt-4 max-w-5xl mx-auto">
           {/* Left Column: Form */}
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200">
+          <div className="liquid-glass p-6 md:p-8 rounded-2xl w-full max-w-md mx-auto lg:max-w-none shadow-none">
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div className="grid grid-cols-1 gap-4 md:gap-6">
                 <div className="flex flex-col gap-2">
@@ -84,7 +84,7 @@ export function QuoteSection() {
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest text-sm py-4 md:py-5 px-8 transition-all hover:shadow-xl hover:shadow-primary/30 transform hover:-translate-y-1 active:translate-y-0"
+                className="w-full flex items-center justify-center gap-3 rounded-xl bg-primary hover:bg-primary/90 text-white font-black uppercase tracking-widest text-sm py-4 px-8 transition-all hover:shadow-xl hover:shadow-primary/30 transform hover:-translate-y-1 active:translate-y-0"
               >
                 <span>Отправить заявку</span>
                 <MaterialIcon name="send" className="text-xl" />
@@ -93,45 +93,45 @@ export function QuoteSection() {
           </div>
 
           {/* Right Column: Map & Info */}
-          <div className="flex flex-col gap-6 md:gap-8">
-            <div className="w-full aspect-video max-h-[250px] rounded-2xl overflow-hidden border border-slate-200 shadow-xl">
-              <div
-                className="w-full h-full grayscale opacity-80"
-                style={{
-                  backgroundImage:
-                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCNALEe57Nt-C9En2jp1UG8H-4bx2J0iVeY3_7o10bAHwxU6O-PQIIFAistInTcvw7MsiAcF8NCHDQl4hLgnatXQnrGCMVXT4kg8rPSRmVfkt4mRht-_oGFuzV-6weSkCbeZrAa1UO6rBVkFgNaApGnMEJZ5PY3X9hJ89CnGIlvjue-L_2kKqBSpJV6eIQsLsoTmqMC_EpQ7ksVbB2GHPhvAT6FTIaUfd0hRGi09LnQuhWm0UxfxZMt_DNET-WFf1Bu-51iC3Y1kXQN")',
-                  backgroundSize: "cover",
-                  backgroundPosition: "center center",
-                  filter: "grayscale(1) invert(1) contrast(1.2)",
-                }}
+          <div className="flex flex-col gap-6 w-full max-w-md mx-auto lg:max-w-none">
+            <div className="w-full aspect-[2/1] rounded-2xl overflow-hidden border border-slate-200 shadow-none relative bg-slate-100 liquid-glass !p-0">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d105658.05608249658!2d-118.3618606678224!3d34.037597148816766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2s!4v1709664551109!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                style={{ border: 0, filter: "grayscale(1) invert(0.9) contrast(1.2) opacity(0.8)" }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0"
               />
             </div>
 
-            <div className="space-y-6">
-              <div className="flex flex-col gap-4">
+            <div className="space-y-4 px-2">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                  <span className="text-primary bg-primary/10 p-3 rounded-full flex items-center justify-center">
-                    <MaterialIcon name="call" />
-                  </span>
+                  <div className="text-primary bg-primary/10 w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                    <MaterialIcon name="call" className="text-sm" />
+                  </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       Телефон
                     </p>
-                    <p className="text-slate-900 font-semibold">
+                    <p className="text-slate-900 font-bold text-sm">
                       +7 (999) 888-00-00
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className="text-primary bg-primary/10 p-3 rounded-full flex items-center justify-center">
-                    <MaterialIcon name="mail" />
-                  </span>
+                  <div className="text-primary bg-primary/10 w-10 h-10 flex items-center justify-center rounded-full shrink-0">
+                    <MaterialIcon name="mail" className="text-sm" />
+                  </div>
                   <div>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       Email
                     </p>
-                    <p className="text-slate-900 font-semibold">
+                    <p className="text-slate-900 font-bold text-sm break-all">
                       concierge@elitedetailing.com
                     </p>
                   </div>
@@ -139,7 +139,7 @@ export function QuoteSection() {
               </div>
 
               {/* Simplified Social Links */}
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
+              <div className="flex items-center gap-4 pt-4">
                 <a href="#" className="text-slate-400 hover:text-primary transition-colors">
                   <svg className="size-6 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
@@ -156,7 +156,7 @@ export function QuoteSection() {
         </div>
 
         {/* Footer Info Area matching screen 7 */}
-        <div className="mt-16 flex flex-col sm:flex-row items-center gap-12 justify-center border-t border-slate-200 pt-10">
+        <div className="mt-8 flex flex-col sm:flex-row items-center gap-12 justify-center border-t border-slate-200 pt-6">
           <div className="flex items-center gap-3">
             <MaterialIcon name="schedule" className="text-primary" />
             <div className="text-xs uppercase tracking-tighter">

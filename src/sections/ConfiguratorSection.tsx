@@ -115,8 +115,8 @@ export function ConfiguratorSection() {
 
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 max-w-7xl mx-auto px-0 md:px-12 mt-auto mb-4">
         {/* Colors Panel */}
-        <div className="glass-effect rounded-2xl shadow-soft transition-all duration-300 flex flex-col items-center p-6 border border-slate-200">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6">
+        <div className="liquid-glass flex flex-col items-center p-6">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
             Цвета
           </h3>
           <div className="w-full flex items-center justify-between">
@@ -129,7 +129,7 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-48 h-12 flex justify-center overflow-hidden">
+            <div className="relative w-48 h-12 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={colorDirection}>
                 <motion.div
                   key={colorPage}
@@ -173,8 +173,8 @@ export function ConfiguratorSection() {
         </div>
 
         {/* Wheels Panel */}
-        <div className="glass-effect rounded-2xl shadow-soft transition-all duration-300 flex flex-col items-center p-6 border border-slate-200">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6">
+        <div className="liquid-glass flex flex-col items-center p-6">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
             Диски
           </h3>
           <div className="w-full flex items-center justify-between">
@@ -187,7 +187,7 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-[264px] h-14 flex justify-center overflow-hidden">
+            <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={wheelDirection}>
                 <motion.div
                   key={wheelPage}
@@ -234,8 +234,8 @@ export function ConfiguratorSection() {
         </div>
 
         {/* Details Panel */}
-        <div className="glass-effect rounded-2xl shadow-soft transition-all duration-300 flex flex-col items-center p-6 border border-slate-200">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6">
+        <div className="liquid-glass flex flex-col items-center p-6">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
             Детали
           </h3>
           <div className="w-full flex items-center justify-between">
@@ -248,7 +248,7 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-[264px] h-14 flex justify-center overflow-hidden">
+            <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={detailDirection}>
                 <motion.div
                   key={detailPage}
