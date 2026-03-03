@@ -2,14 +2,12 @@
 
 @theme {
   --color-primary: #dc2626; /* Using a unified bold red */
-  --color-background-light: #e0e3ea;
   --color-background-dark: #121214;
-  --color-card-light: #ffffff;
   --color-card-dark: #1e1e22;
 
   --font-sans: var(--font-public-sans), sans-serif;
-  --font-display: var(--font-chakra-petch), var(--font-public-sans), sans-serif;
-  --font-body: var(--font-inter), sans-serif;
+  --font-display: var(--font-public-sans), sans-serif;
+  --font-body: var(--font-public-sans), sans-serif;
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
@@ -40,16 +38,10 @@
   .glass-effect {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    background: rgba(255, 255, 255, 0.7);
-  }
-  .dark .glass-effect {
     background: rgba(30, 30, 30, 0.7);
   }
 
   .car-platform {
-    background: radial-gradient(closest-side, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
-  }
-  .dark .car-platform {
     background: radial-gradient(closest-side, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%);
   }
 }

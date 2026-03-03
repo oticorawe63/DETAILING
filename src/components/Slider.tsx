@@ -15,8 +15,8 @@ interface SliderProps {
 export function Slider({
   beforeImage,
   afterImage,
-  beforeLabel = "Before",
-  afterLabel = "After",
+  beforeLabel = "До",
+  afterLabel = "После",
   className,
 }: SliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -69,17 +69,24 @@ export function Slider({
       className={cn("relative w-full h-full overflow-hidden select-none", className)}
     >
       {/* After Image (Background) */}
-      <img
-        src={afterImage}
-        alt="After"
-        className="absolute inset-0 w-full h-full object-cover"
-        draggable={false}
-      />
-      {afterLabel && (
-        <span className="absolute top-4 right-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase z-10">
-          {afterLabel}
-        </span>
-      )}
+      <div className="absolute inset-0 w-full h-full">
+        <img
+          src={afterImage}
+          alt="After"
+          className="absolute inset-0 w-full h-full object-cover"
+          draggable={false}
+        />
+        {afterLabel && (
+          <div
+            className="absolute top-0 right-0 h-full overflow-hidden flex justify-end p-4"
+            style={{ width: `${100 - sliderPosition}%` }}
+          >
+            <span className="bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase h-fit whitespace-nowrap">
+              {afterLabel}
+            </span>
+          </div>
+        )}
+      </div>
 
       {/* Before Image (Foreground, clipped) */}
       <div
@@ -93,12 +100,12 @@ export function Slider({
           style={{ width: "100%", height: "100%", objectPosition: "left center" }}
           draggable={false}
         />
+        {beforeLabel && (
+          <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase z-10 whitespace-nowrap">
+            {beforeLabel}
+          </span>
+        )}
       </div>
-      {beforeLabel && (
-        <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase z-10">
-          {beforeLabel}
-        </span>
-      )}
 
       {/* Handle */}
       <div

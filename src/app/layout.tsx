@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Public_Sans, Chakra_Petch, Inter } from "next/font/google";
+import { Public_Sans } from "next/font/google";
 import "./globals.css";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
-  subsets: ["latin"],
-});
-
-const chakraPetch = Chakra_Petch({
-  variable: "--font-chakra-petch",
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -29,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="ru" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
@@ -45,7 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${publicSans.variable} ${chakraPetch.variable} ${inter.variable} font-sans antialiased text-slate-900 dark:text-slate-100 bg-background-light dark:bg-background-dark min-h-screen transition-colors duration-300`}
+        className={`${publicSans.variable} font-sans antialiased text-white bg-[#121214] min-h-screen transition-colors duration-300`}
       >
         {children}
       </body>

@@ -20,67 +20,31 @@ export default function Home() {
     <>
       <Navbar />
 
-      <main className="flex min-h-screen flex-col items-center w-full overflow-x-hidden hide-scrollbar">
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
+      <main className="flex flex-col items-center w-full overflow-x-hidden hide-scrollbar">
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <HeroSection />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <ResultsSection />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <ConfiguratorSection />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <PricingSection />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full"
-        >
+        <div className="w-full h-screen overflow-hidden shrink-0">
           <TestimonialsSection />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={FADE_UP_ANIMATION_VARIANTS}
-          className="w-full flex flex-col justify-between"
-        >
+        <div className="w-full h-screen overflow-hidden shrink-0 flex flex-col justify-between">
           <QuoteSection />
           <Footer />
-        </motion.div>
+        </div>
       </main>
     </>
   );

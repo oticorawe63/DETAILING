@@ -4627,3 +4627,6 @@ https://nextjs.org/docs/messages/module-not-found
  GET / 200 in 1120ms (compile: 735ms, render: 385ms)
 ✓ Compiled in 35ms
 ✓ Compiled in 552ms
+✓ Compiled in 2.3s
+✓ Compiled in 692ms
+✓ Compiled in 134ms

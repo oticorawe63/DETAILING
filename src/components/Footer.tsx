@@ -20,22 +20,22 @@ export function Footer() {
         <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mt-8">
           <div className="flex items-center gap-2">
             <MaterialIcon name="location_on" className="text-sm" />
-            <p className="text-sm md:text-base">123 Detail St, Auto City, AC 90210</p>
+            <p className="text-sm md:text-base">г. Москва, ул. Примерная, 123</p>
           </div>
           <div className="flex items-center gap-2">
             <MaterialIcon name="call" className="text-sm" />
-            <p className="text-sm md:text-base font-bold">+1 (555) 0123-4567</p>
+            <p className="text-sm md:text-base font-bold">+7 (999) 012-34-56</p>
           </div>
           <div className="flex items-center gap-2">
             <MaterialIcon name="mail" className="text-sm" />
-            <p className="text-sm md:text-base">info@detailing23.com</p>
+            <p className="text-sm md:text-base">info@detailing23.ru</p>
           </div>
         </div>
 
         {/* Map Placeholder / Bottom Bar */}
         <div className="mt-12 flex flex-col items-center gap-4 justify-center">
           <div className="text-xs uppercase tracking-widest opacity-60 text-center">
-            © {new Date().getFullYear()} DETAILING23. Precision in every detail.
+            © {new Date().getFullYear()} DETAILING23. Точность в каждой детали.
           </div>
         </div>
       </div>
