@@ -2,30 +2,45 @@
 
 import { motion, useMotionValue, useTransform, animate, MotionValue } from "framer-motion";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const BRANDS = [
-  "AUDI",
   "MERCEDES",
   "BMW",
+  "AUDI",
   "PORSCHE",
   "TOYOTA",
+  "LEXUS",
+  "TESLA",
+  "VOLVO",
+  "JAGUAR",
+  "BENTLEY",
+  "FERRARI"
 ];
 
+const LOGOS: Record<string, string> = {
+  "MERCEDES": "/logos/mercedes-logo.png",
+  "BMW": "/logos/bmw-logo.png",
+  "AUDI": "/logos/audi-logo.png",
+  "PORSCHE": "/logos/porsche-logo.png",
+  "TOYOTA": "/logos/toyota-logo.png",
+};
+
 // Configuration
-const ARC_RADIUS = 400; // Size of the circular arc (radius)
-const ARC_OFFSET_X = -700; // How far left the container is
-const ANGLE_STEP = 15; // Degrees between each item
+const ARC_RADIUS = 800; // Size of the circular arc (radius)
+const ARC_OFFSET_X = -1500; // How far left the container is
+const ANGLE_STEP = 10; // Degrees between each item
 
 interface ArcMenuProps {
   onSelect?: (brand: string) => void;
 }
 
 export function ArcMenu({ onSelect }: ArcMenuProps) {
-  const [activeIndex, setActiveIndex] = useState(2); // Start with PORSCHE as center
+  const [activeIndex, setActiveIndex] = useState(3); // Start with PORSCHE as center
 
   // rotation is the global rotation of the entire arc.
-  const rotation = useMotionValue(-2 * ANGLE_STEP);
+  const rotation = useMotionValue(-3 * ANGLE_STEP);
 
   const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
     const currentRot = rotation.get();
@@ -127,32 +142,45 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
   const scale = useTransform(
     absoluteAngle,
     [-ANGLE_STEP, 0, ANGLE_STEP],
-    [0.2, 0.5, 0.2]
+    [0.5, 1, 0.5]
   );
 
   return (
     <div
       className="absolute left-full top-1/2 -translate-y-1/2 flex items-center pointer-events-none whitespace-nowrap"
       style={{
-        transformOrigin: `-${radius + 5}px 50%`,
+        transformOrigin: `-${radius + 20}px 50%`,
         transform: `rotate(${itemAngle}deg)`,
       }}
     >
       <div
         className={cn(
-          "w-2 h-2 rounded-full absolute -left-[5px] transition-all duration-300",
+          "w-2 h-2 rounded-full absolute -left-[20px] transition-all duration-300",
           isActive ? "bg-slate-900 dark:bg-white scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
         )}
       />
 
       <motion.div
-        className="ml-2 pointer-events-auto cursor-pointer"
+        className="ml-8 pointer-events-auto cursor-pointer flex items-center gap-6"
         style={{ opacity, scale, transformOrigin: "left center" }}
         onClick={(e) => {
           e.stopPropagation();
           onClick();
         }}
       >
+        {LOGOS[brand] && (
+          <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+            <Image
+              src={LOGOS[brand]}
+              alt={`${brand} logo`}
+              fill
+              className={cn(
+                "object-contain transition-all duration-300 drop-shadow-md",
+                !isActive && "grayscale opacity-50"
+              )}
+            />
+          </div>
+        )}
         <span
           className={cn(
             "text-4xl md:text-5xl lg:text-7xl font-black uppercase transition-colors duration-300 tracking-tighter leading-none",
