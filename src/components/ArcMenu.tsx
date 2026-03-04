@@ -9,7 +9,7 @@ const BRANDS = [
   "MERCEDES",
   "BMW",
   "PORSCHE",
-  "LEXUS",
+  "TOYOTA",
 ];
 
 // Configuration
