@@ -18,8 +18,8 @@ const BRANDS = [
 ];
 
 // Configuration
-const ARC_RADIUS = 1000; // Size of the circular arc (radius)
-const ARC_OFFSET_X = -1700; // How far left the container is
+const ARC_RADIUS = 800; // Size of the circular arc (radius)
+const ARC_OFFSET_X = -1500; // How far left the container is
 const ANGLE_STEP = 10; // Degrees between each item
 
 interface ArcMenuProps {
@@ -68,10 +68,10 @@ export function ArcMenu({ onSelect }: ArcMenuProps) {
   }, []);
 
   return (
-    <div className="absolute left-0 top-[50%] -translate-y-1/2 w-[400px] h-[800px] pointer-events-none flex items-center z-0 overflow-hidden md:overflow-visible">
+    <div className="absolute left-0 top-[45%] -translate-y-1/2 w-full md:w-[50%] h-[50vh] pointer-events-none flex items-center z-0 overflow-hidden" style={{ maskImage: "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)" }}>
 
       <motion.div
-        className="absolute rounded-full border-r border-slate-200 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center"
+        className="absolute rounded-full border-r border-slate-200 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
         style={{
           width: ARC_RADIUS * 2,
           height: ARC_RADIUS * 2,
@@ -125,33 +125,33 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
 
   const opacity = useTransform(
     absoluteAngle,
-    [-ANGLE_STEP * 3, 0, ANGLE_STEP * 3],
-    [0.1, 1, 0.1]
+    [-ANGLE_STEP * 2.5, 0, ANGLE_STEP * 2.5],
+    [0.0, 1, 0.0]
   );
 
   const scale = useTransform(
     absoluteAngle,
-    [-ANGLE_STEP * 1.5, 0, ANGLE_STEP * 1.5],
-    [0.4, 1, 0.4]
+    [-ANGLE_STEP, 0, ANGLE_STEP],
+    [0.5, 1, 0.5]
   );
 
   return (
     <div
-      className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pointer-events-none"
+      className="absolute left-full top-1/2 -translate-y-1/2 flex items-center pointer-events-none whitespace-nowrap"
       style={{
-        transformOrigin: `-${radius - 20}px 50%`,
+        transformOrigin: `-${radius + 20}px 50%`,
         transform: `rotate(${itemAngle}deg)`,
       }}
     >
       <div
         className={cn(
-          "w-2 h-2 rounded-full absolute -left-[5px] transition-all duration-300",
+          "w-2 h-2 rounded-full absolute -left-[20px] transition-all duration-300",
           isActive ? "bg-slate-900 dark:bg-white scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
         )}
       />
 
       <motion.div
-        className="ml-10 pointer-events-auto cursor-pointer"
+        className="ml-8 pointer-events-auto cursor-pointer"
         style={{ opacity, scale, transformOrigin: "left center" }}
         onClick={(e) => {
           e.stopPropagation();
@@ -160,7 +160,7 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
       >
         <span
           className={cn(
-            "text-5xl md:text-6xl lg:text-[4.5rem] font-black uppercase transition-colors duration-300 tracking-tighter leading-none",
+            "text-4xl md:text-5xl lg:text-7xl font-black uppercase transition-colors duration-300 tracking-tighter leading-none",
             isActive
               ? "text-slate-900 dark:text-white"
               : "text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-500"
