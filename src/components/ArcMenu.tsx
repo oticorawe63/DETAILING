@@ -5,32 +5,27 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const BRANDS = [
+  "AUDI",
   "MERCEDES",
   "BMW",
-  "AUDI",
   "PORSCHE",
   "LEXUS",
-  "TESLA",
-  "VOLVO",
-  "JAGUAR",
-  "BENTLEY",
-  "FERRARI"
 ];
 
 // Configuration
-const ARC_RADIUS = 800; // Size of the circular arc (radius)
-const ARC_OFFSET_X = -1500; // How far left the container is
-const ANGLE_STEP = 10; // Degrees between each item
+const ARC_RADIUS = 400; // Size of the circular arc (radius)
+const ARC_OFFSET_X = -700; // How far left the container is
+const ANGLE_STEP = 15; // Degrees between each item
 
 interface ArcMenuProps {
   onSelect?: (brand: string) => void;
 }
 
 export function ArcMenu({ onSelect }: ArcMenuProps) {
-  const [activeIndex, setActiveIndex] = useState(3); // Start with PORSCHE as center
+  const [activeIndex, setActiveIndex] = useState(2); // Start with PORSCHE as center
 
   // rotation is the global rotation of the entire arc.
-  const rotation = useMotionValue(-3 * ANGLE_STEP);
+  const rotation = useMotionValue(-2 * ANGLE_STEP);
 
   const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
     const currentRot = rotation.get();
@@ -132,26 +127,26 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
   const scale = useTransform(
     absoluteAngle,
     [-ANGLE_STEP, 0, ANGLE_STEP],
-    [0.5, 1, 0.5]
+    [0.2, 0.5, 0.2]
   );
 
   return (
     <div
       className="absolute left-full top-1/2 -translate-y-1/2 flex items-center pointer-events-none whitespace-nowrap"
       style={{
-        transformOrigin: `-${radius + 20}px 50%`,
+        transformOrigin: `-${radius + 5}px 50%`,
         transform: `rotate(${itemAngle}deg)`,
       }}
     >
       <div
         className={cn(
-          "w-2 h-2 rounded-full absolute -left-[20px] transition-all duration-300",
+          "w-2 h-2 rounded-full absolute -left-[5px] transition-all duration-300",
           isActive ? "bg-slate-900 dark:bg-white scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
         )}
       />
 
       <motion.div
-        className="ml-8 pointer-events-auto cursor-pointer"
+        className="ml-2 pointer-events-auto cursor-pointer"
         style={{ opacity, scale, transformOrigin: "left center" }}
         onClick={(e) => {
           e.stopPropagation();
