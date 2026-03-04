@@ -4,6 +4,7 @@ import { MaterialIcon } from "@/components/MaterialIcon";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArcMenu } from "@/components/ArcMenu";
 
 const COLORS_PAGES = [
   [
@@ -102,9 +103,11 @@ export function ConfiguratorSection() {
       {/* Decorative Radial Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl aspect-square car-platform rounded-full -z-10" />
 
+      <ArcMenu onSelect={(brand) => console.log("Selected brand:", brand)} />
+
       {/* Top right price */}
-      <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20">
-        <div className="text-right">
+      <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20 pointer-events-none">
+        <div className="text-right pointer-events-auto">
           <h2 className="text-2xl md:text-3xl font-light text-slate-900">
             25 250 780 ₽
           </h2>
