@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArcMenu } from "@/components/ArcMenu";
 import { ModelArcMenu } from "@/components/ModelArcMenu";
+import { ConfiguratorCanvas } from "@/components/canvas/ConfiguratorCanvas";
 
 const COLORS_PAGES = [
   [
@@ -43,6 +44,18 @@ const WHEELS_DATA: Record<string, { id: string, src: string, name: string }[][]>
       { id: "bw6", src: "/wheels/bmw/wheel6.png", name: "BMW M-Performance 6" },
     ]
   ],
+  "AUDI": [
+    [
+      { id: "aw1", src: "/wheels/audi/wheel1.png", name: "Audi Sport V-Spoke" },
+      { id: "aw2", src: "/wheels/audi/wheel2.png", name: "Audi Sport Blade" },
+      { id: "aw3", src: "/wheels/audi/wheel3.png", name: "Audi Sport 5-Arm" },
+    ],
+    [
+      { id: "aw4", src: "/wheels/audi/wheel4.png", name: "Audi Sport Multi-Spoke" },
+      { id: "aw5", src: "/wheels/audi/wheel5.png", name: "Audi Sport Gloss Black" },
+      { id: "aw6", src: "/wheels/audi/wheel6.png", name: "Audi Sport Rotor" },
+    ]
+  ],
   "MERCEDES": [
     [
       { id: "mw1", src: "/wheels/mercedes/wheel1.png", name: "Mercedes AMG 1" },
@@ -53,6 +66,29 @@ const WHEELS_DATA: Record<string, { id: string, src: string, name: string }[][]>
       { id: "mw4", src: "/wheels/mercedes/wheel4.png", name: "Mercedes AMG 4" },
       { id: "mw5", src: "/wheels/mercedes/wheel5.png", name: "Mercedes AMG 5" },
       { id: "mw6", src: "/wheels/mercedes/wheel6.png", name: "Mercedes AMG 6" },
+    ]
+  ],
+  "PORSCHE": [
+    [
+      { id: "pw1", src: "/wheels/porsche/wheel1.png", name: "Porsche RS Spyder" },
+      { id: "pw2", src: "/wheels/porsche/wheel2.png", name: "Porsche Sport Design" },
+      { id: "pw3", src: "/wheels/porsche/wheel3.png", name: "Porsche Carrera Classic" },
+    ],
+    [
+      { id: "pw4", src: "/wheels/porsche/wheel4.png", name: "Porsche Taycan Turbo" },
+      { id: "pw5", src: "/wheels/porsche/wheel5.png", name: "Porsche Exclusive Design" },
+      { id: "pw6", src: "/wheels/porsche/wheel6.png", name: "Porsche GT Design Gloss" },
+    ]
+  ],
+  "TOYOTA": [
+    [
+      { id: "tw1", src: "/wheels/toyota/wheel1.png", name: "Toyota Forged Silver" },
+      { id: "tw2", src: "/wheels/toyota/wheel2.png", name: "Toyota TRD Off-Road" },
+      { id: "tw3", src: "/wheels/toyota/wheel3.png", name: "Toyota Gunmetal Mesh" },
+    ],
+    [
+      { id: "tw4", src: "/wheels/toyota/wheel4.png", name: "Toyota Chrome Y-Spoke" },
+      { id: "tw5", src: "/wheels/toyota/wheel5.png", name: "Toyota Sport 5-Spoke" },
     ]
   ],
   "DEFAULT": [
@@ -136,9 +172,14 @@ export function ConfiguratorSection() {
     : "Не выбрано";
 
   return (
-    <section id="configurator" className="relative flex flex-col w-full h-full min-h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-between pt-12 pb-2 overflow-hidden bg-background-light">
-      {/* Decorative Radial Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl aspect-square car-platform rounded-full -z-10" />
+    <section id="configurator" className="relative flex flex-col w-full h-full min-h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-between pt-12 pb-2 overflow-hidden">
+      {/* 3D Car Model Canvas */}
+      <ConfiguratorCanvas
+        brand={selectedBrand}
+        model={selectedModel}
+        color={selectedColor}
+        wheel={selectedWheel}
+      />
 
       {/* Background Arc for Models (Larger) */}
       <ModelArcMenu

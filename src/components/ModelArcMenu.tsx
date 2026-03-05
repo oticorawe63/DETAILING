@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const MODELS_DATA: Record<string, string[]> = {
-    "AUDI": ["Q8", "Q7", "RS6", "A8", "R8"],
+    "AUDI": ["A5", "A7", "TT", "R8", "Q7"],
     "MERCEDES": ["GLE Coupe", "G-Class", "AMG GT", "C-Class", "S-Class"],
     "BMW": ["X6", "X5", "M5", "M4", "M3"],
-    "PORSCHE": ["911", "Cayenne", "Panamera", "Taycan", "Macan"],
-    "TOYOTA": ["LC 300", "Camry", "RAV4", "Alphard", "Supra"],
+    "PORSCHE": ["Macan", "Cayenne", "911", "Taycan", "Panamera"],
+    "TOYOTA": ["Tundra", "Camry", "Supra", "Mark", "Cruiser"],
 };
 
 // Configuration
