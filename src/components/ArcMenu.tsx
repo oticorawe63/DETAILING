@@ -6,41 +6,35 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const BRANDS = [
+  "AUDI",
   "MERCEDES",
   "BMW",
-  "AUDI",
   "PORSCHE",
   "TOYOTA",
-  "LEXUS",
-  "TESLA",
-  "VOLVO",
-  "JAGUAR",
-  "BENTLEY",
-  "FERRARI"
 ];
 
 const LOGOS: Record<string, string> = {
+  "AUDI": "/logos/audi-logo.png",
   "MERCEDES": "/logos/mercedes-logo.png",
   "BMW": "/logos/bmw-logo.png",
-  "AUDI": "/logos/audi-logo.png",
   "PORSCHE": "/logos/porsche-logo.png",
   "TOYOTA": "/logos/toyota-logo.png",
 };
 
 // Configuration
-const ARC_RADIUS = 800; // Size of the circular arc (radius)
-const ARC_OFFSET_X = -1500; // How far left the container is
-const ANGLE_STEP = 10; // Degrees between each item
+const ARC_RADIUS = 200; // Size of the circular arc (radius)
+const ARC_OFFSET_X = -320; // How far left the container is
+const ANGLE_STEP = 20; // Degrees between each item
 
 interface ArcMenuProps {
   onSelect?: (brand: string) => void;
 }
 
 export function ArcMenu({ onSelect }: ArcMenuProps) {
-  const [activeIndex, setActiveIndex] = useState(3); // Start with PORSCHE as center
+  const [activeIndex, setActiveIndex] = useState(2); // Start with BMW as center
 
   // rotation is the global rotation of the entire arc.
-  const rotation = useMotionValue(-3 * ANGLE_STEP);
+  const rotation = useMotionValue(-2 * ANGLE_STEP);
 
   const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
     const currentRot = rotation.get();
@@ -78,7 +72,7 @@ export function ArcMenu({ onSelect }: ArcMenuProps) {
   }, []);
 
   return (
-    <div className="absolute left-0 top-[45%] -translate-y-1/2 w-full md:w-[50%] h-[50vh] pointer-events-none flex items-center z-0 overflow-hidden" style={{ maskImage: "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)" }}>
+    <div className="absolute left-0 top-[50%] -translate-y-1/2 w-full md:w-[70%] h-[70vh] pointer-events-none flex items-center z-0 overflow-hidden">
 
       <motion.div
         className="absolute rounded-full border-r border-slate-200 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
@@ -142,21 +136,21 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
   const scale = useTransform(
     absoluteAngle,
     [-ANGLE_STEP, 0, ANGLE_STEP],
-    [0.5, 1, 0.5]
+    [0.8, 1, 0.8]
   );
 
   return (
     <div
       className="absolute left-full top-1/2 -translate-y-1/2 flex items-center pointer-events-none whitespace-nowrap"
       style={{
-        transformOrigin: `-${radius + 20}px 50%`,
+        transformOrigin: `-${radius + 0}px 50%`,
         transform: `rotate(${itemAngle}deg)`,
       }}
     >
       <div
         className={cn(
-          "w-2 h-2 rounded-full absolute -left-[20px] transition-all duration-300",
-          isActive ? "bg-slate-900 dark:bg-white scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
+          "w-1.5 h-1.5 rounded-full absolute -left-[3px] transition-all duration-300",
+          isActive ? "bg-slate-900 dark:bg-black scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
         )}
       />
 
@@ -169,7 +163,7 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
         }}
       >
         {LOGOS[brand] && (
-          <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+          <div className="relative w-6 h-6 md:w-11 md:h-11 flex-shrink-0">
             <Image
               src={LOGOS[brand]}
               alt={`${brand} logo`}
@@ -181,16 +175,7 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
             />
           </div>
         )}
-        <span
-          className={cn(
-            "text-4xl md:text-5xl lg:text-7xl font-black uppercase transition-colors duration-300 tracking-tighter leading-none",
-            isActive
-              ? "text-slate-900 dark:text-white"
-              : "text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-500"
-          )}
-        >
-          {brand}
-        </span>
+
       </motion.div>
     </div>
   );

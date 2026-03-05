@@ -1,10 +1,11 @@
 "use client";
 
 import { MaterialIcon } from "@/components/MaterialIcon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArcMenu } from "@/components/ArcMenu";
+import { ModelArcMenu } from "@/components/ModelArcMenu";
 
 const COLORS_PAGES = [
   [
@@ -14,33 +15,59 @@ const COLORS_PAGES = [
   ],
   [
     { id: "red", bg: "bg-red-600", name: "Красный" },
-    { id: "emerald", bg: "bg-emerald-500", name: "Изумрудный" },
-    { id: "blue", bg: "bg-blue-600", name: "Синий" },
+    { id: "orange", bg: "bg-orange-500", name: "Оранжевый" },
+    { id: "yellow", bg: "bg-yellow-400", name: "Желтый" },
   ],
   [
-    { id: "yellow", bg: "bg-yellow-400", name: "Желтый" },
+    { id: "green", bg: "bg-green-600", name: "Зеленый" },
     { id: "lime", bg: "bg-lime-400", name: "Салатовый" },
     { id: "lightblue", bg: "bg-sky-400", name: "Голубой" },
   ],
   [
+    { id: "blue", bg: "bg-blue-600", name: "Синий" },
     { id: "pink", bg: "bg-pink-500", name: "Розовый" },
-    { id: "orange", bg: "bg-orange-500", name: "Оранжевый" },
     { id: "purple", bg: "bg-purple-600", name: "Фиолетовый" },
   ],
 ];
 
-const WHEELS_PAGES = [
-  [
-    { id: "w1", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6JA2N1HdqM1hrYElXxzHL9G3wE0B5-BZJkrepj9jsreVzfoHvqluqtHUNXbhh2lJcxBel9NPtAu7dtqrSqRZkfsZVrbY7L47sFQpDcZLWMq-zY17DB2zJkV-mA8KuRrbCaPpsK7Lee74KyE0tGDaeD7tqTMgL8WmdnBuz5fHjdjrO5FvhLXDzcoLioFBrgNheHNCby4O4P8lgf81_1IaFUzTGwls_IP7O8TBtYicKNcrlzIM6Zk2l_GCBRjfcKGnLd_BR20qIt7gz", name: "Стандартные диски" },
-    { id: "w2", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBS8qLzZcuGq6deBonfSGR5BrhSJWUrYXPbH9IWgBwOCho28vi7JBlrKldiV8MXi4aL_hZ5FMjD6qa-Ifl6YJBlBEFJdeiD3V_jk03znp2Ztjz83Ol1--M3TBZWonJfOZu3JA4kQX_DzVE2croEvPxuZPC0SxenVcis0f6YLbI7Pfl8zyk0hdPhbhJ8QZzw98YBmrbT-A_r1YTSCV1_qmaqtOYk866tjT-QRC4k-rP7wuqXmtyaIqxurJuE2bpyMYhU41bTRxguWFsT", name: "Спортивные диски" },
-    { id: "w3", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB1kDbNWQKrtxgPbudRC6eGvVLBt7vDqtMn9X2U72moSess0ny94T4a6UAZEPvqN-Ia4yccE2w_5C1VWAAOpXHN9yxSq3pcTFO2flcNsvNxoWYHOqIdSDIabLrphujSVfsMEZbgndYUSlw5X7xFp_MjYpKyCcCUBAREDGtDkOn0sta46FChadqSuNKhNYrNX6EV6o3RAsAUjO4xpFyXLAAhIRXZ_n5_OJqXdJ1ZCehmppskKohG5JN1gYN1SnW9U20z79loemfhxlKL", name: "Трековые диски" },
+const WHEELS_DATA: Record<string, { id: string, src: string, name: string }[][]> = {
+  "BMW": [
+    [
+      { id: "bw1", src: "/wheels/bmw/wheel1.png", name: "BMW M-Performance 1" },
+      { id: "bw2", src: "/wheels/bmw/wheel2.png", name: "BMW M-Performance 2" },
+      { id: "bw3", src: "/wheels/bmw/wheel3.png", name: "BMW M-Performance 3" },
+    ],
+    [
+      { id: "bw4", src: "/wheels/bmw/wheel4.png", name: "BMW M-Performance 4" },
+      { id: "bw5", src: "/wheels/bmw/wheel5.png", name: "BMW M-Performance 5" },
+      { id: "bw6", src: "/wheels/bmw/wheel6.png", name: "BMW M-Performance 6" },
+    ]
   ],
-  [
-    { id: "w4", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6JA2N1HdqM1hrYElXxzHL9G3wE0B5-BZJkrepj9jsreVzfoHvqluqtHUNXbhh2lJcxBel9NPtAu7dtqrSqRZkfsZVrbY7L47sFQpDcZLWMq-zY17DB2zJkV-mA8KuRrbCaPpsK7Lee74KyE0tGDaeD7tqTMgL8WmdnBuz5fHjdjrO5FvhLXDzcoLioFBrgNheHNCby4O4P8lgf81_1IaFUzTGwls_IP7O8TBtYicKNcrlzIM6Zk2l_GCBRjfcKGnLd_BR20qIt7gz", name: "Стандартные диски 2" },
-    { id: "w5", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBS8qLzZcuGq6deBonfSGR5BrhSJWUrYXPbH9IWgBwOCho28vi7JBlrKldiV8MXi4aL_hZ5FMjD6qa-Ifl6YJBlBEFJdeiD3V_jk03znp2Ztjz83Ol1--M3TBZWonJfOZu3JA4kQX_DzVE2croEvPxuZPC0SxenVcis0f6YLbI7Pfl8zyk0hdPhbhJ8QZzw98YBmrbT-A_r1YTSCV1_qmaqtOYk866tjT-QRC4k-rP7wuqXmtyaIqxurJuE2bpyMYhU41bTRxguWFsT", name: "Спортивные диски 2" },
-    { id: "w6", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB1kDbNWQKrtxgPbudRC6eGvVLBt7vDqtMn9X2U72moSess0ny94T4a6UAZEPvqN-Ia4yccE2w_5C1VWAAOpXHN9yxSq3pcTFO2flcNsvNxoWYHOqIdSDIabLrphujSVfsMEZbgndYUSlw5X7xFp_MjYpKyCcCUBAREDGtDkOn0sta46FChadqSuNKhNYrNX6EV6o3RAsAUjO4xpFyXLAAhIRXZ_n5_OJqXdJ1ZCehmppskKohG5JN1gYN1SnW9U20z79loemfhxlKL", name: "Трековые диски 2" },
+  "MERCEDES": [
+    [
+      { id: "mw1", src: "/wheels/mercedes/wheel1.png", name: "Mercedes AMG 1" },
+      { id: "mw2", src: "/wheels/mercedes/wheel2.png", name: "Mercedes AMG 2" },
+      { id: "mw3", src: "/wheels/mercedes/wheel3.png", name: "Mercedes AMG 3" },
+    ],
+    [
+      { id: "mw4", src: "/wheels/mercedes/wheel4.png", name: "Mercedes AMG 4" },
+      { id: "mw5", src: "/wheels/mercedes/wheel5.png", name: "Mercedes AMG 5" },
+      { id: "mw6", src: "/wheels/mercedes/wheel6.png", name: "Mercedes AMG 6" },
+    ]
+  ],
+  "DEFAULT": [
+    [
+      { id: "w1", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6JA2N1HdqM1hrYElXxzHL9G3wE0B5-BZJkrepj9jsreVzfoHvqluqtHUNXbhh2lJcxBel9NPtAu7dtqrSqRZkfsZVrbY7L47sFQpDcZLWMq-zY17DB2zJkV-mA8KuRrbCaPpsK7Lee74KyE0tGDaeD7tqTMgL8WmdnBuz5fHjdjrO5FvhLXDzcoLioFBrgNheHNCby4O4P8lgf81_1IaFUzTGwls_IP7O8TBtYicKNcrlzIM6Zk2l_GCBRjfcKGnLd_BR20qIt7gz", name: "Стандартные диски" },
+      { id: "w2", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBS8qLzZcuGq6deBonfSGR5BrhSJWUrYXPbH9IWgBwOCho28vi7JBlrKldiV8MXi4aL_hZ5FMjD6qa-Ifl6YJBlBEFJdeiD3V_jk03znp2Ztjz83Ol1--M3TBZWonJfOZu3JA4kQX_DzVE2croEvPxuZPC0SxenVcis0f6YLbI7Pfl8zyk0hdPhbhJ8QZzw98YBmrbT-A_r1YTSCV1_qmaqtOYk866tjT-QRC4k-rP7wuqXmtyaIqxurJuE2bpyMYhU41bTRxguWFsT", name: "Спортивные диски" },
+      { id: "w3", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB1kDbNWQKrtxgPbudRC6eGvVLBt7vDqtMn9X2U72moSess0ny94T4a6UAZEPvqN-Ia4yccE2w_5C1VWAAOpXHN9yxSq3pcTFO2flcNsvNxoWYHOqIdSDIabLrphujSVfsMEZbgndYUSlw5X7xFp_MjYpKyCcCUBAREDGtDkOn0sta46FChadqSuNKhNYrNX6EV6o3RAsAUjO4xpFyXLAAhIRXZ_n5_OJqXdJ1ZCehmppskKohG5JN1gYN1SnW9U20z79loemfhxlKL", name: "Трековые диски" },
+    ],
+    [
+      { id: "w4", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB6JA2N1HdqM1hrYElXxzHL9G3wE0B5-BZJkrepj9jsreVzfoHvqluqtHUNXbhh2lJcxBel9NPtAu7dtqrSqRZkfsZVrbY7L47sFQpDcZLWMq-zY17DB2zJkV-mA8KuRrbCaPpsK7Lee74KyE0tGDaeD7tqTMgL8WmdnBuz5fHjdjrO5FvhLXDzcoLioFBrgNheHNCby4O4P8lgf81_1IaFUzTGwls_IP7O8TBtYicKNcrlzIM6Zk2l_GCBRjfcKGnLd_BR20qIt7gz", name: "Стандартные диски 2" },
+      { id: "w5", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBS8qLzZcuGq6deBonfSGR5BrhSJWUrYXPbH9IWgBwOCho28vi7JBlrKldiV8MXi4aL_hZ5FMjD6qa-Ifl6YJBlBEFJdeiD3V_jk03znp2Ztjz83Ol1--M3TBZWonJfOZu3JA4kQX_DzVE2croEvPxuZPC0SxenVcis0f6YLbI7Pfl8zyk0hdPhbhJ8QZzw98YBmrbT-A_r1YTSCV1_qmaqtOYk866tjT-QRC4k-rP7wuqXmtyaIqxurJuE2bpyMYhU41bTRxguWFsT", name: "Спортивные диски 2" },
+      { id: "w6", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuB1kDbNWQKrtxgPbudRC6eGvVLBt7vDqtMn9X2U72moSess0ny94T4a6UAZEPvqN-Ia4yccE2w_5C1VWAAOpXHN9yxSq3pcTFO2flcNsvNxoWYHOqIdSDIabLrphujSVfsMEZbgndYUSlw5X7xFp_MjYpKyCcCUBAREDGtDkOn0sta46FChadqSuNKhNYrNX6EV6o3RAsAUjO4xpFyXLAAhIRXZ_n5_OJqXdJ1ZCehmppskKohG5JN1gYN1SnW9U20z79loemfhxlKL", name: "Трековые диски 2" },
+    ]
   ]
-];
+};
 
 const DETAILS_PAGES = [
   [
@@ -69,6 +96,14 @@ export function ConfiguratorSection() {
   const [detailDirection, setDetailDirection] = useState(1);
   const [selectedDetail, setSelectedDetail] = useState<string | null>(null);
 
+  const [selectedBrand, setSelectedBrand] = useState("BMW");
+  const [selectedModel, setSelectedModel] = useState("X5");
+
+  useEffect(() => {
+    setWheelPage(0);
+    setSelectedWheel(null);
+  }, [selectedBrand]);
+
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 50 : -50,
@@ -86,12 +121,14 @@ export function ConfiguratorSection() {
     })
   };
 
+  const currentWheelsPages = WHEELS_DATA[selectedBrand] || WHEELS_DATA["DEFAULT"];
+
   const activeColorName = selectedColor
     ? COLORS_PAGES.flat().find(c => c.id === selectedColor)?.name
     : "Не выбрано";
 
   const activeWheelName = selectedWheel
-    ? WHEELS_PAGES.flat().find(w => w.id === selectedWheel)?.name
+    ? currentWheelsPages.flat().find(w => w.id === selectedWheel)?.name
     : "Не выбрано";
 
   const activeDetailName = selectedDetail
@@ -99,11 +136,18 @@ export function ConfiguratorSection() {
     : "Не выбрано";
 
   return (
-    <section id="configurator" className="relative flex flex-col w-full h-full min-h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-between py-12 overflow-hidden bg-background-light">
+    <section id="configurator" className="relative flex flex-col w-full h-full min-h-screen mx-auto px-4 sm:px-6 lg:px-8 justify-between pt-12 pb-2 overflow-hidden bg-background-light">
       {/* Decorative Radial Background */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl aspect-square car-platform rounded-full -z-10" />
 
-      <ArcMenu onSelect={(brand) => console.log("Selected brand:", brand)} />
+      {/* Background Arc for Models (Larger) */}
+      <ModelArcMenu
+        brand={selectedBrand}
+        onSelect={(model) => setSelectedModel(model)}
+      />
+
+      {/* Foreground Arc for Brands (Smaller) */}
+      <ArcMenu onSelect={(brand) => setSelectedBrand(brand)} />
 
       {/* Top right price */}
       <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20 pointer-events-none">
@@ -116,7 +160,7 @@ export function ConfiguratorSection() {
 
       <div className="flex-grow"></div>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 max-w-7xl mx-auto px-0 md:px-12 mt-auto mb-4">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 max-w-7xl mx-auto px-0 md:px-12 mt-auto mb-1">
         {/* Colors Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
           <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
@@ -132,7 +176,7 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-48 h-12 flex justify-center !overflow-visible">
+            <div className="relative w-64 h-14 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={colorDirection} mode="wait">
                 <motion.div
                   key={colorPage}
@@ -149,7 +193,7 @@ export function ConfiguratorSection() {
                       key={color.id}
                       onClick={() => setSelectedColor(color.id)}
                       className={cn(
-                        "group relative w-12 h-12 rounded-full shadow-sm transition-transform hover:scale-110 focus:outline-none flex-shrink-0",
+                        "group relative w-14 h-14 rounded-full shadow-sm transition-transform hover:scale-110 focus:outline-none flex-shrink-0",
                         color.bg,
                         selectedColor === color.id && "ring-2 ring-primary ring-offset-2 ring-offset-white"
                       )}
@@ -190,10 +234,10 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
+            <div className="relative w-64 h-14 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={wheelDirection} mode="wait">
                 <motion.div
-                  key={wheelPage}
+                  key={`${selectedBrand}-${wheelPage}`}
                   custom={wheelDirection}
                   variants={slideVariants}
                   initial="enter"
@@ -202,20 +246,22 @@ export function ConfiguratorSection() {
                   transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.1 } }}
                   className="absolute flex gap-8 items-center justify-center w-full h-full"
                 >
-                  {WHEELS_PAGES[wheelPage].map((wheel) => (
+                  {currentWheelsPages[wheelPage].map((wheel) => (
                     <div
                       key={wheel.id}
                       onClick={() => setSelectedWheel(wheel.id)}
                       className={cn(
-                        "w-14 h-14 rounded-full cursor-pointer transition-all flex items-center justify-center overflow-hidden flex-shrink-0",
-                        selectedWheel === wheel.id ? "bg-white shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-white" : "p-1 hover:bg-black/5"
+                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center",
+                        selectedWheel === wheel.id ? "ring-2 ring-primary ring-offset-2 ring-offset-white bg-white shadow-sm" : "hover:bg-black/5"
                       )}
                     >
-                      <img
-                        src={wheel.src}
-                        alt={wheel.name}
-                        className={cn("w-full h-full object-contain transition-opacity", selectedWheel !== wheel.id && "opacity-40 hover:opacity-100")}
-                      />
+                      <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                        <img
+                          src={wheel.src}
+                          alt={wheel.name}
+                          className={cn("w-full h-full object-contain scale-150 transition-opacity", selectedWheel !== wheel.id && "opacity-40 hover:opacity-100")}
+                        />
+                      </div>
                     </div>
                   ))}
                 </motion.div>
@@ -224,9 +270,9 @@ export function ConfiguratorSection() {
             <button
               onClick={() => {
                 setWheelDirection(1);
-                setWheelPage(p => Math.min(WHEELS_PAGES.length - 1, p + 1));
+                setWheelPage(p => Math.min(currentWheelsPages.length - 1, p + 1));
               }}
-              className={cn("w-8 h-8 flex items-center justify-center text-slate-400 hover:text-primary transition-colors z-10", wheelPage === WHEELS_PAGES.length - 1 && "opacity-0 cursor-default")}
+              className={cn("w-8 h-8 flex items-center justify-center text-slate-400 hover:text-primary transition-colors z-10", wheelPage === currentWheelsPages.length - 1 && "opacity-0 cursor-default")}
             >
               <MaterialIcon name="chevron_right" className="text-lg" />
             </button>
@@ -251,7 +297,7 @@ export function ConfiguratorSection() {
             >
               <MaterialIcon name="chevron_left" className="text-lg" />
             </button>
-            <div className="relative w-[264px] h-14 flex justify-center !overflow-visible">
+            <div className="relative w-64 h-14 flex justify-center !overflow-visible">
               <AnimatePresence initial={false} custom={detailDirection} mode="wait">
                 <motion.div
                   key={detailPage}
@@ -268,15 +314,17 @@ export function ConfiguratorSection() {
                       key={detail.id}
                       onClick={() => setSelectedDetail(detail.id)}
                       className={cn(
-                        "w-14 h-14 rounded-full overflow-hidden cursor-pointer transition-all hover:scale-105 flex-shrink-0",
-                        selectedDetail === detail.id ? "shadow-sm ring-2 ring-primary ring-offset-2 ring-offset-white" : "opacity-50 hover:opacity-100"
+                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center",
+                        selectedDetail === detail.id ? "ring-2 ring-primary ring-offset-2 ring-offset-white bg-white shadow-sm" : "hover:bg-black/5"
                       )}
                     >
-                      <img
-                        src={detail.src}
-                        alt={detail.name}
-                        className={cn("w-full h-full object-cover", selectedDetail !== detail.id && "grayscale")}
-                      />
+                      <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                        <img
+                          src={detail.src}
+                          alt={detail.name}
+                          className={cn("w-full h-full object-cover transition-opacity", selectedDetail !== detail.id && "opacity-40 hover:opacity-100")}
+                        />
+                      </div>
                     </div>
                   ))}
                 </motion.div>
