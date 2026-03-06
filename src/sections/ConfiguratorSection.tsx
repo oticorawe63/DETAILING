@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArcMenu } from "@/components/ArcMenu";
 import { ModelArcMenu } from "@/components/ModelArcMenu";
 import { ConfiguratorCanvas } from "@/components/canvas/ConfiguratorCanvas";
+import { CoatingArcMenu } from "@/components/CoatingArcMenu";
 
 const COLORS_PAGES = [
   [
@@ -105,18 +106,42 @@ const WHEELS_DATA: Record<string, { id: string, src: string, name: string }[][]>
   ]
 };
 
-const DETAILS_PAGES = [
-  [
-    { id: "d1", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Que1CPCym3TYNBbSrYzcFrjkASzygGqLTBYSLmTsOuou4ZHf2Zj03Q4NLNUuo4ki6FIzi-o_1jBGj2S8EPkWIB4RcRL5745Q2xedd4_TeSCrjyxJ6ee-tXbDBpTpXUP0AmVrG4Q-KW2wcpocnTpVqkeguBKsddopjaWqocykoDVPZtpf71MdZ-zyKwLDzN54GhHoujTzAD9jjEHhBJpXQvglkPyNN3105Xr1ZZGxof1a4rJWi1dO00PPl4XbgznwXVAqXCW4-Uy", name: "Фары затемненные" },
-    { id: "d2", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCXonsYLkYulwi-5jO5gAoLPX3A9LggEwM7GiylK1MTkOlfkDGvMQVnPyIXn3u7vlCajN7Y2UXnsInFNDseqVnXy0jfVmb_ZFqhp_Y-HbL8lKoGK0TF6Tw-JrlzVp3VS3B8SgUGX4VrB14PC65kEcLu56Ap2fD9ym6LHFcfv-m7AWWL2mq2rmU3UpOKnzi2bHvwgYk4SZz-TGoRnS_xYE2UVSPGhpR_2031OMXhSvECXDd-WLnnDl1Fhscv9YRBOJiXrFqc37nK1bj6", name: "Красная кожа" },
-    { id: "d3", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCAoZ5fhEvyhLO8JHI4X1Rs7DPwqPLxK8NfTMIfym9j999OSTyD3KCQz_l8Tqb_e2Pk5KKM5VWzCtzsoLJtkLgVuOzA-37R4tETI6b7w5g2k0c1vH8xjr8XX4-HDsFNGDEH4gzkWRVSFb-lV7_8kyZ4DxJuQ-ZwNkzSUIrAEDf59WHjVs405AkpNx-0oNJc8hptAuhWtOPbxZ0JHBe-OGFGT0rdoddTHL-ZxsjcdQKBinWm-bgQJrDhcPz4CrO2bV5bYCYUV4f4RXYP", name: "Карбон" },
+const DETAILS_DATA: Record<string, { id: string, src: string, name: string }[][]> = {
+  "BMW": [
+    [
+      { id: "bs3", src: "/interior/bmw/seat3.png", name: "Белая кожа M-Sport" },
+      { id: "bs2", src: "/interior/bmw/seat2.png", name: "Серая кожа M-Sport" },
+      { id: "bs1", src: "/interior/bmw/seat1.png", name: "Черная кожа M-Sport" },
+    ],
+    [
+      { id: "bs5", src: "/interior/bmw/seat5.png", name: "Красная кожа M-Sport" },
+      { id: "bs4", src: "/interior/bmw/seat4.png", name: "Оранжевая кожа M-Sport" },
+      { id: "bs6", src: "/interior/bmw/seat6.png", name: "Желтая кожа M-Sport" },
+    ],
+    [
+      { id: "bs7", src: "/interior/bmw/seat7.png", name: "Зеленая кожа M-Sport" },
+      { id: "bs8", src: "/interior/bmw/seat8.png", name: "Салатовая кожа M-Sport" },
+      { id: "bs9", src: "/interior/bmw/seat9.png", name: "Голубая кожа M-Sport" },
+    ],
+    [
+      { id: "bs10", src: "/interior/bmw/seat10.png", name: "Синяя кожа M-Sport" },
+      { id: "bs11", src: "/interior/bmw/seat11.jpg", name: "Розовая кожа M-Sport" },
+      { id: "bs12", src: "/interior/bmw/seat12.jpg", name: "Фиолетовая кожа M-Sport" },
+    ]
   ],
-  [
-    { id: "d4", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Que1CPCym3TYNBbSrYzcFrjkASzygGqLTBYSLmTsOuou4ZHf2Zj03Q4NLNUuo4ki6FIzi-o_1jBGj2S8EPkWIB4RcRL5745Q2xedd4_TeSCrjyxJ6ee-tXbDBpTpXUP0AmVrG4Q-KW2wcpocnTpVqkeguBKsddopjaWqocykoDVPZtpf71MdZ-zyKwLDzN54GhHoujTzAD9jjEHhBJpXQvglkPyNN3105Xr1ZZGxof1a4rJWi1dO00PPl4XbgznwXVAqXCW4-Uy", name: "Фары светлые" },
-    { id: "d5", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCXonsYLkYulwi-5jO5gAoLPX3A9LggEwM7GiylK1MTkOlfkDGvMQVnPyIXn3u7vlCajN7Y2UXnsInFNDseqVnXy0jfVmb_ZFqhp_Y-HbL8lKoGK0TF6Tw-JrlzVp3VS3B8SgUGX4VrB14PC65kEcLu56Ap2fD9ym6LHFcfv-m7AWWL2mq2rmU3UpOKnzi2bHvwgYk4SZz-TGoRnS_xYE2UVSPGhpR_2031OMXhSvECXDd-WLnnDl1Fhscv9YRBOJiXrFqc37nK1bj6", name: "Черная кожа" },
-    { id: "d6", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCAoZ5fhEvyhLO8JHI4X1Rs7DPwqPLxK8NfTMIfym9j999OSTyD3KCQz_l8Tqb_e2Pk5KKM5VWzCtzsoLJtkLgVuOzA-37R4tETI6b7w5g2k0c1vH8xjr8XX4-HDsFNGDEH4gzkWRVSFb-lV7_8kyZ4DxJuQ-ZwNkzSUIrAEDf59WHjVs405AkpNx-0oNJc8hptAuhWtOPbxZ0JHBe-OGFGT0rdoddTHL-ZxsjcdQKBinWm-bgQJrDhcPz4CrO2bV5bYCYUV4f4RXYP", name: "Алькантара" },
+  "DEFAULT": [
+    [
+      { id: "d1", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Que1CPCym3TYNBbSrYzcFrjkASzygGqLTBYSLmTsOuou4ZHf2Zj03Q4NLNUuo4ki6FIzi-o_1jBGj2S8EPkWIB4RcRL5745Q2xedd4_TeSCrjyxJ6ee-tXbDBpTpXUP0AmVrG4Q-KW2wcpocnTpVqkeguBKsddopjaWqocykoDVPZtpf71MdZ-zyKwLDzN54GhHoujTzAD9jjEHhBJpXQvglkPyNN3105Xr1ZZGxof1a4rJWi1dO00PPl4XbgznwXVAqXCW4-Uy", name: "Фары затемненные" },
+      { id: "d2", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCXonsYLkYulwi-5jO5gAoLPX3A9LggEwM7GiylK1MTkOlfkDGvMQVnPyIXn3u7vlCajN7Y2UXnsInFNDseqVnXy0jfVmb_ZFqhp_Y-HbL8lKoGK0TF6Tw-JrlzVp3VS3B8SgUGX4VrB14PC65kEcLu56Ap2fD9ym6LHFcfv-m7AWWL2mq2rmU3UpOKnzi2bHvwgYk4SZz-TGoRnS_xYE2UVSPGhpR_2031OMXhSvECXDd-WLnnDl1Fhscv9YRBOJiXrFqc37nK1bj6", name: "Красная кожа" },
+      { id: "d3", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCAoZ5fhEvyhLO8JHI4X1Rs7DPwqPLxK8NfTMIfym9j999OSTyD3KCQz_l8Tqb_e2Pk5KKM5VWzCtzsoLJtkLgVuOzA-37R4tETI6b7w5g2k0c1vH8xjr8XX4-HDsFNGDEH4gzkWRVSFb-lV7_8kyZ4DxJuQ-ZwNkzSUIrAEDf59WHjVs405AkpNx-0oNJc8hptAuhWtOPbxZ0JHBe-OGFGT0rdoddTHL-ZxsjcdQKBinWm-bgQJrDhcPz4CrO2bV5bYCYUV4f4RXYP", name: "Карбон" },
+    ],
+    [
+      { id: "d4", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuAY7Que1CPCym3TYNBbSrYzcFrjkASzygGqLTBYSLmTsOuou4ZHf2Zj03Q4NLNUuo4ki6FIzi-o_1jBGj2S8EPkWIB4RcRL5745Q2xedd4_TeSCrjyxJ6ee-tXbDBpTpXUP0AmVrG4Q-KW2wcpocnTpVqkeguBKsddopjaWqocykoDVPZtpf71MdZ-zyKwLDzN54GhHoujTzAD9jjEHhBJpXQvglkPyNN3105Xr1ZZGxof1a4rJWi1dO00PPl4XbgznwXVAqXCW4-Uy", name: "Фары светлые" },
+      { id: "d5", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCXonsYLkYulwi-5jO5gAoLPX3A9LggEwM7GiylK1MTkOlfkDGvMQVnPyIXn3u7vlCajN7Y2UXnsInFNDseqVnXy0jfVmb_ZFqhp_Y-HbL8lKoGK0TF6Tw-JrlzVp3VS3B8SgUGX4VrB14PC65kEcLu56Ap2fD9ym6LHFcfv-m7AWWL2mq2rmU3UpOKnzi2bHvwgYk4SZz-TGoRnS_xYE2UVSPGhpR_2031OMXhSvECXDd-WLnnDl1Fhscv9YRBOJiXrFqc37nK1bj6", name: "Черная кожа" },
+      { id: "d6", src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCAoZ5fhEvyhLO8JHI4X1Rs7DPwqPLxK8NfTMIfym9j999OSTyD3KCQz_l8Tqb_e2Pk5KKM5VWzCtzsoLJtkLgVuOzA-37R4tETI6b7w5g2k0c1vH8xjr8XX4-HDsFNGDEH4gzkWRVSFb-lV7_8kyZ4DxJuQ-ZwNkzSUIrAEDf59WHjVs405AkpNx-0oNJc8hptAuhWtOPbxZ0JHBe-OGFGT0rdoddTHL-ZxsjcdQKBinWm-bgQJrDhcPz4CrO2bV5bYCYUV4f4RXYP", name: "Алькантара" },
+    ]
   ]
-];
+};
 
 
 export function ConfiguratorSection() {
@@ -135,10 +160,22 @@ export function ConfiguratorSection() {
   const [selectedBrand, setSelectedBrand] = useState("BMW");
   const [selectedModel, setSelectedModel] = useState("X5");
 
+  const [isInteriorView, setIsInteriorView] = useState(false);
+  const [selectedCoating, setSelectedCoating] = useState("GLOSSY");
+
   useEffect(() => {
     setWheelPage(0);
     setSelectedWheel(null);
+    setDetailPage(0);
+    setSelectedDetail(null);
+    setIsInteriorView(false);
   }, [selectedBrand]);
+
+  useEffect(() => {
+    if (selectedDetail && selectedDetail.startsWith("bs")) {
+      setIsInteriorView(true);
+    }
+  }, [selectedDetail]);
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -159,6 +196,8 @@ export function ConfiguratorSection() {
 
   const currentWheelsPages = WHEELS_DATA[selectedBrand] || WHEELS_DATA["DEFAULT"];
 
+  const currentDetailsPages = DETAILS_DATA[selectedBrand] || DETAILS_DATA["DEFAULT"];
+
   const activeColorName = selectedColor
     ? COLORS_PAGES.flat().find(c => c.id === selectedColor)?.name
     : "Не выбрано";
@@ -168,7 +207,7 @@ export function ConfiguratorSection() {
     : "Не выбрано";
 
   const activeDetailName = selectedDetail
-    ? DETAILS_PAGES.flat().find(d => d.id === selectedDetail)?.name
+    ? currentDetailsPages.flat().find(d => d.id === selectedDetail)?.name
     : "Не выбрано";
 
   return (
@@ -179,7 +218,28 @@ export function ConfiguratorSection() {
         model={selectedModel}
         color={selectedColor}
         wheel={selectedWheel}
+        detail={selectedDetail}
+        isInteriorView={isInteriorView}
+        coating={selectedCoating}
       />
+
+      {/* Close Interior View Button */}
+      <AnimatePresence>
+        {isInteriorView && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            onClick={() => setIsInteriorView(false)}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-black/5 shadow-xl hover:bg-white transition-colors group"
+          >
+            <MaterialIcon name="close" className="text-xl text-slate-800" />
+            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-800">
+              Выйти из салона
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Background Arc for Models (Larger) */}
       <ModelArcMenu
@@ -189,6 +249,9 @@ export function ConfiguratorSection() {
 
       {/* Foreground Arc for Brands (Smaller) */}
       <ArcMenu onSelect={(brand) => setSelectedBrand(brand)} />
+
+      {/* NEW: Right Arc Menu for Coating */}
+      <CoatingArcMenu onSelect={(coating) => setSelectedCoating(coating)} />
 
       {/* Top right price */}
       <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20 pointer-events-none">
@@ -350,7 +413,7 @@ export function ConfiguratorSection() {
                   transition={{ x: { type: "spring", stiffness: 300, damping: 30 }, opacity: { duration: 0.1 } }}
                   className="absolute flex gap-8 items-center justify-center w-full h-full"
                 >
-                  {DETAILS_PAGES[detailPage].map((detail) => (
+                  {currentDetailsPages[detailPage].map((detail) => (
                     <div
                       key={detail.id}
                       onClick={() => setSelectedDetail(detail.id)}
@@ -374,9 +437,9 @@ export function ConfiguratorSection() {
             <button
               onClick={() => {
                 setDetailDirection(1);
-                setDetailPage(p => Math.min(DETAILS_PAGES.length - 1, p + 1));
+                setDetailPage(p => Math.min(currentDetailsPages.length - 1, p + 1));
               }}
-              className={cn("w-8 h-8 flex items-center justify-center text-slate-400 hover:text-primary transition-colors z-10", detailPage === DETAILS_PAGES.length - 1 && "opacity-0 cursor-default")}
+              className={cn("w-8 h-8 flex items-center justify-center text-slate-400 hover:text-primary transition-colors z-10", detailPage === currentDetailsPages.length - 1 && "opacity-0 cursor-default")}
             >
               <MaterialIcon name="chevron_right" className="text-lg" />
             </button>
