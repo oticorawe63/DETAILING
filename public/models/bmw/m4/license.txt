@@ -1,0 +1,11 @@
+Model Information:
+* title:	BMW M4 Adro Bodykit
+* source:	https://sketchfab.com/3d-models/bmw-m4-adro-bodykit-18dacab980224752ac72e2b67fbdbbe8
+* author:	blakebella (https://sketchfab.com/blakebella)
+
+Model License:
+* license type:	CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)
+* requirements:	Author must be credited. No commercial use. Modified versions can not be distributed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "BMW M4 Adro Bodykit" (https://sketchfab.com/3d-models/bmw-m4-adro-bodykit-18dacab980224752ac72e2b67fbdbbe8) by blakebella (https://sketchfab.com/blakebella) licensed under CC-BY-NC-ND-4.0 (http://creativecommons.org/licenses/by-nc-nd/4.0/)
