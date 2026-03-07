@@ -33,17 +33,18 @@ interface CameraRigProps {
     extPos: [number, number, number];
     intFocus: [number, number, number];
     extFocus: [number, number, number];
+    intFov: number;
 }
 
-export function CameraRig({ isInteriorView, controlsRef, isMoving, setIsMoving, intPos, extPos, intFocus, extFocus }: CameraRigProps) {
+export function CameraRig({ isInteriorView, controlsRef, isMoving, setIsMoving, intPos, extPos, intFocus, extFocus, intFov }: CameraRigProps) {
     const vec = new THREE.Vector3();
 
     useFrame((state) => {
-        const step = 0.05;
+        const step = 0.10; // Быстрой зум/проезд (было 0.05)
         const camera = state.camera as THREE.PerspectiveCamera;
 
         // --- ЗУМ (FOV) ---
-        const targetFov = isInteriorView ? INTERIOR_FOV : 30;
+        const targetFov = isInteriorView ? intFov : 30;
         if (Math.abs(camera.fov - targetFov) > 0.05) {
             camera.fov = THREE.MathUtils.lerp(camera.fov, targetFov, step);
             camera.updateProjectionMatrix();
@@ -70,8 +71,9 @@ export function CameraRig({ isInteriorView, controlsRef, isMoving, setIsMoving, 
     return null;
 }
 
+
 // Выносим лоадер в отдельный компонент
-function Loader() {
+function Loader({ model }: { model: string }) {
     const { progress } = useProgress();
     const [shownProgress, setShownProgress] = useState(0);
 
@@ -81,16 +83,31 @@ function Loader() {
 
     return (
         <Html center className="pointer-events-none">
-            <div className="flex flex-col items-center gap-2">
-                <div className="w-48 h-1 bg-slate-200 rounded-full overflow-hidden">
-                    <div
-                        className="h-full bg-primary transition-all duration-300 ease-out"
-                        style={{ width: `${shownProgress}%` }}
-                    />
+            <div className="flex flex-col items-center justify-center gap-6 p-10 bg-white/20 backdrop-blur-2xl rounded-[40px] border border-white/30 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)]">
+                <div className="relative flex items-center justify-center">
+                    {/* Элегантный спиннер */}
+                    <div className="w-24 h-24 border-[3px] border-slate-100/30 border-t-slate-900 rounded-full animate-spin"></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-lg font-black text-slate-900 tracking-tighter">{shownProgress}%</span>
+                    </div>
                 </div>
-                <p className="text-[10px] font-bold tracking-widest uppercase text-slate-900">
-                    Загрузка {shownProgress}%
-                </p>
+
+                <div className="flex flex-col items-center gap-3">
+                    <div className="w-48 h-1 bg-slate-900/10 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-slate-900 transition-all duration-700 ease-in-out"
+                            style={{ width: `${shownProgress}%` }}
+                        />
+                    </div>
+                    <div className="flex flex-col items-center">
+                        <p className="text-[9px] font-black tracking-[0.3em] uppercase text-slate-900/40 mb-1">
+                            Loading Detailing Model
+                        </p>
+                        <p className="text-xs font-bold text-slate-900 tracking-widest uppercase">
+                            BMW {model}
+                        </p>
+                    </div>
+                </div>
             </div>
         </Html>
     );
@@ -109,15 +126,51 @@ export function ConfiguratorCanvas({ brand, model, color, wheel, detail, isInter
 
     useEffect(() => {
         if (isMoving) {
-            const timer = setTimeout(() => setIsMoving(false), 2500);
+            const timer = setTimeout(() => setIsMoving(false), 1250); // Разблокируем управление в 2 раза быстрее (было 2500)
             return () => clearTimeout(timer);
         }
     }, [isMoving]);
 
-    const exteriorFocusPoint: [number, number, number] = [0, -0.5, 0];
-    const interiorFocusPoint: [number, number, number] = [0.00, -0.10, -0.40]; // Взгляд смещаем правее к багажнику
-    const exteriorStartPos: [number, number, number] = [8.5, 1.0, 8.5];
-    const interiorStartPos: [number, number, number] = [3.22, 0.50, 1.25]; // Уменьшаем Z с 2.0 до 0.0, чтобы сместиться к багажнику (правее)окна
+    let interiorFocusPoint: [number, number, number] = [0.00, -0.10, -0.40];
+    let interiorStartPos: [number, number, number] = [3.22, 0.50, 1.25];
+    let exteriorFocusPoint: [number, number, number] = [0, -0.5, 0];
+    let exteriorStartPos: [number, number, number] = [8.5, 1.0, 8.5];
+
+    let currentInteriorFov = INTERIOR_FOV;
+
+    // --- НАСТРОЙКИ РАКУРСА ПО МОДЕЛЯМ ---
+    if (model === "M3") {
+        interiorFocusPoint = [0, -0.33, 0.05];
+        exteriorFocusPoint = [0, -0.5, 0.05]; // Центрируем по Z сдвигу
+    }
+
+    if (model === "M4") {
+        interiorFocusPoint = [0, -0.10, 0.1];
+        exteriorFocusPoint = [0, -0.5, 0.1]; // Центрируем по Z сдвигу
+    }
+
+    if (model === "X6") {
+        // Внешний ракурс (обычный):
+        exteriorStartPos = [9.0, 1.5, 9.0];
+        // Центр вращения должен точно совпадать со сдвигом модели по позиции (Z = 1.0)
+        exteriorFocusPoint = [0, -0.6, 1.0];
+
+        // Близкий ракурс (салон / зум)
+        interiorStartPos = [4.35, 1.30, 2.62];
+        interiorFocusPoint = [0.0, 0.1, 0.6];
+
+        currentInteriorFov = 18;
+    }
+
+    if (model === "X5") {
+        exteriorStartPos = [9.5, 1.8, 9.5];
+        exteriorFocusPoint = [0, -0.7, 0];
+
+        interiorStartPos = [4.5, 1.4, 0.5];
+        interiorFocusPoint = [0.0, 0.1, 0];
+
+        currentInteriorFov = 18;
+    }
 
     // Динамический расчет параметров орбиты, чтобы НИКОГДА не было "прыжка" в конце
     const dx = interiorStartPos[0] - interiorFocusPoint[0];
@@ -128,7 +181,7 @@ export function ConfiguratorCanvas({ brand, model, color, wheel, detail, isInter
 
     return (
         <div className="absolute inset-0 w-full h-full z-0">
-            <Canvas shadows dpr={[1, 2]}>
+            <Canvas shadows={false} dpr={[1, 1.5]} gl={{ powerPreference: "high-performance", antialias: true }}>
                 <CameraRig
                     isInteriorView={isInteriorView}
                     controlsRef={controlsRef}
@@ -138,6 +191,7 @@ export function ConfiguratorCanvas({ brand, model, color, wheel, detail, isInter
                     extPos={exteriorStartPos}
                     intFocus={interiorFocusPoint}
                     extFocus={exteriorFocusPoint}
+                    intFov={currentInteriorFov}
                 />
                 <PerspectiveCamera makeDefault position={exteriorStartPos} fov={30} />
 
@@ -145,18 +199,23 @@ export function ConfiguratorCanvas({ brand, model, color, wheel, detail, isInter
                     <Environment preset="city" />
                 </Suspense>
 
-                <Suspense fallback={<Loader />}>
+
+                <Suspense fallback={<Loader model={model} />}>
                     <CarModel brand={brand} model={model} color={color} wheel={wheel} detail={detail} coating={coating} />
+                    {/* Тень статична, так как вращается камера, а не сама машина. Фиксация frames={1} убирает рендер 350k полигонов на каждом кадре! */}
                     <ContactShadows
-                        position={[0, -1.22, 0]}
-                        opacity={0.5}
-                        scale={12}
-                        blur={2}
-                        far={1.5}
+                        key={model + (wheel || "default")}
+                        position={[0, model === "X5" ? -1.55 : (model === "X6" ? -1.22 : -1.22), 0]}
+                        opacity={0.65}
+                        scale={16}
+                        blur={2.5}
+                        far={4}
+                        resolution={512}
+                        frames={1}
                     />
                 </Suspense>
 
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} castShadow />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} />
                 <spotLight position={[-10, 10, -10]} angle={0.15} penumbra={1} intensity={0.8} />
                 <ambientLight intensity={0.6} />
 

@@ -1,9 +1,11 @@
 "use client";
 // @ts-nocheck
 
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { useEffect, useMemo, useState } from "react";
 import * as THREE from "three";
+
+useGLTF.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.5/");
 
 interface CarModelProps {
     brand: string;
@@ -15,268 +17,374 @@ interface CarModelProps {
 }
 
 const COLOR_MAP: Record<string, string> = {
-    white: "#ffffff",
-    gray: "#a1a1aa",
-    black: "#111111",
-    red: "#cc0000",
-    orange: "#f97316",
-    yellow: "#facc15",
-    green: "#0a5c2e",
-    lime: "#a3e635",
-    lightblue: "#38bdf8",
-    blue: "#0a358c",
-    pink: "#ec4899",
-    purple: "#4c1d95",
+    white: "#ffffff", gray: "#a1a1aa", black: "#111111", red: "#cc0000",
+    orange: "#f97316", yellow: "#facc15", green: "#0a5c2e", lime: "#a3e635",
+    lightblue: "#38bdf8", blue: "#0a358c", pink: "#ec4899", purple: "#4c1d95",
 };
 
 const INTERIOR_COLOR_MAP: Record<string, string> = {
-    bs1: "#111111", // Black
-    bs2: "#71717a", // Gray
-    bs3: "#ffffff", // White
-    bs5: "#cc0000", // Red
-    bs4: "#f97316", // Orange
-    bs6: "#facc15", // Yellow
-    bs7: "#0a5c2e", // Green
-    bs8: "#a3e635", // Lime
-    bs9: "#38bdf8", // Lightblue
-    bs10: "#0a358c", // Blue
-    bs11: "#ec4899", // Pink
-    bs12: "#4c1d95", // Purple
+    bs1: "#111111", bs2: "#71717a", bs3: "#ffffff", bs5: "#cc0000",
+    bs4: "#f97316", bs6: "#facc15", bs7: "#0a5c2e", bs8: "#a3e635",
+    bs9: "#38bdf8", bs10: "#0a358c", bs11: "#ec4899", bs12: "#4c1d95",
+};
+
+const MODEL_CONFIGS: Record<string, any> = {
+
+    "M5": {
+        path: "/models/bmw/bmw_m5_f90_opt_draco.glb",
+        scale: 1.1, position: [0, -1.2, 0], rotation: [0, 0, 0],
+        wheelRadius: 0.295,
+        wheelPositions: {
+            fr: [0.88, 0.370, 1.58], br: [0.88, 0.370, -1.372],
+            fl: [-0.93, 0.370, 1.58], bl: [-0.93, 0.370, -1.372]
+        },
+        isBodyPart: (n: string, m: string) =>
+            (n.includes("paint") || n.includes("body") || m.includes("paint") || m.includes("body") || m.includes("coloured")) &&
+            !n.includes("frame") && !n.includes("mirror") && !n.includes("window") && !n.includes("pillar") && !n.includes("_int_") && !n.includes("badge") && !n.includes("carbon") && !m.includes("carbon") && !n.includes("diffuser") && !n.includes("silverside") && !n.includes("chromeblack"),
+        isInteriorPart: (n: string, m: string) => (m.includes("leather2") || n.includes("leather2")) && !m.includes("leather1") && !n.includes("leather1"),
+        isSeatPart: (n: string, m: string) => (n.includes("seat") || m.includes("seat")) && (m.includes("leather2") || n.includes("leather2")) && !m.includes("leather1") && !n.includes("leather1"),
+        isTrim: (n: string, m: string) => (n.includes("trim") || n.includes("frame") || n.includes("window") || n.includes("shadowline") || n.includes("grille") || n.includes("pillar") || n.includes("mirror") || m.includes("chrome") || m.includes("blackshiny") || m.includes("carbon") || m.includes("leather1") || n.includes("leather1")) && !m.toLowerCase().includes("badge") && !m.toLowerCase().includes("light"),
+        isGlass: (n: string, m: string) => (n.includes("glass") || m.includes("glass") || n.toLowerCase().includes("rearligh")) && !m.toLowerCase().includes("red") && !m.toLowerCase().includes("orange"),
+        isRim: (n: string, m: string) => (n.includes("wheel") || (n.includes("rim") && !n.includes("trim"))) && !n.includes("tire") && !n.includes("brake"),
+        isLogo: (n: string, m: string) => n.includes("badge") || m.includes("logo")
+    },
+
+
+
+
+
+
+
+
+
+
+    "M4": {
+        path: "/models/bmw/m4_v2/scene_opt.glb",
+        scale: 1.15, position: [0.0, -1.2, 0.1], rotation: [0, 0, 0],
+        wheelRadius: 0.30,
+        wheelPositions: {
+            fr: [0.86, 0.373, 1.30], fl: [-0.86, 0.373, 1.30],
+            rr: [0.86, 0.373, -1.50], rl: [-0.86, 0.373, -1.50]
+        },
+        isBodyPart: (n: string, m: string) => (m === "arm4_main" || m === "arm4_details_d") && !n.includes("wheel"),
+        isInteriorPart: (n: string, m: string) => m === "arm4_color_interior",
+        isSeatPart: (n: string, m: string) => m === "arm4_color_interior",
+        isTrim: (n: string, m: string) => (m.includes("black") || m.includes("carbon") || m.includes("plastic") || m.includes("interiora") || m.includes("enginea") || m.includes("chrome") || m.includes("gauges") || m.includes("inter_tcz")) && !m.toLowerCase().includes("badge") && !m.toLowerCase().includes("light") && !m.toLowerCase().includes("logo"),
+        isGlass: (n: string, m: string) => (m.includes("glass") || n.includes("glass")) && !m.toLowerCase().includes("red") && !m.toLowerCase().includes("orange"),
+        isRim: (n: string, m: string) => n.includes("wheel") && !n.includes("tire") && !m.includes("michelin") && !m.includes("sidewall"),
+        isLogo: (n: string, m: string) => m.includes("badge") || m.includes("logo")
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    "M3": {
+        path: "/models/bmw/m3/scene_opt.glb",
+        scale: 0.22, position: [0.00, -1.2, 0.05], rotation: [0, Math.PI / 2, 0],
+        wheelRadius: 1.38,
+        wheelBaseRotationR: [0, Math.PI, 0],
+        wheelBaseRotationL: [0, 0, 0],
+        wheelPositions: {
+            fr: [-8.526, 1.468, -4.753],
+            fl: [-8.526, 1.468, 4.753],
+            rr: [6.583, 1.468, -4.747],
+            rl: [6.583, 1.468, 4.747]
+        },
+        isBodyPart: (n: string, m: string) => m.includes("body_color") || m === "exterior_body_paint.001",
+        isInteriorPart: (n: string, m: string) => m.includes("chrome_interior") || m.includes("design_interior") || m.includes("texture_interior") || m.includes("textil_2"),
+        isSeatPart: (n: string, m: string) => m.includes("chrome_interior") || m.includes("design_interior") || m.includes("texture_interior") || m.includes("textil_2"),
+        isTrim: (n: string, m: string) => (m.includes("black") || m.includes("carbon") || m.includes("plastic") || m.includes("textil")) && !m.includes("exterior_body") && !m.includes("chrome_interior") && !m.includes("design_interior") && !m.includes("texture_interior") && !m.includes("textil_2") && !m.toLowerCase().includes("badge") && !m.toLowerCase().includes("light"),
+        isGlass: (n: string, m: string) => (m.includes("glass") || n.includes("glass")) && !m.toLowerCase().includes("red") && !m.toLowerCase().includes("orange"),
+        isRim: (n: string, m: string) => (n.includes("wheel") || n.includes("Object_71") || n.includes("Object_81") || n.includes("Object_91") || n.includes("Object_101") || m.includes("rim") || m.includes("chrome_rough")) && !m.includes("tire") && !n.includes("brake"),
+        isHidden: (n: string, m: string) => m === "exterior_body",
+        isLogo: (n: string, m: string) => m.includes("bmw_logo") || m.includes("badge")
+    },
+    "X6": {
+        path: "/models/bmw/x6/scene_opt.glb",
+        scale: 141.65, position: [0, -1.0, 1.0], rotation: [0, 0, 0],
+        wheelRadius: 0.0029, // РАЗМЕР ДИСКОВ
+        wheelPositions: {
+            fr: [0.0090, 0.0014, 0.0146], br: [0.0090, 0.0014, -0.0146],
+            fl: [-0.0090, 0.0014, 0.0146], bl: [-0.0090, 0.0014, -0.0146]
+        },
+        isBodyPart: (n: string, m: string) => m.toLowerCase().includes("paint") || n.toLowerCase().includes("carpaint"),
+        isInteriorPart: (n: string, m: string) => m.toLowerCase().includes("tiled"),
+        isSeatPart: (n: string, m: string) => m.toLowerCase().includes("tiled"),
+        isTrim: (n: string, m: string) => (m.toLowerCase().includes("plastic") || m.toLowerCase().includes("chrome") || m.toLowerCase().includes("aluminum") || m.toLowerCase().includes("chassis") || m.toLowerCase().includes("grille") || m.toLowerCase().includes("mirror")) && !m.toLowerCase().includes("tire") && !m.toLowerCase().includes("badge") && !m.toLowerCase().includes("glass") && !m.toLowerCase().includes("window"),
+        isGlass: (n: string, m: string) => m.toLowerCase().includes("glass") || m.toLowerCase().includes("window"),
+        isRim: (n: string, m: string) => (m.toLowerCase().includes("rim") || n.toLowerCase().includes("wheel") || n.toLowerCase().includes("disk")) && !n.toLowerCase().includes("tire"),
+        isLogo: (n: string, m: string) => m.toLowerCase().includes("badge") || m.toLowerCase().includes("logo"),
+        isHeadlight: (n: string, m: string) => m === "BM_Light_Max1",
+        isHidden: (n: string, m: string) => false
+    },
+    "X5": {
+        path: "/models/bmw/x5/scene_opt.glb",
+        scale: 155.35, position: [0, -1.7, 0], rotation: [0, 0, 0],
+        wheelRadius: 0.0030,
+        wheelPositions: {
+            fr: [0.00935, 0.0040, 0.01585], br: [0.00935, 0.0040, -0.01389],
+            fl: [-0.00935, 0.0040, 0.01585], bl: [-0.00935, 0.0040, -0.01389]
+        },
+        isBodyPart: (n: string, m: string) => m.toLowerCase().includes("paint") || n.toLowerCase().includes("carpaint"),
+        isInteriorPart: (n: string, m: string) => m.toLowerCase() === "grille" || m.toLowerCase().includes("fabric"),
+        isSeatPart: (n: string, m: string) => m.toLowerCase() === "grille" || m.toLowerCase().includes("fabric"),
+        isTrim: (n: string, m: string) => (m.toLowerCase().includes("plastic") || m.toLowerCase().includes("int_mat") || m.toLowerCase().includes("leather") || m.toLowerCase().includes("stit") || m.toLowerCase().includes("dummy") || m.toLowerCase().includes("chrome") || m.toLowerCase().includes("chassis") || m.toLowerCase().includes("engine") || m.toLowerCase().includes("speaker") || m.toLowerCase().includes("grille_int")) && !m.toLowerCase().includes("tire") && !m.toLowerCase().includes("badge") && !m.toLowerCase().includes("light") && !n.toLowerCase().includes("light"),
+        isGlass: (n: string, m: string) => (m.toLowerCase().includes("glass") || m.toLowerCase().includes("windows")) && !m.toLowerCase().includes("red") && !m.toLowerCase().includes("orange") && !n.toLowerCase().includes("light") && !m.toLowerCase().includes("light"),
+        isRim: (n: string, m: string) => (m.toLowerCase().includes("rim") || m.toLowerCase().includes("disk") || n.toLowerCase().includes("rim") || n.toLowerCase().includes("disk")) && !n.toLowerCase().includes("caliper"),
+        isLogo: (n: string, m: string) => m.toLowerCase().includes("badge") || m.toLowerCase().includes("emblem") || m.toLowerCase().includes("logo"),
+        isHeadlight: (n: string, m: string) => n.toLowerCase().includes("light") || m.toLowerCase().includes("light"),
+        isHidden: (n: string, m: string) => false
+    }
 };
 
 export function CarModel({ brand, model, color, wheel, detail, coating }: CarModelProps) {
-    const modelPath = useMemo(() => "/models/bmw/bmw_m5_f90_opt.glb", []);
-    const { scene } = useGLTF(modelPath);
-    const clonedScene = useMemo(() => scene.clone(), [scene]);
+    const config = MODEL_CONFIGS[model] || MODEL_CONFIGS["M5"];
 
+    // Зачищаем кэш моделей и выгружаем неактивные из памяти
+    useEffect(() => {
+        Object.values(MODEL_CONFIGS).forEach(cfg => {
+            if (cfg.path !== config.path) {
+                useGLTF.clear(cfg.path);
+            }
+        });
+    }, [config.path]);
+
+    const { scene } = useGLTF(config.path) as any;
+    const clonedScene = useMemo(() => scene.clone(), [scene]);
     const [currentWheelTexture, setCurrentWheelTexture] = useState<THREE.Texture | null>(null);
 
     useEffect(() => {
         if (!wheel || wheel.startsWith("w")) {
-            setCurrentWheelTexture(null);
+            setCurrentWheelTexture(prev => { prev?.dispose(); return null; });
             return;
         }
-        const brandLower = brand.toLowerCase();
         const match = wheel.match(/\d+/);
         if (match) {
-            const texturePath = `/wheels/${brandLower}/wheel${match[0]}.png`;
-            const loader = new THREE.TextureLoader();
-            loader.load(texturePath, (texture) => {
+            let active = true;
+            const texturePath = `/wheels/${brand.toLowerCase()}/wheel${match[0]}.png`;
+            new THREE.TextureLoader().load(texturePath, (texture) => {
+                if (!active) { texture.dispose(); return; }
                 texture.flipY = false;
-                texture.anisotropy = 16;
+                texture.anisotropy = 4; // Reduced from 16 for better perf
                 texture.colorSpace = THREE.SRGBColorSpace;
-                setCurrentWheelTexture(texture);
+                setCurrentWheelTexture(prev => { prev?.dispose(); return texture; });
             });
+            return () => { active = false; };
         }
     }, [brand, wheel]);
 
-    const fabricTexture = useMemo(() => {
-        if (typeof document === "undefined") return null;
-        const size = 128;
-        const canvas = document.createElement("canvas");
-        canvas.width = size;
-        canvas.height = size;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return null;
-
-        // Создаем легкий шум для эффекта ткани/алькантары
-        ctx.fillStyle = "#eeeeee";
-        ctx.fillRect(0, 0, size, size);
-        for (let i = 0; i < 15000; i++) {
-            const x = Math.random() * size;
-            const y = Math.random() * size;
-            const col = Math.floor(Math.random() * 60) + 150;
-            ctx.fillStyle = `rgb(${col},${col},${col})`;
-            ctx.fillRect(x, y, 1, 1);
-        }
-
-        const tex = new THREE.CanvasTexture(canvas);
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.repeat.set(30, 30); // Очень мелкая сетка
-        return tex;
+    const [leatherTexture, setLeatherTexture] = useState<THREE.Texture | null>(null);
+    useEffect(() => {
+        const loader = new THREE.TextureLoader();
+        loader.load("/models/bmw/m4_v2/textures/ARm4_color_interior_normal.png", (tex) => {
+            tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+            tex.repeat.set(4, 4);
+            setLeatherTexture(tex);
+        });
     }, []);
 
     useEffect(() => {
         const currentColor = color && COLOR_MAP[color] ? COLOR_MAP[color] : "#111111";
-        const currentInteriorColor = detail && INTERIOR_COLOR_MAP[detail] ? INTERIOR_COLOR_MAP[detail] : "#7a5c43"; // Default beige/tan interior
+        const currentInteriorColor = detail && INTERIOR_COLOR_MAP[detail] ? INTERIOR_COLOR_MAP[detail] : "#111111";
 
-        clonedScene.traverse((node) => {
-            if (!(node as any).isMesh) return;
+        clonedScene.traverse((node: any) => {
+            if (!node.isMesh) return;
             const mesh = node as THREE.Mesh;
-
             const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+
             mats.forEach((m, i) => {
                 const mat = m as THREE.MeshStandardMaterial;
-
-                // Клонирование
                 if (!mat.userData.cloned) {
-                    const cloned = mat.clone();
-                    cloned.userData.cloned = true;
-                    if (Array.isArray(mesh.material)) mesh.material[i] = cloned;
-                    else mesh.material = cloned;
+                    const cloned = mat.clone(); cloned.userData.cloned = true;
+                    if (Array.isArray(mesh.material)) mesh.material[i] = cloned; else mesh.material = cloned;
                 }
-
                 let current = (Array.isArray(mesh.material) ? mesh.material[i] : mesh.material) as THREE.MeshStandardMaterial;
                 const name = mesh.name.toLowerCase();
                 const matName = (current.name || "").toLowerCase();
 
-                // Определение ролей
-                const isBodyPart =
-                    (name.includes("paint") || name.includes("body") || name.includes("_119_") || name.includes("_026_") || name.includes("_087_") || name.includes("_118_") || name.includes("_010_") || matName.includes("paint") || matName.includes("body") || matName.includes("coloured")) &&
-                    !name.includes("frame") && !name.includes("mirror") && !name.includes("window") && !name.includes("pillar") && !name.includes("_int_") && !name.includes("badge") && !name.includes("carbon") && !matName.includes("carbon") && !name.includes("diffuser") && !name.includes("silverside") && !name.includes("chromeblack");
+                const isHidden = config.isHidden ? config.isHidden(name, matName) : false;
+                if (isHidden) {
+                    mesh.visible = false;
+                    return;
+                }
 
-                // Конвертируем материал кузова в MeshPhysicalMaterial для поддержки clearcoat (лака)
+                const isBodyPart = config.isBodyPart(name, matName);
+                const isInteriorLeather = config.isInteriorPart(name, matName);
+                const isSeatPart = config.isSeatPart(name, matName);
+                const isGlass = config.isGlass(name, matName);
+                const isHeadlight = config.isHeadlight ? config.isHeadlight(name, matName) : false;
+                const isRedLight = matName.includes("red") || name.includes("rearlight") || name.includes("brakelight");
+
+                const isLogo = config.isLogo ? config.isLogo(name, matName) : false;
+
+                const isRim = config.isRim(name, matName);
+                const isBrake = name.includes("brake");
+                const isTire = name.includes("tire") || name.includes("tyre") || matName.includes("sidewall") || matName.includes("michelin") || name.includes("rubber");
+                const isTrim = config.isTrim(name, matName) && !isBodyPart && !isInteriorLeather && !isSeatPart && !isGlass && !isRim && !isBrake && !isTire && !isLogo && !isHeadlight;
+
+                if (isHeadlight) {
+                    mesh.visible = true;
+                    if (isRedLight) {
+                        current.color.set("#cc0000"); // Насыщенный красный, но не кислотный
+                        if (current.emissive) {
+                            current.emissive.set("#330000"); // Очень слабое свечение для глубины
+                            current.emissiveIntensity = 0.1;
+                        }
+                        current.transparent = true;
+                        current.opacity = 0.8; // Достаточно плотно, чтобы быть красным
+                        current.depthWrite = false; // Чтобы не было артефактов наложения
+                        current.needsUpdate = true;
+                        return;
+                    }
+                    // Для остальных фар (передних) оставляем оригинал
+                    return;
+                }
+
                 if (isBodyPart && !(current as any).isMeshPhysicalMaterial) {
                     const physMat = new THREE.MeshPhysicalMaterial();
-                    physMat.name = current.name;
-                    physMat.normalMap = current.normalMap;
-                    if (current.normalScale && physMat.normalScale) {
-                        physMat.normalScale.copy(current.normalScale);
-                    }
-                    physMat.envMap = current.envMap;
-                    physMat.envMapIntensity = current.envMapIntensity;
-                    physMat.side = current.side;
-                    physMat.transparent = current.transparent;
-                    physMat.opacity = current.opacity;
-                    physMat.userData = { ...current.userData };
-
-                    if (Array.isArray(mesh.material)) mesh.material[i] = physMat;
-                    else mesh.material = physMat;
+                    physMat.name = current.name; physMat.normalMap = current.normalMap;
+                    if (current.normalScale) physMat.normalScale.copy(current.normalScale);
+                    physMat.envMap = current.envMap; physMat.envMapIntensity = current.envMapIntensity;
+                    physMat.side = current.side; physMat.transparent = current.transparent;
+                    physMat.opacity = current.opacity; physMat.userData = { ...current.userData };
+                    if (Array.isArray(mesh.material)) mesh.material[i] = physMat; else mesh.material = physMat;
                     current = physMat;
                 }
 
-                const isInteriorLeather =
-                    (name.includes("leather2") || name.includes("coloured") || matName.includes("leather2") || matName.includes("coloured")) &&
-                    !name.includes("stitche") && !name.includes("leather1");
-
-                const isSeatPart = name.includes("seat") || matName.includes("seat");
-
-                const isBlackLeatherPart =
-                    (name.includes("leather1") || name.includes("topleather") || name.includes("steerleather") || name.includes("door_int_leathertop") || matName.includes("leather1") || matName.includes("top")) && !isSeatPart;
-
-                const isTrim =
-                    (name.includes("trim") || name.includes("frame") || name.includes("window") || name.includes("shadowline") || name.includes("grille") || name.includes("pillar") || name.includes("mirror") || matName.includes("chrome") || matName.includes("blackshiny") || matName.includes("carbon") || isBlackLeatherPart) && !isBodyPart && !isInteriorLeather && !isSeatPart;
-
-                const isGlass = name.includes("glass") || matName.includes("glass") || name.includes("rearligh");
-
-                // Исправлено: исключаем "trim" из поиска "rim", чтобы не скрывать детали бампера
-                const isRim = (name.includes("wheel") || (name.includes("rim") && !name.includes("trim"))) && !name.includes("tire") && !name.includes("brake");
-                const isBrake = name.includes("brake");
-
-                // Применение стилей
                 if (isBodyPart) {
-                    const physCurrent = current as THREE.MeshPhysicalMaterial;
-                    physCurrent.color.set(currentColor);
-                    physCurrent.map = null;
-                    if (physCurrent.emissive) physCurrent.emissive.set("#000000");
-
+                    const pc = current as THREE.MeshPhysicalMaterial;
+                    pc.color.set(currentColor); pc.map = null;
+                    if (pc.emissive) pc.emissive.set("#000000");
                     if (coating === "GLOSSY") {
-                        // Обычная автомобильная краска
-                        physCurrent.roughness = 0.5;
-                        physCurrent.metalness = 0.1;
-                        physCurrent.clearcoat = 1.0;
-                        physCurrent.clearcoatRoughness = 0.05;
+                        pc.roughness = 0.5; pc.metalness = 0.1; pc.clearcoat = 1.0; pc.clearcoatRoughness = 0.05;
                     } else if (coating === "MATTE") {
-                        // Точные значения из референсной матовой 3D модели с шероховатым лаком
-                        physCurrent.roughness = 0.334;
-                        physCurrent.metalness = 0.297;
-                        physCurrent.clearcoat = 1.0;
-                        physCurrent.clearcoatRoughness = 0.492;
+                        pc.roughness = 0.334; pc.metalness = 0.297; pc.clearcoat = 1.0; pc.clearcoatRoughness = 0.492;
                     } else {
-                        // METALLIC - металлическая крошка
-                        physCurrent.roughness = 0.3;
-                        physCurrent.metalness = 0.8;
-                        physCurrent.clearcoat = 1.0;
-                        physCurrent.clearcoatRoughness = 0.1;
+                        pc.roughness = 0.3; pc.metalness = 0.8; pc.clearcoat = 1.0; pc.clearcoatRoughness = 0.1;
                     }
-
                     mesh.visible = true;
-                } else if (isInteriorLeather || isSeatPart) {
-                    // Если это цветная часть - красим, если черная основа сиденья - делаем темно-серой/черной
-                    const seatBaseColor = isInteriorLeather ? currentInteriorColor : "#050505";
-                    current.color.set(seatBaseColor);
 
-                    // Добавляем текстуру ткани
-                    if (fabricTexture) {
-                        current.map = fabricTexture;
+                } else if (isInteriorLeather || isSeatPart) {
+                    const isBlack = currentInteriorColor?.toLowerCase() === "#000000" ||
+                        currentInteriorColor?.toLowerCase() === "#111111" ||
+                        currentInteriorColor?.toLowerCase() === "#0a0a0a";
+
+                    current.color.set(currentInteriorColor);
+                    if (model === "M5" && leatherTexture) {
+                        current.normalMap = leatherTexture;
+                        current.normalScale.set(1.5, 1.5);
                     }
-                    current.roughness = 0.95;
-                    current.metalness = 0.05;
+                    current.map = null;
+                    current.needsUpdate = true;
+
+                    // Усиливаем черный: убираем отражения и делаем максимально матовым
+                    current.roughness = isBlack ? 1.0 : 0.6;
+                    current.metalness = 0;
+                    current.envMapIntensity = isBlack ? 0.1 : 1.0;
+                    if (current.emissive) current.emissive.set("#000000");
+
                     mesh.visible = true;
                 } else if (isTrim && !isGlass && !isRim && !isBrake) {
-                    current.color.set("#0a0a0a");
-                    current.map = null;
+                    current.color.set("#0a0a0a"); current.map = null;
                     if (current.emissive) current.emissive.set("#000000");
-                    current.roughness = 0.3;
-                    current.metalness = 0.2;
+                    current.roughness = 0.3; current.metalness = 0.2;
                     mesh.visible = true;
                 } else if (isGlass) {
-                    current.transparent = true;
-                    current.opacity = 0.35;
-                    current.color.set("#050505");
+                    if (matName.includes("red")) {
+                        current.color.set("#990000");
+                        current.opacity = 0.7;
+                        current.transparent = true;
+                        current.depthWrite = false;
+                        current.needsUpdate = true;
+                    } else {
+                        // Тот самый стиль как у M5
+                        current.color.set("#050505"); 
+                        current.opacity = 0.35; 
+                        current.roughness = 0.05;
+                        current.metalness = 0.8;
+                        current.transparent = true;
+                        current.depthWrite = false;
+                        current.needsUpdate = true;
+                    }
                     mesh.visible = true;
+
                 } else if (isRim) {
                     if (currentWheelTexture) {
                         mesh.visible = false;
                     } else {
                         mesh.visible = true;
-                        current.color.set("#222222");
+                        current.color.set("#111111");
                         current.map = null;
                     }
-                } else if (isBrake) {
+
+
+                } else if (name.includes("disc") || name.includes("caliper") || matName.includes("disc") || matName.includes("caliper") || isBrake) {
+                    current.color.set("#111111");
+                    current.map = null;
                     mesh.visible = true;
+
+                } else if (isTire) {
+                    current.color.set("#0a0a0a");
+                    current.roughness = 1.0;
+                    mesh.visible = true;
+                } else if (isLogo) {
+                    mesh.visible = true;
+                    current.transparent = true;
+                    current.opacity = 1.0;
+                    current.polygonOffset = true;
+                    current.polygonOffsetFactor = -1; // Pull decal forward to prevent Z-fighting with hood
                 } else {
                     mesh.visible = true;
                 }
-
                 current.needsUpdate = true;
             });
-        });
-    }, [clonedScene, color, wheel, detail, coating, currentWheelTexture, fabricTexture]);
 
-    // Следим за аспектом текстуры, чтобы она не растягивалась
+        });
+    }, [clonedScene, color, wheel, detail, coating, currentWheelTexture, leatherTexture, config, model]);
+
     const [textureAspect, setTextureAspect] = useState(1);
     useEffect(() => {
         if (currentWheelTexture && currentWheelTexture.image) {
             const img = currentWheelTexture.image as HTMLImageElement;
-            if (img.width && img.height) {
-                setTextureAspect(img.width / img.height);
-            }
+            if (img.width && img.height) setTextureAspect(img.width / img.height);
         }
     }, [currentWheelTexture]);
 
     return (
         <group>
-            <primitive object={clonedScene} scale={1.1} position={[0, -1.2, 0]} />
-
-            {/* Рендерим 2D PNG колеса поверх машины на оригинальных метриках */}
+            <primitive object={clonedScene} scale={config.scale} position={config.position} rotation={config.rotation || [0, 0, 0]} />
             {currentWheelTexture && (
-                <group scale={1.1} position={[0, -1.2, 0]}>
-                    {/* Переднее правое (X+) */}
-                    <mesh position={[0.88, 0.370, 1.58]} rotation={[0, Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
-                        <circleGeometry args={[0.295, 64]} />
+                <group scale={config.scale} position={config.position} rotation={config.rotation || [0, 0, 0]}>
+                    <mesh position={config.wheelPositions.fr} rotation={config.wheelBaseRotationR || [0, Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
+                        <circleGeometry args={[config.wheelRadius, 64]} />
                         <meshBasicMaterial map={currentWheelTexture} transparent={true} depthWrite={false} polygonOffset polygonOffsetFactor={-4} />
                     </mesh>
-                    {/* Заднее правое (X+) */}
-                    <mesh position={[0.88, 0.370, -1.372]} rotation={[0, Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
-                        <circleGeometry args={[0.295, 64]} />
+                    <mesh position={config.wheelPositions.rr || config.wheelPositions.br} rotation={config.wheelBaseRotationR || [0, Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
+                        <circleGeometry args={[config.wheelRadius, 64]} />
                         <meshBasicMaterial map={currentWheelTexture} transparent={true} depthWrite={false} polygonOffset polygonOffsetFactor={-4} />
                     </mesh>
-                    {/* Переднее левое (X-) */}
-                    <mesh position={[-0.93, 0.370, 1.58]} rotation={[0, -Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
-                        <circleGeometry args={[0.295, 64]} />
+                    <mesh position={config.wheelPositions.fl} rotation={config.wheelBaseRotationL || [0, -Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
+                        <circleGeometry args={[config.wheelRadius, 64]} />
                         <meshBasicMaterial map={currentWheelTexture} transparent={true} depthWrite={false} polygonOffset polygonOffsetFactor={-4} />
                     </mesh>
-                    {/* Заднее левое (X-) */}
-                    <mesh position={[-0.93, 0.370, -1.372]} rotation={[0, -Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
-                        <circleGeometry args={[0.295, 64]} />
+                    <mesh position={config.wheelPositions.rl || config.wheelPositions.bl} rotation={config.wheelBaseRotationL || [0, -Math.PI / 2, 0]} scale={[textureAspect, 1, 1]}>
+                        <circleGeometry args={[config.wheelRadius, 64]} />
                         <meshBasicMaterial map={currentWheelTexture} transparent={true} depthWrite={false} polygonOffset polygonOffsetFactor={-4} />
                     </mesh>
                 </group>
             )}
         </group>
     );
+
 }
 
-useGLTF.preload("/models/bmw/bmw_m5_f90_opt.glb");
+// useGLTF.preload removed for on-demand loading
