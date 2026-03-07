@@ -1,0 +1,11 @@
+Model Information:
+* title:	2016_BMW_X6M
+* source:	https://sketchfab.com/3d-models/2016-bmw-x6m-3f6f75266eb84c0b8385bada90be3770
+* author:	rexrain studio (https://sketchfab.com/akamujoshua)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "2016_BMW_X6M" (https://sketchfab.com/3d-models/2016-bmw-x6m-3f6f75266eb84c0b8385bada90be3770) by rexrain studio (https://sketchfab.com/akamujoshua) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
