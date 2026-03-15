@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Public_Sans } from "next/font/google";
+import { Ubuntu, Unbounded } from "next/font/google";
 import "./globals.css";
 
-const publicSans = Public_Sans({
-  variable: "--font-public-sans",
-  subsets: ["latin"],
+const ubuntu = Ubuntu({
+  variable: "--font-ubuntu",
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "700"],
+});
+
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  subsets: ["latin", "cyrillic"],
+  weight: ["500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +41,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${publicSans.variable} font-sans antialiased text-slate-900 bg-[#e0e3ea] min-h-screen transition-colors duration-300`}
+        className={`${ubuntu.variable} ${unbounded.variable} font-sans antialiased text-slate-900 bg-[#edf1f5] min-h-screen transition-colors duration-300`}
       >
         {children}
       </body>

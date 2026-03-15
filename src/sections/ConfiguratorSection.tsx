@@ -12,7 +12,7 @@ import { CoatingArcMenu } from "@/components/CoatingArcMenu";
 const COLORS_PAGES = [
   [
     { id: "white", bg: "bg-slate-100", name: "Белый" },
-    { id: "gray", bg: "bg-slate-400", name: "Серый" },
+    { id: "gray", bg: "bg-slate-300", name: "Серый" },
     { id: "black", bg: "bg-slate-950", name: "Черный" },
   ],
   [
@@ -256,7 +256,7 @@ export function ConfiguratorSection() {
       {/* Top right price */}
       <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20 pointer-events-none">
         <div className="text-right pointer-events-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-slate-900">
+          <h2 className="text-2xl md:text-3xl font-light text-slate-1000">
             25 250 780 ₽
           </h2>
         </div>
@@ -267,7 +267,7 @@ export function ConfiguratorSection() {
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 max-w-7xl mx-auto px-0 md:px-12 mt-auto mb-1">
         {/* Colors Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
             Цвета
           </h3>
           <div className="w-full flex items-center justify-between">
@@ -325,7 +325,7 @@ export function ConfiguratorSection() {
 
         {/* Wheels Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
             Диски
           </h3>
           <div className="w-full flex items-center justify-between">
@@ -388,7 +388,7 @@ export function ConfiguratorSection() {
 
         {/* Details Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 relative z-10">
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
             Детали
           </h3>
           <div className="w-full flex items-center justify-between">

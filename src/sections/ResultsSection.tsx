@@ -35,10 +35,10 @@ export function ResultsSection() {
     <section id="results" className="flex flex-col px-6 md:px-12 lg:px-20 py-24 min-h-screen justify-center font-display bg-background-light">
       <div className="flex justify-between mb-10 md:mb-16">
         <div>
-          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase text-slate-900 mb-2">
+          <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight uppercase text-primary mb-2">
             Результат
           </h2>
-          <p className="font-medium tracking-wide text-primary uppercase">
+          <p className="font-medium tracking-wide text-black uppercase">
             РАБОТЫ DETAILING23
           </p>
         </div>
@@ -51,33 +51,33 @@ export function ResultsSection() {
 
           let cardClasses = "liquid-glass p-4 transition-all duration-300 transform group ";
           if (isDraggingThis) {
-             cardClasses += "-translate-y-1 shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
+            cardClasses += "-translate-y-1 shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
           } else if (!isDraggingOther) {
-             cardClasses += "hover:-translate-y-1 hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
+            cardClasses += "hover:-translate-y-1 hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)]";
           }
 
           return (
-          <div
-            key={result.id}
-            className={cardClasses}
-          >
-            <div className="h-64 md:h-80 w-full rounded-2xl overflow-hidden relative">
-              <Slider
-                beforeImage={result.beforeImage}
-                afterImage={result.afterImage}
-                onDragStateChange={(dragging) => setDraggingId(dragging ? result.id : null)}
-              />
-            </div>
+            <div
+              key={result.id}
+              className={cardClasses}
+            >
+              <div className="h-64 md:h-80 w-full rounded-2xl overflow-hidden relative">
+                <Slider
+                  beforeImage={result.beforeImage}
+                  afterImage={result.afterImage}
+                  onDragStateChange={(dragging) => setDraggingId(dragging ? result.id : null)}
+                />
+              </div>
 
-            <div className="mt-6 px-2">
-              <h3 className="text-xl font-bold text-slate-900">
-                {result.title}
-              </h3>
-              <p className="text-slate-500 text-sm mt-1">
-                {result.description}
-              </p>
+              <div className="mt-6 px-2">
+                <h3 className="text-xl font-bold text-primary">
+                  {result.title}
+                </h3>
+                <p className="text-black text-sm mt-1">
+                  {result.description}
+                </p>
+              </div>
             </div>
-          </div>
           );
         })}
       </div>
