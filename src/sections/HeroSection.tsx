@@ -28,9 +28,9 @@ export function HeroSection() {
     button: {
       left: "4px",
       top: "52px",
-      fontSize: "15px",
-      paddingX: "63px",
-      paddingY: "20px",
+      fontSize: "20px",
+      paddingX: "37px",
+      paddingY: "17px",
       borderRadius: "0px",
       backgroundColor: "#0145f2",
       textColor: "#ffffff",
@@ -41,7 +41,7 @@ export function HeroSection() {
       top: "133px",                // Смещение под кнопку
       gap: "12px",                // Расстояние между иконкой и текстом
       numberFontSize: "18px",     // Размер 1000+
-      textFontSize: "13px",       // Размер "Довольных клиентов"
+      textFontSize: "14px",       // Размер "Довольных клиентов"
       count: "1K+",               // Текст в последнем кружке
       label: "Довольных клиентов", // Основной текст
       avatarSize: "40px",         // Размер кружочков (ширина и высота)

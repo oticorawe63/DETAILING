@@ -91,7 +91,7 @@ export function Navbar() {
 
   return (
     <nav
-      className="fixed z-50 w-full flex justify-between items-center transition-all duration-300"
+      className="fixed z-[1000] w-full flex justify-between items-center transition-all duration-300"
       style={{
         left: navbarSettings.container.left,
         top: navbarSettings.container.top,
