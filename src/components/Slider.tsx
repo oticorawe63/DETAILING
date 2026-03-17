@@ -9,6 +9,8 @@ export interface SliderProps {
   afterImage: string;
   beforeLabel?: string;
   afterLabel?: string;
+  beforePosition?: string; // Настройка выравнивания для фото До
+  afterPosition?: string;  // Настройка выравнивания для фото После
   className?: string;
   onDragStateChange?: (isDragging: boolean) => void;
 }
@@ -18,6 +20,8 @@ export function Slider({
   afterImage,
   beforeLabel = "До",
   afterLabel = "После",
+  beforePosition = "center",
+  afterPosition = "center",
   className,
   onDragStateChange,
 }: SliderProps) {
@@ -74,49 +78,57 @@ export function Slider({
       ref={containerRef}
       className={cn("relative w-full h-full overflow-hidden select-none", className)}
     >
-      {/* After Image (Background) */}
+      {/* After Image */}
       <div className="absolute inset-0 w-full h-full">
         <img
           src={afterImage}
           alt="After"
           className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: afterPosition }}
           draggable={false}
         />
         {afterLabel && (
           <div
-            className="absolute top-0 right-0 h-full overflow-hidden flex justify-end p-4"
-            style={{ width: `${100 - sliderPosition}%` }}
+            className="absolute top-0 right-0 h-full flex justify-end p-4 pointer-events-none"
           >
-            <span className="bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase h-fit whitespace-nowrap">
+            <span className="bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase h-fit whitespace-nowrap">
               {afterLabel}
             </span>
           </div>
         )}
       </div>
 
-      {/* Before Image (Foreground, clipped) */}
+      {/* Before Image (Clipped) */}
       <div
-        className="absolute inset-0 overflow-hidden border-r-2 border-white"
-        style={{ width: `${sliderPosition}%` }}
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{ 
+          clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
+        }}
       >
         <img
           src={beforeImage}
           alt="Before"
-          className="absolute inset-0 w-full h-full object-cover max-w-none"
-          style={{ width: "100%", height: "100%", objectPosition: "left center" }}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: beforePosition }}
           draggable={false}
         />
         {beforeLabel && (
-          <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-bold uppercase z-10 whitespace-nowrap">
+          <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase z-10 whitespace-nowrap">
             {beforeLabel}
           </span>
         )}
       </div>
 
+      {/* Vertical Split Line */}
+      <div 
+        className="absolute top-0 bottom-0 w-[2px] bg-white z-20 pointer-events-none shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+        style={{ left: `${sliderPosition}%` }}
+      />
+
       {/* Handle */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-col-resize flex items-center justify-center shadow-[0_0_10px_rgba(0,0,0,0.2)] z-20"
-        style={{ left: `calc(${sliderPosition}% - 2px)` }}
+        className="absolute top-0 bottom-0 w-10 -ml-5 cursor-col-resize flex items-center justify-center z-30"
+        style={{ left: `${sliderPosition}%` }}
         onMouseDown={(e: MouseEvent) => {
           e.preventDefault();
           setIsDragging(true);
@@ -125,8 +137,8 @@ export function Slider({
           setIsDragging(true);
         }}
       >
-        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-md">
-          <MaterialIcon name="code" />
+        <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-2xl border border-white/50 transition-transform duration-200 active:scale-110">
+          <MaterialIcon name="swap_horiz" className="text-xl md:text-2xl" />
         </div>
       </div>
     </div>

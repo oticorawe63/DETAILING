@@ -38,7 +38,7 @@ export function ArcMenu({ onSelect }: ArcMenuProps) {
 
   const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
     const currentRot = rotation.get();
-    const projectedRot = currentRot + info.velocity.y * 0.05;
+    const projectedRot = currentRot - info.velocity.y * 0.05;
 
     let newIndex = Math.round(-projectedRot / ANGLE_STEP);
     newIndex = Math.max(0, Math.min(BRANDS.length - 1, newIndex));
@@ -75,7 +75,7 @@ export function ArcMenu({ onSelect }: ArcMenuProps) {
     <div className="absolute left-0 top-[50%] -translate-y-1/2 w-full md:w-[70%] h-[70vh] pointer-events-none flex items-center z-0 overflow-hidden">
 
       <motion.div
-        className="absolute rounded-full border-r border-slate-200 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
+        className="absolute rounded-full border-r border-black/80 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
         style={{
           width: ARC_RADIUS * 2,
           height: ARC_RADIUS * 2,
@@ -89,7 +89,7 @@ export function ArcMenu({ onSelect }: ArcMenuProps) {
           dragConstraints={{ top: 0, bottom: 0 }}
           dragElastic={0}
           onDrag={(e, info) => {
-            rotation.set(rotation.get() + info.delta.y * 0.1);
+            rotation.set(rotation.get() - info.delta.y * 0.1);
           }}
           onDragEnd={handleDragEnd}
         >
@@ -127,11 +127,7 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
     return rot + itemAngle;
   });
 
-  const opacity = useTransform(
-    absoluteAngle,
-    [-ANGLE_STEP * 2.5, 0, ANGLE_STEP * 2.5],
-    [0.0, 1, 0.0]
-  );
+  const opacity = 1; // Always fully opaque
 
   const scale = useTransform(
     absoluteAngle,
@@ -149,8 +145,8 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
     >
       <div
         className={cn(
-          "w-1.5 h-1.5 rounded-full absolute -left-[3px] transition-all duration-300",
-          isActive ? "bg-slate-900 dark:bg-black scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
+          "w-1.5 h-1.5 rounded-full absolute -left-[3px] transition-all duration-300 bg-black dark:bg-black",
+          isActive ? "scale-[1.5]" : "opacity-100"
         )}
       />
 
@@ -168,10 +164,12 @@ function ArcMenuItem({ brand, itemAngle, globalRotation, isActive, onClick, radi
               src={LOGOS[brand]}
               alt={`${brand} logo`}
               fill
-              className={cn(
-                "object-contain transition-all duration-300 drop-shadow-md",
-                !isActive && "grayscale opacity-50"
-              )}
+                className={cn(
+                  "object-contain transition-all duration-300",
+                  isActive 
+                    ? "brightness-110 drop-shadow-[0_0_8px_rgba(0,0,0,0.3)]" 
+                    : "opacity-100"
+                )}
             />
           </div>
         )}

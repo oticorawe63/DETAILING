@@ -32,7 +32,7 @@ export function CoatingArcMenu({ onSelect }: CoatingArcMenuProps) {
 
     const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
         const currentRot = rotation.get();
-        const projectedRot = currentRot + info.velocity.y * 0.05;
+        const projectedRot = currentRot - info.velocity.y * 0.05;
 
         let newIndex = Math.round(-projectedRot / ANGLE_STEP);
         newIndex = Math.max(0, Math.min(COATINGS.length - 1, newIndex));
@@ -69,7 +69,7 @@ export function CoatingArcMenu({ onSelect }: CoatingArcMenuProps) {
         <div className="absolute right-0 top-[50%] -translate-y-1/2 w-full md:w-[70%] h-[70vh] pointer-events-none flex items-center justify-end z-0 overflow-hidden">
 
             <motion.div
-                className="absolute rounded-full border-l border-slate-200 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center right-0"
+                className="absolute rounded-full border-l border-black/80 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center right-0"
                 style={{
                     width: ARC_RADIUS * 2,
                     height: ARC_RADIUS * 2,
@@ -83,7 +83,7 @@ export function CoatingArcMenu({ onSelect }: CoatingArcMenuProps) {
                     dragConstraints={{ top: 0, bottom: 0 }}
                     dragElastic={0}
                     onDrag={(e, info) => {
-                        rotation.set(rotation.get() + info.delta.y * 0.1);
+                        rotation.set(rotation.get() - info.delta.y * 0.1);
                     }}
                     onDragEnd={handleDragEnd}
                 >
@@ -123,11 +123,7 @@ function CoatingArcMenuItem({ coating, label, itemAngle, globalRotation, isActiv
         return rot + itemAngle;
     });
 
-    const opacity = useTransform(
-        absoluteAngle,
-        [-ANGLE_STEP * 2.5, 0, ANGLE_STEP * 2.5],
-        [0.0, 1, 0.0]
-    );
+    const opacity = 1; // Always fully opaque
 
     const scale = useTransform(
         absoluteAngle,
@@ -145,8 +141,8 @@ function CoatingArcMenuItem({ coating, label, itemAngle, globalRotation, isActiv
         >
             <div
                 className={cn(
-                    "w-1.5 h-1.5 rounded-full absolute -right-[3px] transition-all duration-300",
-                    isActive ? "bg-slate-900 dark:bg-black scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
+                    "w-1.5 h-1.5 rounded-full absolute -right-[3px] transition-all duration-300 bg-black dark:bg-black",
+                    isActive ? "scale-[1.5]" : "opacity-100"
                 )}
             />
 
@@ -174,8 +170,7 @@ function CoatingArcMenuItem({ coating, label, itemAngle, globalRotation, isActiv
                 </div>
 
                 <span className={cn(
-                    "text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase transition-colors",
-                    isActive ? "text-slate-900" : "text-slate-400"
+                    "text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase transition-colors text-black dark:text-black",
                 )}>
                     {label}
                 </span>

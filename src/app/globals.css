@@ -28,9 +28,21 @@
     transition: all 0.3s ease;
   }
 
-  .liquid-glass:hover {
-    border-color: rgba(1, 69, 242, 0.3);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  .blue-glass {
+    background-color: rgba(1, 69, 242, 0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px -5px rgba(1, 69, 242, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .liquid-glass:hover, .blue-glass:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 15px 35px -5px rgba(1, 69, 242, 0.5);
   }
 }
 
@@ -47,10 +59,10 @@
 
 /* Global Typography & Base Color */
 * {
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-  line-height: normal !important;
-  font-style: normal !important;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: normal;
+  font-style: normal;
 }
 
 body {
@@ -62,22 +74,16 @@ body {
 
 h1, h2, h3, h4, h5, h6, .font-unbounded {
   font-family: var(--font-unbounded) !important;
-  font-weight: 700 !important;
+  font-weight: 700;
 }
 
-/* Specific component fixes to prevent "blue masks" */
-.bg-primary {
-  background-color: #0145f2 !important;
-  color: white !important;
-}
+/* Base Primary Utility */
+.text-primary { color: #0145f2 !important; }
+.bg-primary { background-color: #0145f2 !important; }
+.border-primary { border-color: #0145f2 !important; }
 
-/* Override Tailwind's red to blue */
-.text-primary, .text-red-600, .text-red-500 { color: #0145f2 !important; }
-.bg-primary, .bg-red-600, .bg-red-500 { background-color: #0145f2 !important; }
-.border-primary, .border-red-600 { border-color: #0145f2 !important; }
-
-/* Ensure white text stays white */
-.text-white, .bg-primary *, .bg-blue-600 * {
+/* Ensure white text stays white on primary backgrounds */
+.bg-primary * {
   color: white !important;
 }
 
@@ -88,4 +94,4 @@ footer {
 
 footer * {
   color: white !important;
-}
+}

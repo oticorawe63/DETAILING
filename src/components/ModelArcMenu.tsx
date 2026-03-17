@@ -38,7 +38,7 @@ export function ModelArcMenu({ brand, onSelect }: ModelArcMenuProps) {
 
     const handleDragEnd = (event: PointerEvent | MouseEvent | TouchEvent, info: { offset: { x: number, y: number }, velocity: { x: number, y: number } }) => {
         const currentRot = rotation.get();
-        const projectedRot = currentRot + info.velocity.y * 0.05;
+        const projectedRot = currentRot - info.velocity.y * 0.05;
 
         let newIndex = Math.round(-projectedRot / ANGLE_STEP);
         newIndex = Math.max(0, Math.min(models.length - 1, newIndex));
@@ -69,7 +69,7 @@ export function ModelArcMenu({ brand, onSelect }: ModelArcMenuProps) {
     return (
         <div className="absolute left-0 top-[50%] -translate-y-1/2 w-full md:w-[80%] h-[90vh] pointer-events-none flex items-center z-0 overflow-hidden">
             <motion.div
-                className="absolute rounded-full border-r border-slate-100 dark:border-slate-800 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
+                className="absolute rounded-full border-r border-black/80 pointer-events-auto cursor-grab active:cursor-grabbing flex items-center justify-center left-0"
                 style={{
                     width: ARC_RADIUS * 2,
                     height: ARC_RADIUS * 2,
@@ -83,7 +83,7 @@ export function ModelArcMenu({ brand, onSelect }: ModelArcMenuProps) {
                     dragConstraints={{ top: 0, bottom: 0 }}
                     dragElastic={0}
                     onDrag={(e, info) => {
-                        rotation.set(rotation.get() + info.delta.y * 0.1);
+                        rotation.set(rotation.get() - info.delta.y * 0.1);
                     }}
                     onDragEnd={handleDragEnd}
                 >
@@ -121,11 +121,7 @@ function ModelArcMenuItem({ model, itemAngle, globalRotation, isActive, onClick,
         return rot + itemAngle;
     });
 
-    const opacity = useTransform(
-        absoluteAngle,
-        [-ANGLE_STEP * 2.5, 0, ANGLE_STEP * 2.5],
-        [0.0, 1, 0.0]
-    );
+    const opacity = 1; // Always fully opaque
 
     const scale = useTransform(
         absoluteAngle,
@@ -143,8 +139,8 @@ function ModelArcMenuItem({ model, itemAngle, globalRotation, isActive, onClick,
         >
             <div
                 className={cn(
-                    "w-1.5 h-1.5 rounded-full absolute -left-[3px] transition-all duration-300",
-                    isActive ? "bg-slate-900 dark:bg-blacks scale-[1.5]" : "bg-slate-400 dark:bg-slate-600"
+                    "w-1.5 h-1.5 rounded-full absolute -left-[3px] transition-all duration-300 bg-black dark:bg-black",
+                    isActive ? "scale-[1.5]" : "opacity-100"
                 )}
             />
 
@@ -158,10 +154,7 @@ function ModelArcMenuItem({ model, itemAngle, globalRotation, isActive, onClick,
             >
                 <span
                     className={cn(
-                        "text-2xl md:text-2xl lg:text-2xl font-bold uppercase transition-colors duration-300 tracking-tighter leading-none",
-                        isActive
-                            ? "text-slate-900 dark:text-black"
-                            : "text-slate-200 dark:text-slate-700 hover:text-slate-300 dark:hover:text-slate-600"
+                        "text-2xl md:text-2xl lg:text-2xl font-bold uppercase transition-colors duration-300 tracking-tighter leading-none text-black dark:text-black",
                     )}
                 >
                     {model}

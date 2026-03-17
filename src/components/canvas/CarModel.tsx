@@ -19,11 +19,11 @@ interface CarModelProps {
 const COLOR_MAP: Record<string, string> = {
     white: "#ffffff", gray: "#a1a1aa", black: "#111111", red: "#cc0000",
     orange: "#f97316", yellow: "#facc15", green: "#0a5c2e", lime: "#a3e635",
-    lightblue: "#38bdf8", blue: "#0a358c", pink: "#ec4899", purple: "#4c1d95",
+    lightblue: "#38bdf8", blue: "#0036cc", pink: "#ec4899", purple: "#4c1d95",
 };
 
 const INTERIOR_COLOR_MAP: Record<string, string> = {
-    bs1: "#111111", bs2: "#71717a", bs3: "#ffffff", bs5: "#cc0000",
+    bs1: "#111111", bs2: "#71717a", bs3: "#ffffff", bs5: "#990000",
     bs4: "#f97316", bs6: "#facc15", bs7: "#0a5c2e", bs8: "#a3e635",
     bs9: "#38bdf8", bs10: "#0a358c", bs11: "#ec4899", bs12: "#4c1d95",
 };
@@ -193,7 +193,7 @@ export function CarModel({ brand, model, color, wheel, detail, coating }: CarMod
     }, []);
 
     useEffect(() => {
-        const currentColor = color && COLOR_MAP[color] ? COLOR_MAP[color] : "#111111";
+        const currentColor = color && COLOR_MAP[color] ? COLOR_MAP[color] : "#0036cc";
         const currentInteriorColor = detail && INTERIOR_COLOR_MAP[detail] ? INTERIOR_COLOR_MAP[detail] : "#111111";
 
         clonedScene.traverse((node: any) => {

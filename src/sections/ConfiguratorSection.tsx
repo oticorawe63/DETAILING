@@ -144,6 +144,21 @@ const DETAILS_DATA: Record<string, { id: string, src: string, name: string }[][]
 };
 
 
+const sectionSettings = {
+  header: {
+    offsetTop: "5rem", // Adjust vertical position
+    color: "#0145f2",   // Brand blue
+    fontSize: "text-3xl md:text-5xl"
+  },
+  price: {
+    value: "25 250 780 ₽",
+    offsetTop: "6rem",
+    offsetRight: "-0.5rem",
+    color: "#1a1a1a",
+    fontSize: "text-2xl md:text-3xl"
+  }
+};
+
 export function ConfiguratorSection() {
   const [colorPage, setColorPage] = useState(0);
   const [colorDirection, setColorDirection] = useState(1);
@@ -157,11 +172,11 @@ export function ConfiguratorSection() {
   const [detailDirection, setDetailDirection] = useState(1);
   const [selectedDetail, setSelectedDetail] = useState<string | null>(null);
 
-  const [selectedBrand, setSelectedBrand] = useState("BMW");
-  const [selectedModel, setSelectedModel] = useState("X5");
+  const [selectedBrand, setSelectedBrand] = useState<string>("BMW");
+  const [selectedModel, setSelectedModel] = useState<string>("M5");
 
-  const [isInteriorView, setIsInteriorView] = useState(false);
-  const [selectedCoating, setSelectedCoating] = useState("GLOSSY");
+  const [isInteriorView, setIsInteriorView] = useState<boolean>(false);
+  const [selectedCoating, setSelectedCoating] = useState<string>("GLOSSY");
 
   useEffect(() => {
     setWheelPage(0);
@@ -226,10 +241,7 @@ export function ConfiguratorSection() {
       {/* Close Interior View Button */}
       <AnimatePresence>
         {isInteriorView && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
+          <button
             onClick={() => setIsInteriorView(false)}
             className="fixed top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-black/5 shadow-xl hover:bg-white transition-colors group"
           >
@@ -237,7 +249,7 @@ export function ConfiguratorSection() {
             <span className="text-[10px] font-bold tracking-widest uppercase text-slate-800">
               Выйти из салона
             </span>
-          </motion.button>
+          </button>
         )}
       </AnimatePresence>
 
@@ -254,21 +266,43 @@ export function ConfiguratorSection() {
       <CoatingArcMenu onSelect={(coating) => setSelectedCoating(coating)} />
 
       {/* Top right price */}
-      <div className="w-full flex items-start z-10 justify-end max-w-7xl mx-auto absolute top-16 right-8 md:right-20 pointer-events-none">
+      <div
+        className="absolute z-10 pointer-events-none pr-4 md:pr-10"
+        style={{
+          top: sectionSettings.price.offsetTop,
+          right: sectionSettings.price.offsetRight
+        }}
+      >
         <div className="text-right pointer-events-auto">
-          <h2 className="text-2xl md:text-3xl font-light text-slate-1000">
-            25 250 780 ₽
+          <h2 className={cn("font-bold", sectionSettings.price.fontSize)}
+            style={{ color: sectionSettings.price.color }}>
+            {sectionSettings.price.value}
           </h2>
         </div>
       </div>
 
       <div className="flex-grow"></div>
 
+      {/* Section Title */}
+      <div
+        className="absolute left-0 w-full flex justify-center z-10 pointer-events-none px-4"
+        style={{ top: sectionSettings.header.offsetTop }}
+      >
+        <h2 className={cn(
+          "font-black font-unbounded tracking-tighter uppercase text-center opacity-100",
+          sectionSettings.header.fontSize
+        )}
+          style={{ color: sectionSettings.header.color }}
+        >
+          СОБЕРИТЕ СВОЁ АВТО
+        </h2>
+      </div>
+
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10 max-w-7xl mx-auto px-0 md:px-12 mt-auto mb-1">
         {/* Colors Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
-            Цвета
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-black uppercase mb-6 relative z-10">
+            ЦВЕТ
           </h3>
           <div className="w-full flex items-center justify-between">
             <button
@@ -325,8 +359,8 @@ export function ConfiguratorSection() {
 
         {/* Wheels Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
-            Диски
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-black uppercase mb-6 relative z-10">
+            ДИСКИ
           </h3>
           <div className="w-full flex items-center justify-between">
             <button
@@ -388,8 +422,8 @@ export function ConfiguratorSection() {
 
         {/* Details Panel */}
         <div className="liquid-glass flex flex-col items-center p-6">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] text-slate-1000 uppercase mb-6 relative z-10">
-            Детали
+          <h3 className="text-[10px] font-bold tracking-[0.2em] text-black uppercase mb-6 relative z-10">
+            САЛОН
           </h3>
           <div className="w-full flex items-center justify-between">
             <button
@@ -418,15 +452,15 @@ export function ConfiguratorSection() {
                       key={detail.id}
                       onClick={() => setSelectedDetail(detail.id)}
                       className={cn(
-                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center",
-                        selectedDetail === detail.id ? "ring-2 ring-primary ring-offset-2 ring-offset-white bg-white shadow-sm" : "hover:bg-black/5"
+                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center overflow-hidden",
+                        selectedDetail === detail.id ? "ring-2 ring-primary ring-offset-2 ring-offset-white bg-white shadow-xl" : "bg-white/10 hover:bg-white/20"
                       )}
                     >
-                      <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                      <div className="w-full h-full flex items-center justify-center">
                         <img
                           src={detail.src}
                           alt={detail.name}
-                          className={cn("w-full h-full object-cover transition-opacity", selectedDetail !== detail.id && "opacity-40 hover:opacity-100")}
+                          className={cn("w-full h-full object-cover transition-opacity", selectedDetail !== detail.id && "opacity-80 hover:opacity-100")}
                         />
                       </div>
                     </div>
