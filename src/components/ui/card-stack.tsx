@@ -103,12 +103,12 @@ export function CardStack<T extends CardStackItem>({
   activeScale = 1.03,
   inactiveScale = 0.94,
 
-  springStiffness = 280,
-  springDamping = 28,
+  springStiffness = 200,
+  springDamping = 30,
 
   loop = true,
   autoAdvance = false,
-  intervalMs = 2800,
+  intervalMs = 3500,
   pauseOnHover = true,
 
   showDots = true,
@@ -196,8 +196,6 @@ export function CardStack<T extends CardStackItem>({
   return (
     <div
       className={cn("w-full", className)}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
     >
       {/* Stage */}
       <div
@@ -226,10 +224,10 @@ export function CardStack<T extends CardStackItem>({
             {items.map((item, i) => {
               const off = signedOffset(i, active, len, loop);
               const abs = Math.abs(off);
-              const visible = abs <= maxOffset;
-
-              // hide far-away cards cleanly
-              if (!visible) return null;
+              
+              // Detect if this specific card is "wrapping" (moving across the entire array)
+              // If it moves more than half the length, it's a wrap jump.
+              const isFarOut = abs > maxOffset;
 
               // fan geometry
               const rotateZ = off * stepDeg;
@@ -246,34 +244,14 @@ export function CardStack<T extends CardStackItem>({
 
               const zIndex = 100 - abs;
 
-              // drag only on the active card
-              const dragProps = isActive
-                ? {
-                    drag: "x" as const,
-                    dragConstraints: { left: 0, right: 0 },
-                    dragElastic: 0.18,
-                    onDragEnd: (
-                      _e: any,
-                      info: { offset: { x: number }; velocity: { x: number } },
-                    ) => {
-                      if (reduceMotion) return;
-                      const travel = info.offset.x;
-                      const v = info.velocity.x;
-                      const threshold = Math.min(160, cardWidth * 0.22);
-
-                      // swipe logic
-                      if (travel > threshold || v > 650) prev();
-                      else if (travel < -threshold || v < -650) next();
-                    },
-                  }
-                : {};
+              const dragProps = {};
 
               return (
                 <motion.div
                   key={item.id}
                   className={cn(
                     "absolute bottom-0 rounded-2xl overflow-hidden shadow-xl",
-                    "will-change-transform select-none",
+                    "select-none",
                     isActive
                       ? "cursor-grab active:cursor-grabbing"
                       : "cursor-pointer",
@@ -297,7 +275,7 @@ export function CardStack<T extends CardStackItem>({
                         }
                   }
                   animate={{
-                    opacity: 1,
+                    opacity: abs > maxOffset ? 0 : 1,
                     x,
                     y: y + lift,
                     rotateZ,
@@ -307,9 +285,9 @@ export function CardStack<T extends CardStackItem>({
                     scale,
                   }}
                   transition={{
-                    type: "spring",
-                    stiffness: springStiffness,
-                    damping: springDamping,
+                    type: "tween",
+                    ease: "easeInOut",
+                    duration: 0.8,
                   }}
                   // translateZ via style transform (kept stable w/ motion values above)
                   // We apply translateZ by using a CSS transform in a child wrapper.

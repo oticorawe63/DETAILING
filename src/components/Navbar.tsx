@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -10,7 +10,7 @@ export function Navbar() {
     // Контейнер всей шапки
     container: {
       left: "0px",                      // Смещение всей шапки вправо/влево
-      top: "-6px",                       // Смещение всей шапки вверх/вниз
+      top: "-15px",                       // Смещение всей шапки вверх/вниз
       paddingX: "32px",                 // Горизонтальные отступы (px)
       paddingY: "24px",                 // Вертикальные отступы (px)
       backgroundColor: "transparent",    // Цвет фона
@@ -31,7 +31,7 @@ export function Navbar() {
     },
     // Индивидуальные настройки пунктов меню
     menuItem: {
-      fontSize: "14px",                 // Размер шрифта
+      fontSize: "16px",                 // Размер шрифта
       paddingX: "24px",                 // Внутренний отступ (X)
       paddingY: "12px",                 // Внутренний отступ (Y)
       fontWeight: "600",                // Чуть жирнее для чистого цвета

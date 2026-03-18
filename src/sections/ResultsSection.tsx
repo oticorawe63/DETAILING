@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Slider } from "@/components/Slider";
 import { cn } from "@/lib/utils";
 import { CardStack } from "@/components/ui/card-stack";
@@ -9,56 +9,50 @@ const RESULTS = [
     number: "01",
     title: "ПОЛИРОВКА КУЗОВА",
     description: "Многоступенчатая восстановительная полировка, удаляющая 99% царапин.",
-    beforeImage: "/BMW Before.webp",
-    afterImage: "/BMW After.webp",
+    beforeImage: "/BMW_Before.webp",
+    afterImage: "/BMW_After.webp",
   },
   {
     id: "wheel-1",
     number: "02",
     title: "ПОКРАСКА",
     description: "Мощное преображение вашего автомобиля привлекая взгляды и вызывая восхищение.",
-    beforeImage: "/GELENWAGEN Before.webp",
-    afterImage: "/GELENWAGEN After.webp",
+    beforeImage: "/GELENWAGEN_Before.webp",
+    afterImage: "/GELENWAGEN_After.webp",
   },
   {
     id: "interior-1",
     number: "03",
     title: "ХИМЧИСТКА САЛОНА",
     description: "Удаление сложных загрязнений, запахов и восстановление внешнего вида сидений салона.",
-    beforeImage: "/SALON Before.webp",
-    afterImage: "/SALON After.webp",
+    beforeImage: "/SALON_Before.webp",
+    afterImage: "/SALON_After.webp",
   },
   {
     id: "protection-1",
     number: "04",
     title: "ПЛЕНКА",
     description: "Оклейка кузова виниловой пленкой для защиты и смены внешнего вида.",
-    beforeImage: "/PORSCHE Before.webp",
-    afterImage: "/PORSCHE After.webp",
+    beforeImage: "/PORSCHE_Before.webp",
+    afterImage: "/PORSCHE_After.webp",
   },
   {
     id: "dent-repair",
     number: "05",
     title: "УДАЛЕНИЕ ВМЯТИН",
     description: "Без покраски и лишних вмешательств.",
-    beforeImage: "/REMONT Before.webp",
-    afterImage: "/REMONT After.webp",
+    beforeImage: "/REMONT_Before.webp",
+    afterImage: "/REMONT_After.webp",
     beforePosition: "center",
     afterPosition: "50% center",
-  },
-  {
-    id: "engine-1",
-    number: "06",
-    title: "ЧИСТКА ПОД КАПОТОМ",
-    description: "Глубокая чистка и дезинфекция — удаляем пыль, грязь и нагар.",
-    beforeImage: "/KAPOT Before.webp",
-    afterImage: "/KAPOT After.webp",
   },
 ];
 
 export function ResultsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [cardSize, setCardSize] = useState({ width: 450, height: 280 });
+  const [shouldAutoAdvance, setShouldAutoAdvance] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,8 +68,22 @@ export function ResultsSection() {
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, []);
+
+  const handleDragStateChange = (dragging: boolean) => {
+    if (dragging) {
+      setShouldAutoAdvance(false);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    } else {
+      // Set to true immediately so the 3s interval starts ticking now.
+      // Total delay from release to first slide will be exactly intervalMs.
+      setShouldAutoAdvance(true);
+    }
+  };
 
   const sectionSettings = {
     paddingY: "py-12 md:py-20",
@@ -110,26 +118,31 @@ export function ResultsSection() {
             perspectivePx={1400}
             depthPx={120}
             tiltXDeg={8}
-            autoAdvance
+            autoAdvance={shouldAutoAdvance}
             intervalMs={3000}
+            pauseOnHover={false}
             className="max-w-6xl"
-            renderCard={(item, { active }) => (
-              <div className="relative w-full h-full bg-black group overflow-hidden rounded-xl shadow-2xl">
-                <Slider
-                  beforeImage={item.beforeImage!}
-                  afterImage={item.afterImage!}
-                  beforePosition={item.beforePosition}
-                  afterPosition={item.afterPosition}
-                  className={cn("transition-opacity duration-300", !active && "opacity-60 pointer-events-none")}
-                />
+            renderCard={(item, { active }) => {
+              const itemIndex = RESULTS.findIndex(r => r.id === item.id);
+              return (
+                <div className="relative w-full h-full bg-black group overflow-hidden rounded-xl shadow-2xl">
+                  <Slider
+                    beforeImage={item.beforeImage!}
+                    afterImage={item.afterImage!}
+                    beforePosition={item.beforePosition}
+                    afterPosition={item.afterPosition}
+                    onDragStateChange={handleDragStateChange}
+                    priority={itemIndex < 3}
+                    className={cn("transition-opacity duration-300 opacity-100", !active && "pointer-events-none")}
+                  />
                 
                 {/* Info Overlay - Visible on active card */}
                 <div className={cn(
-                  "absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/100 via-black/40 to-transparent z-[100] pointer-events-none",
-                  "transition-all duration-300 transform",
+                  "absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-[100] pointer-events-none",
+                  "transition-all duration-300 transform h-1/2 flex flex-col justify-end antialiased",
                   active ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
                 )}>
-                  <div className="flex justify-between items-end gap-3 w-full">
+                  <div className="flex justify-between items-end gap-3 w-full transform-gpu">
                     <div className="flex flex-col gap-1.5 flex-1 min-w-0">
                       <h3 className="text-sm md:text-xl font-black text-white uppercase tracking-tight leading-none truncate">
                         {item.title}
@@ -152,7 +165,8 @@ export function ResultsSection() {
                   </div>
                 )}
               </div>
-            )}
+              );
+            }}
           />
         </div>
       </div>

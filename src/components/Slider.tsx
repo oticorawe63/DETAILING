@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, MouseEvent, TouchEvent } from "react";
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MaterialIcon } from "./MaterialIcon";
 
@@ -9,9 +10,10 @@ export interface SliderProps {
   afterImage: string;
   beforeLabel?: string;
   afterLabel?: string;
-  beforePosition?: string; // Настройка выравнивания для фото До
-  afterPosition?: string;  // Настройка выравнивания для фото После
+  beforePosition?: string;
+  afterPosition?: string;
   className?: string;
+  priority?: boolean;
   onDragStateChange?: (isDragging: boolean) => void;
 }
 
@@ -23,6 +25,7 @@ export function Slider({
   beforePosition = "center",
   afterPosition = "center",
   className,
+  priority,
   onDragStateChange,
 }: SliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
@@ -80,12 +83,15 @@ export function Slider({
     >
       {/* After Image */}
       <div className="absolute inset-0 w-full h-full">
-        <img
+        <Image
           src={afterImage}
           alt="After"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
           style={{ objectPosition: afterPosition }}
           draggable={false}
+          priority={priority}
+          sizes="(max-width: 768px) 100vw, 500px"
         />
         {afterLabel && (
           <div
@@ -105,12 +111,15 @@ export function Slider({
           clipPath: `inset(0 ${100 - sliderPosition}% 0 0)`
         }}
       >
-        <img
+        <Image
           src={beforeImage}
           alt="Before"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
           style={{ objectPosition: beforePosition }}
           draggable={false}
+          priority={priority}
+          sizes="(max-width: 768px) 100vw, 500px"
         />
         {beforeLabel && (
           <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase z-10 whitespace-nowrap">
@@ -122,13 +131,19 @@ export function Slider({
       {/* Vertical Split Line */}
       <div 
         className="absolute top-0 bottom-0 w-[2px] bg-white z-20 pointer-events-none shadow-[0_0_10px_rgba(0,0,0,0.3)]"
-        style={{ left: `${sliderPosition}%` }}
+        style={{ 
+          left: `${sliderPosition}%`,
+          transform: 'translateX(-50%)'
+        }}
       />
 
       {/* Handle */}
       <div
-        className="absolute top-0 bottom-0 w-20 -ml-10 cursor-col-resize flex items-center justify-center z-30"
-        style={{ left: `${sliderPosition}%` }}
+        className="absolute top-0 bottom-0 w-20 -ml-10 cursor-col-resize flex items-center justify-center z-30 will-change-transform"
+        style={{ 
+          left: `${sliderPosition}%`,
+          transform: 'translateZ(0)'
+        }}
         onMouseDownCapture={(e) => {
           e.stopPropagation();
           setIsDragging(true);
@@ -142,7 +157,7 @@ export function Slider({
           setIsDragging(true);
         }}
       >
-        <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-2xl border border-white/50 transition-transform duration-200 active:scale-110 pointer-events-none">
+        <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-2xl border border-white/50 transition-transform duration-200 active:scale-110 pointer-events-none will-change-transform">
           <MaterialIcon name="swap_horiz" className="text-2xl md:text-3xl" />
         </div>
       </div>
