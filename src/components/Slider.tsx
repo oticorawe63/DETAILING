@@ -127,18 +127,23 @@ export function Slider({
 
       {/* Handle */}
       <div
-        className="absolute top-0 bottom-0 w-10 -ml-5 cursor-col-resize flex items-center justify-center z-30"
+        className="absolute top-0 bottom-0 w-20 -ml-10 cursor-col-resize flex items-center justify-center z-30"
         style={{ left: `${sliderPosition}%` }}
-        onMouseDown={(e: MouseEvent) => {
-          e.preventDefault();
+        onMouseDownCapture={(e) => {
+          e.stopPropagation();
           setIsDragging(true);
         }}
-        onTouchStart={(e: TouchEvent) => {
+        onPointerDownCapture={(e) => {
+          e.stopPropagation();
+          setIsDragging(true);
+        }}
+        onTouchStartCapture={(e) => {
+          e.stopPropagation();
           setIsDragging(true);
         }}
       >
-        <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-2xl border border-white/50 transition-transform duration-200 active:scale-110">
-          <MaterialIcon name="swap_horiz" className="text-xl md:text-2xl" />
+        <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-slate-800 shadow-2xl border border-white/50 transition-transform duration-200 active:scale-110 pointer-events-none">
+          <MaterialIcon name="swap_horiz" className="text-2xl md:text-3xl" />
         </div>
       </div>
     </div>
