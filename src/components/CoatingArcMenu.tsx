@@ -154,21 +154,6 @@ function CoatingArcMenuItem({ coating, label, itemAngle, globalRotation, isActiv
                     onClick();
                 }}
             >
-                <div className={cn(
-                    "w-6 h-6 md:w-11 md:h-11 rounded-full border border-black/10 transition-all flex-shrink-0 relative overflow-hidden shadow-md",
-                    coating === "METALLIC" && "bg-white", // Бывший глянцевый
-                    coating === "MATTE" && "bg-slate-300", // Бывший металлик
-                    coating === "GLOSSY" && "bg-slate-500", // Бывший матовый
-                    !isActive && "grayscale opacity-50"
-                )}>
-                    {coating === "MATTE" && (
-                        <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-black" />
-                    )}
-                    {coating === "METALLIC" && (
-                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent" />
-                    )}
-                </div>
-
                 <span className={cn(
                     "text-[10px] md:text-sm font-bold tracking-[0.2em] uppercase transition-colors text-black dark:text-black",
                 )}>

@@ -1,102 +1,128 @@
-import { MaterialIcon } from "@/components/MaterialIcon";
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
 
-const TESTIMONIALS = [
+const testimonials = [
   {
-    id: 1,
+    text: "Внимание к деталям на моем GT3 было непревзойденным. Поистине индивидуальный подход, восстановивший заводскую отделку лучше, чем я ожидал.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     name: "Джеймс Стерлинг",
     role: "Владелец Porsche GT3",
-    quote: "Внимание к деталям на моем GT3 было непревзойденным. Поистине индивидуальный подход, восстановивший заводскую отделку лучше, чем я ожидал.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuANCnasXKGBxPvRjvWKbzrnLUZQwjy0Jck6GGFVqtHJhS4cVcxgaEe7JAlAzOzVycxoj5RBPbnVMGFMPXoMsoaUUVF4m0dRpRG85fs38rcxlJGnjpg1-wqdViJf7oGT3r-B1hs_Y61QWjnS7IswCmCpwErmUsKq3BYpCi01DNdD-HEksglt1zZKwajfZJ3PKNGVXqLumpgxGfV79UgbGVEOpPozl6yqK-uQ_-aoAdRMgjAtEGQ58qJZ5jxlilHZvzpAF2uOjDeq1fmI",
   },
   {
-    id: 2,
+    text: "Абсолютное совершенство. Керамическое покрытие сохраняет выставочный блеск уже несколько месяцев. Их точность просто не имеет себе равных.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
     name: "Елена Росси",
     role: "Владелица Ferrari Roma",
-    quote: "Абсолютное совершенство. Керамическое покрытие сохраняет выставочный блеск уже несколько месяцев. Их точность просто не имеет себе равных.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBtG_nrtissgf8iJFVINq26HVkqHtPmLIFEH0fg5hgmld2lBD959zjLWwzl0C5o3vy1OHWMzL5usG7N34Zli_ms7HI0_RdJYFu7GjFZmGkvAoEY10ppdUcTsoXu4qqezncj-v2NgklkE0Y_VKTqVtIaRKt705cqsW8rcBusmHarpHU6xQ6VHHATNXxO3pYc4CawCdaOGLFDdpll0JQxl2_P87TGMiq-xV74CnpjF3e1gyKyr-FUEdYYkWD6kJeZ3_PnvrluAdGOkjQj",
   },
   {
-    id: 3,
+    text: "Профессионально, пунктуально и точно. Они отнеслись к моей винтажной реставрации с должным уважением. Стоит каждого потраченного рубля.",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
     name: "Маркус Вэнс",
     role: "Коллекционер",
-    quote: "Профессионально, пунктуально и точно. Они отнеслись к моей винтажной реставрации с должным уважением. Стоит каждого потраченного рубля.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuA-7W2KdHVB3jCSV_PCNMecqAGBU7g5h6jibG15e_rZZl069bNpObluVFaMzijmOPvG8UHlIkwhb9d_tZ8F6nxNGGrDwamDA1v1QrWyfmvPTMM5hWbGMof1jxZVpe2KmDYvYMFXo38fzI94IhYoB2G1kx8vlD4igq1H5N4YKHIecykpB7K8EU7pTyDVswKjDrDarxrqxW2r6UU4eeEyE3dgXKWCX57hbhH1X9X8hFFzexHUlM7rxvl-x_itCW7PZelyebuMgDB4V0kF",
+  },
+  {
+    text: "Лучший детейлинг в городе. Перетяжка руля выполнена идеально, шов к шву. Машина теперь ощущается как новая.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+    name: "Алексей С.",
+    role: "Владелец BMW M5",
+  },
+  {
+    text: "Оклейка зон риска выполнена безупречно. Пленку совершенно не видно, края заведены идеально. Настоящие мастера своего дела.",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop",
+    name: "Мария К.",
+    role: "Владелица Range Rover",
+  },
+  {
+    text: "Делал химчистку салона с разбором. Такого результата я не видел даже при покупке авто. Исчезли все запахи и застарелые пятна.",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
+    name: "Дмитрий В.",
+    role: "Владелец Audi Q7",
   },
 ];
 
+const TestimonialsColumn = (props: {
+  className?: string;
+  testimonials: typeof testimonials;
+  duration?: number;
+}) => {
+  return (
+    <div className={props.className}>
+      <motion.div
+        animate={{
+          translateY: "-50%",
+        }}
+        transition={{
+          duration: props.duration || 10,
+          repeat: Infinity,
+          ease: "linear",
+          repeatType: "loop",
+        }}
+        className="flex flex-col gap-6 pb-6"
+      >
+        <React.Fragment>
+          {[...new Array(2)].map((_, index) => (
+            <React.Fragment key={index}>
+              {props.testimonials.map(({ text, image, name, role }, i) => (
+                <div key={`${index}-${i}`} className="p-8 rounded-3xl border border-white/10 bg-primary shadow-xl shadow-primary/20 max-w-xs w-full transition-all hover:bg-primary/90 hover:border-white/20 group">
+                  <div className="text-sm leading-relaxed text-white/90 italic font-medium">"{text}"</div>
+                  <div className="flex items-center gap-3 mt-6">
+                    <img
+                      width={40}
+                      height={40}
+                      src={image}
+                      alt={name}
+                      className="h-10 w-10 rounded-full grayscale group-hover:grayscale-0 transition-all duration-500 object-cover border border-white/20"
+                    />
+                    <div className="flex flex-col">
+                      <div className="font-bold tracking-tight text-xs uppercase text-white leading-tight">{name}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-white/60 leading-tight mt-1">{role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      </motion.div>
+    </div>
+  );
+};
+
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="h-full flex flex-col items-center px-8 md:px-20 pt-20 pb-12 bg-background-light justify-center font-display">
-      <div className="max-w-6xl w-full">
+    <section id="testimonials" className="relative h-full flex flex-col items-center px-4 md:px-20 pt-16 pb-24 bg-background-light overflow-hidden font-display">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(1,69,242,0.03)_0%,rgba(255,255,255,0)_70%)] pointer-events-none" />
+
+      <div className="max-w-7xl w-full relative z-10">
         {/* Heading */}
-        <div className="text-center mb-6">
-          <span className="text-primary text-[10px] md:text-xs font-black tracking-[0.3em] uppercase mb-2 block">
-            Отзывы
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none text-slate-900">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none text-primary">
             Мнения клиентов
           </h2>
         </div>
 
-        {/* Testimonial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto">
-          {TESTIMONIALS.map((testimonial) => (
-            <div key={testimonial.id} className="flex flex-col space-y-2 liquid-glass p-4">
-              <div className="mb-2 overflow-hidden rounded-xl aspect-video md:aspect-square w-full max-h-[160px] md:max-h-[200px] relative">
-                <img
-                  alt={testimonial.name}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                  src={testimonial.image}
-                />
-              </div>
-              <div className="flex gap-1 text-primary justify-center md:justify-start">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <MaterialIcon key={star} name="star" className="text-sm" />
-                ))}
-              </div>
-              <p className="text-xs md:text-sm leading-relaxed font-light italic text-slate-700 text-center md:text-left">
-                &quot;{testimonial.quote}&quot;
-              </p>
-              <div className="pt-2 text-center md:text-left mt-auto">
-                <p className="text-xs font-bold uppercase tracking-widest text-slate-900">
-                  {testimonial.name}
-                </p>
-                <p className="text-[9px] uppercase tracking-widest text-slate-500 mt-1">
-                  {testimonial.role}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Animated Grid */}
+        <div className="flex justify-center gap-6 h-[500px] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_80%,transparent)] overflow-hidden mt-14">
+          <TestimonialsColumn
+            testimonials={testimonials.slice(0, 3)}
+            duration={15}
+          />
+          <TestimonialsColumn
+            testimonials={testimonials.slice(3, 6)}
+            className="hidden md:block"
+            duration={20}
+          />
+          <TestimonialsColumn
+            testimonials={testimonials.slice(0, 3)}
+            className="hidden lg:block"
+            duration={17}
+          />
         </div>
 
-        {/* Summary Bar */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center gap-4 max-w-5xl mx-auto px-4">
-          <div className="flex gap-8 md:gap-12 w-full md:w-auto justify-center md:justify-start">
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-lg font-bold text-slate-900">4.9</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 text-center">
-                Средняя оценка
-              </span>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-lg font-bold text-slate-900">124</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 text-center">
-                Проверенных отзыва
-              </span>
-            </div>
-          </div>
-          <a
-            href="#"
-            className="flex items-center justify-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-slate-900 hover:text-primary transition-colors group w-full md:w-auto"
-          >
-            Читать все истории
-            <MaterialIcon
-              name="arrow_forward"
-              className="text-sm group-hover:translate-x-1 transition-transform"
-            />
-          </a>
-        </div>
       </div>
     </section>
   );
 }
+

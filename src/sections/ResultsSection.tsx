@@ -100,7 +100,7 @@ export function ResultsSection() {
           <h2 className="font-display text-3xl md:text-5xl font-black text-white tracking-tight uppercase leading-none mb-3">
             ПРЕОБРАЖЕНИЕ АВТО
           </h2>
-          <p className="font-sans text-[10px] md:text-sm text-white/70 max-w-xl font-bold tracking-[0.2em] uppercase">
+          <p className="font-sans text-[10px] md:text-sm text-white max-w-xl font-bold tracking-[0.2em] uppercase">
             Результат нашей работы
           </p>
         </div>

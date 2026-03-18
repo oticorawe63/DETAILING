@@ -10,9 +10,9 @@ export function Navbar() {
     // Контейнер всей шапки
     container: {
       left: "0px",                      // Смещение всей шапки вправо/влево
-      top: "-15px",                       // Смещение всей шапки вверх/вниз
+      top: "0px",                        // Установил 0px для ровного отображения без обрезки
+      height: "60px",                   // ВЫСОТА ШАПКИ
       paddingX: "32px",                 // Горизонтальные отступы (px)
-      paddingY: "24px",                 // Вертикальные отступы (px)
       backgroundColor: "transparent",    // Цвет фона
     },
     // Логотип (DETAILING23)
@@ -91,40 +91,37 @@ export function Navbar() {
 
   return (
     <nav
-      className="fixed z-[1000] w-full flex justify-between items-center transition-all duration-300"
+      className="fixed z-[1000] w-full flex justify-between items-stretch transition-all duration-500 border-b bg-white/10 border-black/5 backdrop-blur-xl"
       style={{
         left: navbarSettings.container.left,
         top: navbarSettings.container.top,
+        height: navbarSettings.container.height,
         paddingLeft: navbarSettings.container.paddingX,
         paddingRight: navbarSettings.container.paddingX,
-        paddingTop: navbarSettings.container.paddingY,
-        paddingBottom: navbarSettings.container.paddingY,
-        backgroundColor: navbarSettings.container.backgroundColor,
       }}
     >
       {/* Логотип */}
       <div
-        className="flex items-center relative transition-all duration-300"
+        className="flex items-center h-full relative transition-all duration-300"
         style={{
           transform: `translate(${navbarSettings.logo.left}, ${navbarSettings.logo.top})`
         }}
       >
         <div
-          className="font-display tracking-tighter flex items-center font-semibold cursor-pointer pointer-events-auto transition-colors duration-300"
+          className="font-display tracking-tighter flex items-center font-semibold cursor-pointer pointer-events-auto transition-colors duration-300 text-black px-4"
           style={{
             fontSize: navbarSettings.logo.fontSize,
             letterSpacing: navbarSettings.logo.letterSpacing,
-            color: isDarkSection ? "#ffffff" : "#000000"
           }}
           onClick={() => scrollTo("hero")}
         >
-          DETAILING<span className={cn("transition-colors duration-300 not-italic", isDarkSection ? "text-white" : "text-black")}>23</span>
+          DETAILING<span className="text-black not-italic">23</span>
         </div>
       </div>
 
       {/* Блок разделов */}
       <div
-        className="flex items-center pointer-events-auto relative transition-all duration-300"
+        className="flex items-center h-full pointer-events-auto relative transition-all duration-300"
         style={{
           gap: navbarSettings.sectionsContainer.gap,
           transform: `translate(${navbarSettings.sectionsContainer.left}, ${navbarSettings.sectionsContainer.top})`
@@ -139,12 +136,7 @@ export function Navbar() {
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className={cn(
-                  "ml-2 tracking-wide transition-all duration-300 font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5",
-                  isDarkSection
-                    ? "bg-white text-[#0145f2] shadow-white/20"
-                    : "bg-primary text-white shadow-primary/20"
-                )}
+                className="ml-2 tracking-wide transition-all duration-300 font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 bg-primary text-white shadow-primary/20"
                 style={{
                   fontSize: navbarSettings.ctaButton.fontSize,
                   paddingLeft: navbarSettings.ctaButton.paddingX,
@@ -163,10 +155,7 @@ export function Navbar() {
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className={cn(
-                "tracking-wide relative transition-colors duration-300",
-                isDarkSection ? "text-white hover:text-white" : "text-black hover:text-black"
-              )}
+              className="tracking-wide relative transition-colors duration-300 text-black hover:text-[#0145f2]"
               style={{
                 fontSize: navbarSettings.menuItem.fontSize,
                 fontWeight: navbarSettings.menuItem.fontWeight,
@@ -174,20 +163,13 @@ export function Navbar() {
                 paddingRight: navbarSettings.menuItem.paddingX,
                 paddingTop: navbarSettings.menuItem.paddingY,
                 paddingBottom: navbarSettings.menuItem.paddingY,
-                color: isActive
-                  ? (isDarkSection ? "#ffffff" : "#0145f2")
-                  : undefined
+                color: isActive ? "#0145f2" : undefined
               }}
             >
               {isActive && (
                 <motion.div
                   layoutId="active-pill"
-                  className={cn(
-                    "absolute inset-0 border rounded-full shadow-sm",
-                    isDarkSection
-                      ? "bg-white/10 border-white/30"
-                      : "bg-white border-primary/10"
-                  )}
+                  className="absolute inset-0 border rounded-full shadow-sm bg-white border-primary/10"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}

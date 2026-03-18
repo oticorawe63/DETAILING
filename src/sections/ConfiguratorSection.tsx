@@ -243,10 +243,10 @@ export function ConfiguratorSection() {
         {isInteriorView && (
           <button
             onClick={() => setIsInteriorView(false)}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-black/5 shadow-xl hover:bg-white transition-colors group"
+            className="absolute top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#ffffff] px-6 py-3 rounded-full border border-black/5 shadow-2xl hover:bg-slate-50 transition-colors group"
           >
             <MaterialIcon name="close" className="text-xl text-slate-800" />
-            <span className="text-[10px] font-bold tracking-widest uppercase text-slate-800">
+            <span className="text-xs font-bold tracking-widest uppercase text-slate-800">
               Выйти из салона
             </span>
           </button>
@@ -389,15 +389,15 @@ export function ConfiguratorSection() {
                       key={wheel.id}
                       onClick={() => setSelectedWheel(wheel.id)}
                       className={cn(
-                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center",
+                        "relative w-14 h-14 rounded-full cursor-pointer transition-transform hover:scale-110 flex-shrink-0 flex items-center justify-center transform-gpu will-change-transform",
                         selectedWheel === wheel.id ? "ring-2 ring-primary ring-offset-2 ring-offset-white bg-white shadow-sm" : "hover:bg-black/5"
                       )}
                     >
-                      <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center">
+                      <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center pointer-events-none">
                         <img
                           src={wheel.src}
                           alt={wheel.name}
-                          className={cn("w-full h-full object-contain scale-150 transition-opacity", selectedWheel !== wheel.id && "opacity-40 hover:opacity-100")}
+                          className={cn("w-full h-full object-cover transition-opacity opacity-100 transform-gpu")}
                         />
                       </div>
                     </div>
@@ -460,7 +460,7 @@ export function ConfiguratorSection() {
                         <img
                           src={detail.src}
                           alt={detail.name}
-                          className={cn("w-full h-full object-cover transition-opacity", selectedDetail !== detail.id && "opacity-80 hover:opacity-100")}
+                          className={cn("w-full h-full object-cover transition-opacity opacity-100 transform-gpu")}
                         />
                       </div>
                     </div>

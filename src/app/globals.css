@@ -82,11 +82,6 @@ h1, h2, h3, h4, h5, h6, .font-unbounded {
 .bg-primary { background-color: #0145f2 !important; }
 .border-primary { border-color: #0145f2 !important; }
 
-/* Ensure white text stays white on primary backgrounds */
-.bg-primary * {
-  color: white !important;
-}
-
 /* Footer specific */
 footer {
   background-color: #0145f2 !important;

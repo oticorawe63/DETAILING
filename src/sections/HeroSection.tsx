@@ -138,7 +138,7 @@ export function HeroSection() {
                 }}
               >
                 <span className="relative z-10">Рассчитать стоимость</span>
-                <div className="absolute inset-0 bg-[#0f172a] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <div className="absolute inset-0 bg-[#000000] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
               </button>
             </div>
 
@@ -210,7 +210,7 @@ export function HeroSection() {
           <motion.div
             initial={{ x: "-100%" }}
             animate={{ x: "200%" }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 5, ease: "easeInOut" }}
+            transition={{ duration: 1.0, repeat: Infinity, repeatDelay: 1.5, ease: "easeInOut" }}
             className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-20deg]"
           />
         </div>
