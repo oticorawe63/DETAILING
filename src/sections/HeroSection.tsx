@@ -217,11 +217,6 @@ export function HeroSection() {
       </div>
 
 
-      {/* Depth Watermark */}
-      <div className="absolute bottom-6 right-8 font-display font-black text-[12vw] text-black/[0.02] leading-none pointer-events-none select-none uppercase">
-        G-Wagon
-      </div>
-
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent pointer-events-none -z-10" />
     </section>
   );

@@ -1,9 +1,41 @@
 "use client";
+
 import React from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 
-export function QuoteSection() {
+export function QuoteSection({
+  cart,
+  selectedBrand,
+  selectedModel
+}: {
+  cart: { name: string, price: number | string }[],
+  selectedBrand: string | null,
+  selectedModel: string | null
+}) {
   const [phone, setPhone] = React.useState("");
+
+  const getCarClass = (brand: string | null, model: string | null): number => {
+    if (!brand || !model) return 2;
+    const b = brand.toLowerCase(); const m = model.toLowerCase();
+    if (b === "toyota" && m === "camry") return 1;
+    if (b === "mercedes-benz" && m === "c-class") return 2;
+    if (b.includes("audi") && m === "tt") return 2;
+    if (b === "toyota" && m === "supra") return 3;
+    if (b.includes("bmw") && (m === "m3" || m === "m5")) return 3;
+    if (b.includes("porsche") && m === "macan") return 3;
+    if (b.includes("audi") && m === "q7") return 3;
+    if (b === "mercedes-benz" && (m === "s-class" || m === "gle coupe" || m === "g-class")) return 4;
+    if (b.includes("porsche") && (m === "panamera" || m === "taycan" || m === "cayenne")) return 4;
+    if (b.includes("bmw") && (m === "x5" || m === "x6")) return 4;
+    if (b === "toyota" && m === "land cruiser") return 4;
+    if (b.includes("porsche") && m === "911") return 5;
+    if (b === "mercedes-benz" && m === "amg gt") return 5;
+    if (b === "toyota" && m === "tundra") return 5;
+    return 2;
+  };
+
+  const carClass = getCarClass(selectedBrand, selectedModel);
+  const totalPrice = cart.reduce((acc, curr) => typeof curr.price === 'number' ? acc + curr.price : acc, 0);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");
@@ -14,7 +46,8 @@ export function QuoteSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    console.log({ phone, cart, selectedBrand, selectedModel });
+    alert("Заявка успешно отправлена!");
   };
 
   return (
@@ -42,7 +75,8 @@ export function QuoteSection() {
                     <input
                       type="text"
                       placeholder="Иван"
-                      className="w-full rounded-lg border border-slate-300 bg-slate-50 text-black placeholder:text-black/50 focus:border-primary focus:ring-1 focus:ring-primary transition-all p-4 text-base outline-none shadow-sm font-bold"
+                      required
+                      className="w-full rounded-lg border border-black bg-slate-50 text-black placeholder:text-black/50 focus:border-primary focus:ring-1 focus:ring-primary transition-all p-4 text-base outline-none shadow-sm font-bold"
                     />
                     <MaterialIcon
                       name="person"
@@ -61,7 +95,8 @@ export function QuoteSection() {
                       placeholder="8-999-123-45-67"
                       value={phone}
                       onChange={handlePhoneChange}
-                      className="w-full rounded-lg border border-slate-300 bg-slate-50 text-black placeholder:text-black/50 focus:border-primary focus:ring-1 focus:ring-primary transition-all p-4 text-base outline-none shadow-sm font-bold"
+                      required
+                      className="w-full rounded-lg border border-black bg-slate-50 text-black placeholder:text-black/50 focus:border-primary focus:ring-1 focus:ring-primary transition-all p-4 text-base outline-none shadow-sm font-bold"
                     />
                     <MaterialIcon
                       name="call"
@@ -70,37 +105,48 @@ export function QuoteSection() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <label className="text-black text-sm font-bold uppercase tracking-wider">
-                    Выберите услугу
-                  </label>
-                  <div className="relative group">
-                    <select className="w-full appearance-none rounded-lg border border-slate-300 bg-slate-50 text-black focus:border-primary focus:ring-1 focus:ring-primary transition-all p-4 pr-12 text-base outline-none shadow-sm font-bold">
-                      <option value="" className="bg-white text-black font-bold">Выберите процедуру...</option>
-                      <option value="ceramic" className="bg-white text-black font-bold">Керамическое покрытие</option>
-                      <option value="interior" className="bg-white text-black font-bold">Реставрация интерьера</option>
-                      <option value="ppf" className="bg-white text-black font-bold">Антигравийная пленка</option>
-                      <option value="full" className="bg-white text-black font-bold">Полный детейлинг</option>
-                    </select>
-                    <MaterialIcon
-                      name="expand_more"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-black pointer-events-none"
-                    />
+                {/* Plain Text Information Area - BETWEEN PHONE and SUBMIT BUTTON */}
+                <div className="flex flex-col gap-3 pt-0 pb-4 border-b-2 border-slate-1000 font-bold italic">
+                  <div className="space-y-2">
+                    {selectedBrand && selectedModel ? (
+                      <p className="text-black text-sm uppercase">
+                        Автомобиль: <span className="text-primary">{selectedBrand} {selectedModel}</span>
+                      </p>
+                    ) : (
+                      <p className="text-slate-1000 text-sm uppercase">Автомобиль не выбран</p>
+                    )}
+
+                    <div className="space-y-1">
+                      <p className="text-black text-sm uppercase inline">Услуги: </p>
+                      {cart.length > 0 ? (
+                        <span className="text-xs uppercase text-primary italic">
+                          {cart.map(it => it.name).join(", ")}
+                        </span>
+                      ) : (
+                        <span className="text-slate-1000 text-sm uppercase italic">корзина пуста</span>
+                      )}
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <p className="text-sm text-black uppercase">Стоимость:</p>
+                      <p className="text-2xl text-primary leading-none uppercase">{totalPrice.toLocaleString("ru-RU")} ₽</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-3 rounded-xl bg-primary text-white font-black uppercase tracking-widest text-sm py-4 px-8 transition-all hover:bg-primary/90 hover:shadow-2xl shadow-xl transform hover:-translate-y-1 active:translate-y-0"
+                disabled={cart.length === 0}
+                className="w-full flex items-center justify-center gap-3 rounded-xl bg-primary text-white font-black uppercase tracking-widest text-sm py-4 px-8 transition-all hover:bg-primary/100 hover:shadow-2xl shadow-xl transform hover:-translate-y-1 active:translate-y-0 disabled:opacity-100"
               >
-                <span>Отправить заявку</span>
+                <span>ОТПРАВИТЬ ЗАЯВКУ</span>
                 <MaterialIcon name="send" className="text-xl" />
               </button>
             </form>
           </div>
 
-          {/* Right Column: Map & Info */}
+          {/* Right Column: Map & Info (Original Style) */}
           <div className="flex flex-col gap-6 w-full max-w-md mx-auto lg:max-w-none">
             <div className="w-full aspect-[2/1] rounded-2xl overflow-hidden border border-white/100 shadow-2xl relative bg-[#010a21]">
               <iframe

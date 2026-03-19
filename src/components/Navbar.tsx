@@ -1,69 +1,39 @@
-import { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
+  
+  // Флаг для игнорирования IntersectionObserver при клике
+  const isScrollingLock = useRef(false);
 
-  // --- НАСТРОЙКИ ШАПКИ ---
-  const navbarSettings = {
-    // Контейнер всей шапки
-    container: {
-      left: "0px",                      // Смещение всей шапки вправо/влево
-      top: "0px",                        // Установил 0px для ровного отображения без обрезки
-      height: "60px",                   // ВЫСОТА ШАПКИ
-      paddingX: "32px",                 // Горизонтальные отступы (px)
-      backgroundColor: "transparent",    // Цвет фона
-    },
-    // Логотип (DETAILING23)
-    logo: {
-      left: "0px",                      // Индивидуальное смещение логотипа
-      top: "0px",
-      fontSize: "24px",                 // Размер шрифта в пикселях
-      letterSpacing: "-0.05em",         // Межсимвольный интервал
-      color: "#000000",                 // Чистый черный
-    },
-    // Весь блок разделов (меню справа)
-    sectionsContainer: {
-      left: "0px",                      // Смещение всего меню вправо/влево
-      top: "0px",                       // Смещение всего меню вверх/вниз
-      gap: "8px",                       // Расстояние между пунктами
-    },
-    // Индивидуальные настройки пунктов меню
-    menuItem: {
-      fontSize: "16px",                 // Размер шрифта
-      paddingX: "24px",                 // Внутренний отступ (X)
-      paddingY: "12px",                 // Внутренний отступ (Y)
-      fontWeight: "600",                // Чуть жирнее для чистого цвета
-    },
-    // Кнопка действия (Оставить заявку)
-    ctaButton: {
-      fontSize: "14px",                 // Размер шрифта кнопки
-      paddingX: "24px",                 // Внутренний отступ (X)
-      paddingY: "12px",                 // Внутренний отступ (Y)
-      borderRadius: "9999px",           // Скругление (full)
-    }
-  };
-  // -----------------------------
+  const isBlueBgSection = ["results", "pricing", "quote"].includes(activeSection);
+
+  useEffect(() => {
+    const handleScrollEnd = () => {
+      isScrollingLock.current = false;
+    };
+    window.addEventListener("scrollend", handleScrollEnd);
+    return () => window.removeEventListener("scrollend", handleScrollEnd);
+  }, []);
 
   useEffect(() => {
     const sections = ["hero", "results", "configurator", "pricing", "testimonials", "quote"];
-    const options = {
-      root: null,
-      rootMargin: "-20% 0px -20% 0px",
-      threshold: 0.2,
-    };
-
     const observer = new IntersectionObserver((entries) => {
+      if (isScrollingLock.current) return; // Игнорируем при программном скролле
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
           setActiveSection(entry.target.id);
         }
       });
-    }, options);
+    }, { root: null, threshold: 0.5 });
 
-    sections.forEach((section) => {
-      const el = document.getElementById(section);
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
@@ -73,8 +43,14 @@ export function Navbar() {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
+      isScrollingLock.current = true;
+      setActiveSection(id); // Сразу перемещаем плашку
       el.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(id);
+      
+      // На случай если браузер не поддерживает scrollend
+      setTimeout(() => {
+        isScrollingLock.current = false;
+      }, 1000);
     }
   };
 
@@ -87,90 +63,57 @@ export function Navbar() {
     { id: "quote", label: "Оставить заявку" },
   ];
 
-  const isDarkSection = activeSection === "results" || activeSection === "pricing";
-
   return (
     <nav
-      className="fixed z-[1000] w-full flex justify-between items-stretch transition-all duration-500 border-b bg-white/10 border-black/5 backdrop-blur-xl"
-      style={{
-        left: navbarSettings.container.left,
-        top: navbarSettings.container.top,
-        height: navbarSettings.container.height,
-        paddingLeft: navbarSettings.container.paddingX,
-        paddingRight: navbarSettings.container.paddingX,
-      }}
+      className={cn(
+        "fixed z-[1000] w-full flex justify-between items-stretch transition-all duration-500 border-b backdrop-blur-xl",
+        isBlueBgSection ? "bg-white/5 border-white/10" : "bg-white/10 border-black/5"
+      )}
+      style={{ height: "60px", padding: "0 32px" }}
     >
-      {/* Логотип */}
-      <div
-        className="flex items-center h-full relative transition-all duration-300"
-        style={{
-          transform: `translate(${navbarSettings.logo.left}, ${navbarSettings.logo.top})`
-        }}
-      >
+      <div className="flex items-center h-full">
         <div
-          className="font-display tracking-tighter flex items-center font-semibold cursor-pointer pointer-events-auto transition-colors duration-300 text-black px-4"
-          style={{
-            fontSize: navbarSettings.logo.fontSize,
-            letterSpacing: navbarSettings.logo.letterSpacing,
-          }}
+          className={cn(
+            "font-unbounded tracking-tighter flex items-center font-black cursor-pointer transition-colors duration-300 px-4 text-black italic uppercase text-[24px]"
+          )}
           onClick={() => scrollTo("hero")}
         >
-          DETAILING<span className="text-black not-italic">23</span>
+          DETAILING<span className="text-black not-italic">99</span>
         </div>
       </div>
 
-      {/* Блок разделов */}
-      <div
-        className="flex items-center h-full pointer-events-auto relative transition-all duration-300"
-        style={{
-          gap: navbarSettings.sectionsContainer.gap,
-          transform: `translate(${navbarSettings.sectionsContainer.left}, ${navbarSettings.sectionsContainer.top})`
-        }}
-      >
+      <div className="flex items-center h-full relative" style={{ gap: "8px" }}>
         {navItems.map((item, index) => {
           const isLast = index === navItems.length - 1;
           const isActive = activeSection === item.id;
-
-          if (isLast) {
-            return (
-              <button
-                key={item.id}
-                onClick={() => scrollTo(item.id)}
-                className="ml-2 tracking-wide transition-all duration-300 font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 bg-primary text-white shadow-primary/20"
-                style={{
-                  fontSize: navbarSettings.ctaButton.fontSize,
-                  paddingLeft: navbarSettings.ctaButton.paddingX,
-                  paddingRight: navbarSettings.ctaButton.paddingX,
-                  paddingTop: navbarSettings.ctaButton.paddingY,
-                  paddingBottom: navbarSettings.ctaButton.paddingY,
-                  borderRadius: navbarSettings.ctaButton.borderRadius,
-                }}
-              >
-                {item.label}
-              </button>
-            );
-          }
 
           return (
             <button
               key={item.id}
               onClick={() => scrollTo(item.id)}
-              className="tracking-wide relative transition-colors duration-300 text-black hover:text-[#0145f2]"
+              className={cn(
+                "tracking-wide relative z-10 transition-colors duration-300 whitespace-nowrap",
+                isBlueBgSection ? "text-black hover:text-white" : "text-black hover:text-[#0145f2]",
+                isActive && (isBlueBgSection ? "!text-white" : "!text-primary"),
+                isLast && "ml-2"
+              )}
               style={{
-                fontSize: navbarSettings.menuItem.fontSize,
-                fontWeight: navbarSettings.menuItem.fontWeight,
-                paddingLeft: navbarSettings.menuItem.paddingX,
-                paddingRight: navbarSettings.menuItem.paddingX,
-                paddingTop: navbarSettings.menuItem.paddingY,
-                paddingBottom: navbarSettings.menuItem.paddingY,
-                color: isActive ? "#0145f2" : undefined
+                fontSize: "16px",
+                fontWeight: "600",
+                paddingLeft: "24px",
+                paddingRight: "24px",
+                paddingTop: "12px",
+                paddingBottom: "12px",
               }}
             >
               {isActive && (
                 <motion.div
                   layoutId="active-pill"
-                  className="absolute inset-0 border rounded-full shadow-sm bg-white border-primary/10"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  className={cn(
+                    "absolute inset-0 border rounded-full shadow-sm -z-10 transform-gpu",
+                    isBlueBgSection ? "bg-white/10 border-white/20" : "bg-white border-primary/10"
+                  )}
+                  transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
                 />
               )}
               <span className="relative z-10">{item.label}</span>

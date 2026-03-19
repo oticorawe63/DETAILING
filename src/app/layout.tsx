@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Ubuntu, Unbounded } from "next/font/google";
 import "./globals.css";
+import { CookieConsent } from "@/components/CookieConsent";
 
 const ubuntu = Ubuntu({
   variable: "--font-ubuntu",
@@ -44,6 +45,7 @@ export default function RootLayout({
         className={`${ubuntu.variable} ${unbounded.variable} font-sans antialiased text-slate-900 bg-[#edf1f5] min-h-screen transition-colors duration-300`}
       >
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

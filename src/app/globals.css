@@ -82,11 +82,12 @@ h1, h2, h3, h4, h5, h6, .font-unbounded {
 .bg-primary { background-color: #0145f2 !important; }
 .border-primary { border-color: #0145f2 !important; }
 
-/* Footer specific */
+/* Custom Footer Overrides */
 footer {
-  background-color: #0145f2 !important;
+  background-color: #edf1f5 !important;
 }
 
 footer * {
-  color: white !important;
+  color: #0145f2 !important;
 }
+

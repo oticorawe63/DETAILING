@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Slider } from "@/components/Slider";
 import { cn } from "@/lib/utils";
 import { CardStack } from "@/components/ui/card-stack";
@@ -74,16 +74,64 @@ export function ResultsSection() {
     };
   }, []);
 
-  const handleDragStateChange = (dragging: boolean) => {
+  const handleDragStateChange = React.useCallback((dragging: boolean) => {
     if (dragging) {
       setShouldAutoAdvance(false);
       if (timerRef.current) clearTimeout(timerRef.current);
     } else {
-      // Set to true immediately so the 3s interval starts ticking now.
-      // Total delay from release to first slide will be exactly intervalMs.
       setShouldAutoAdvance(true);
     }
-  };
+  }, []);
+
+  const renderCard = React.useCallback((item: typeof RESULTS[0], { active }: { active: boolean }) => {
+    const itemIndex = RESULTS.findIndex(r => r.id === item.id);
+    return (
+      <div className="relative w-full h-full bg-black group overflow-hidden rounded-xl shadow-2xl">
+        <Slider
+          beforeImage={item.beforeImage!}
+          afterImage={item.afterImage!}
+          beforePosition={item.beforePosition}
+          afterPosition={item.afterPosition}
+          onDragStateChange={handleDragStateChange}
+          priority={itemIndex < 3}
+          className={cn("transition-opacity duration-300 opacity-100", !active && "pointer-events-none")}
+        />
+      
+        {/* Info Overlay - Visible on active card */}
+        <div className={cn(
+          "absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-[100] pointer-events-none",
+          "transition-all duration-300 transform h-1/2 flex flex-col justify-end antialiased",
+          active ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+        )}>
+          <div className="flex justify-between items-end gap-3 w-full transform-gpu">
+            <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <h3 className="text-sm md:text-xl font-black text-white uppercase tracking-tight leading-none truncate">
+                {item.title}
+              </h3>
+              <p className="text-white text-[9px] md:text-xs font-black uppercase tracking-[0.12em] opacity-100">
+                {item.description}
+              </p>
+            </div>
+            {/* Number badge */}
+            <div className="bg-white/10 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center border border-white/20 shrink-0">
+              <span className="text-white font-bold text-xs">{item.number}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Back number badge */}
+        {!active && (
+          <div className="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center border border-white/20 z-10 transition-opacity duration-300">
+            <span className="text-white font-bold text-xs">{item.number}</span>
+          </div>
+        )}
+      </div>
+    );
+  }, [handleDragStateChange]);
+
+  const onChangeIndex = React.useCallback((index: number) => {
+    setActiveIndex(index);
+  }, []);
 
   const sectionSettings = {
     paddingY: "py-12 md:py-20",
@@ -109,7 +157,7 @@ export function ResultsSection() {
         <div className="relative w-full flex flex-col items-center min-h-[420px]">
           <CardStack
             items={RESULTS}
-            onChangeIndex={(index) => setActiveIndex(index)}
+            onChangeIndex={onChangeIndex}
             cardWidth={cardSize.width}
             cardHeight={cardSize.height}
             maxVisible={5}
@@ -122,51 +170,7 @@ export function ResultsSection() {
             intervalMs={3000}
             pauseOnHover={false}
             className="max-w-6xl"
-            renderCard={(item, { active }) => {
-              const itemIndex = RESULTS.findIndex(r => r.id === item.id);
-              return (
-                <div className="relative w-full h-full bg-black group overflow-hidden rounded-xl shadow-2xl">
-                  <Slider
-                    beforeImage={item.beforeImage!}
-                    afterImage={item.afterImage!}
-                    beforePosition={item.beforePosition}
-                    afterPosition={item.afterPosition}
-                    onDragStateChange={handleDragStateChange}
-                    priority={itemIndex < 3}
-                    className={cn("transition-opacity duration-300 opacity-100", !active && "pointer-events-none")}
-                  />
-                
-                {/* Info Overlay - Visible on active card */}
-                <div className={cn(
-                  "absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-[100] pointer-events-none",
-                  "transition-all duration-300 transform h-1/2 flex flex-col justify-end antialiased",
-                  active ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-                )}>
-                  <div className="flex justify-between items-end gap-3 w-full transform-gpu">
-                    <div className="flex flex-col gap-1.5 flex-1 min-w-0">
-                      <h3 className="text-sm md:text-xl font-black text-white uppercase tracking-tight leading-none truncate">
-                        {item.title}
-                      </h3>
-                      <p className="text-white text-[9px] md:text-xs font-black uppercase tracking-[0.12em] opacity-100">
-                        {item.description}
-                      </p>
-                    </div>
-                    {/* Number badge */}
-                    <div className="bg-white/10 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center border border-white/20 shrink-0">
-                      <span className="text-white font-bold text-xs">{item.number}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Back number badge */}
-                {!active && (
-                  <div className="absolute bottom-4 right-4 bg-white/10 backdrop-blur-md rounded-full w-8 h-8 flex items-center justify-center border border-white/20 z-10 transition-opacity duration-300">
-                    <span className="text-white font-bold text-xs">{item.number}</span>
-                  </div>
-                )}
-              </div>
-              );
-            }}
+            renderCard={renderCard}
           />
         </div>
       </div>

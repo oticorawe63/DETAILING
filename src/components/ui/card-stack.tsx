@@ -124,6 +124,7 @@ export function CardStack<T extends CardStackItem>({
     wrapIndex(initialIndex, len),
   );
   const [hovering, setHovering] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
 
   // keep active in bounds if items change
   React.useEffect(() => {
@@ -168,6 +169,7 @@ export function CardStack<T extends CardStackItem>({
     if (reduceMotion) return;
     if (!len) return;
     if (pauseOnHover && hovering) return;
+    if (isDragging) return;
 
     const id = window.setInterval(
       () => {
@@ -187,6 +189,7 @@ export function CardStack<T extends CardStackItem>({
     loop,
     active,
     next,
+    isDragging,
   ]);
 
   if (!len) return null;
@@ -196,6 +199,8 @@ export function CardStack<T extends CardStackItem>({
   return (
     <div
       className={cn("w-full", className)}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
     >
       {/* Stage */}
       <div
@@ -225,8 +230,6 @@ export function CardStack<T extends CardStackItem>({
               const off = signedOffset(i, active, len, loop);
               const abs = Math.abs(off);
               
-              // Detect if this specific card is "wrapping" (moving across the entire array)
-              // If it moves more than half the length, it's a wrap jump.
               const isFarOut = abs > maxOffset;
 
               // fan geometry
@@ -244,16 +247,31 @@ export function CardStack<T extends CardStackItem>({
 
               const zIndex = 100 - abs;
 
-              const dragProps = {};
+              const dragProps = isActive ? {
+                drag: "x" as const,
+                dragConstraints: { left: 0, right: 0 },
+                dragElastic: 0.2,
+                onDragStart: () => setIsDragging(true),
+                onDragEnd: (_e: any, { offset, velocity }: any) => {
+                  setIsDragging(false);
+                  const swipeThreshold = 50;
+                  const velocityThreshold = 500;
+                  if (offset.x < -swipeThreshold || velocity.x < -velocityThreshold) {
+                    if (canGoNext) next();
+                  } else if (offset.x > swipeThreshold || velocity.x > velocityThreshold) {
+                    if (canGoPrev) prev();
+                  }
+                }
+              } : {};
 
               return (
                 <motion.div
                   key={item.id}
                   className={cn(
                     "absolute bottom-0 rounded-2xl overflow-hidden shadow-xl",
-                    "select-none",
+                    "select-none touch-none",
                     isActive
-                      ? "cursor-grab active:cursor-grabbing"
+                      ? "cursor-grab active:cursor-grabbing z-[100]"
                       : "cursor-pointer",
                   )}
                   style={{
@@ -261,6 +279,7 @@ export function CardStack<T extends CardStackItem>({
                     height: cardHeight,
                     zIndex,
                     transformStyle: "preserve-3d",
+                    willChange: "transform, opacity",
                   }}
                   initial={
                     reduceMotion
@@ -280,24 +299,33 @@ export function CardStack<T extends CardStackItem>({
                     y: y + lift,
                     rotateZ,
                     rotateX,
-                    // framer doesn't support translateZ directly in animate on all setups,
-                    // so we use a custom transform via style below.
                     scale,
                   }}
                   transition={{
-                    type: "tween",
-                    ease: "easeInOut",
-                    duration: 0.8,
+                    type: "spring",
+                    stiffness: 80,
+                    damping: 24,
+                    mass: 2.5,
+                    restDelta: 0.001,
+                    restSpeed: 0.001,
                   }}
-                  // translateZ via style transform (kept stable w/ motion values above)
-                  // We apply translateZ by using a CSS transform in a child wrapper.
                   onClick={() => setActive(i)}
                   {...dragProps}
                 >
-                  <div
+                  <motion.div
                     className="h-full w-full"
+                    animate={{
+                      z: z,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 80,
+                      damping: 24,
+                      mass: 2.5,
+                      restDelta: 0.001,
+                      restSpeed: 0.001,
+                    }}
                     style={{
-                      transform: `translateZ(${z}px)`,
                       transformStyle: "preserve-3d",
                     }}
                   >
@@ -306,7 +334,7 @@ export function CardStack<T extends CardStackItem>({
                     ) : (
                       <DefaultFanCard item={item} active={isActive} />
                     )}
-                  </div>
+                  </motion.div>
                 </motion.div>
               );
             })}

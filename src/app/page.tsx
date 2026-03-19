@@ -9,6 +9,7 @@ import { ConfiguratorSection } from "@/sections/ConfiguratorSection";
 import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { QuoteSection } from "@/sections/QuoteSection";
 import { Footer } from "@/components/Footer";
+import { ReactNode, useState } from "react";
 
 const FADE_UP_ANIMATION_VARIANTS = {
   hidden: { opacity: 0, y: 30 },
@@ -16,6 +17,17 @@ const FADE_UP_ANIMATION_VARIANTS = {
 };
 
 export default function Home() {
+  const [cart, setCart] = useState<{ name: string, price: number | string }[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+
+  const handleCheckout = () => {
+    const quoteSection = document.getElementById("quote");
+    if (quoteSection) {
+      quoteSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -34,7 +46,15 @@ export default function Home() {
         </div>
 
         <div className="w-full h-screen overflow-hidden shrink-0">
-          <PricingSection />
+          <PricingSection 
+            cart={cart} 
+            setCart={setCart} 
+            selectedBrand={selectedBrand} 
+            setSelectedBrand={setSelectedBrand}
+            selectedModel={selectedModel}
+            setSelectedModel={setSelectedModel}
+            onCheckout={handleCheckout}
+          />
         </div>
 
         <div className="w-full h-screen overflow-hidden shrink-0">
@@ -42,7 +62,11 @@ export default function Home() {
         </div>
 
         <div className="w-full h-screen overflow-hidden shrink-0">
-          <QuoteSection />
+          <QuoteSection 
+            cart={cart}
+            selectedBrand={selectedBrand}
+            selectedModel={selectedModel}
+          />
         </div>
 
         <div className="w-full shrink-0">
