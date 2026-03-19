@@ -73,7 +73,7 @@ export function HeroSection() {
           <div className="relative w-full">
             {/* Decorative line */}
             <div
-              className="absolute -top-8 left-0 h-[2px] bg-[#0145f2] w-[100px]"
+              className="absolute -top-8 left-1 h-[2px] bg-[#0145f2] w-[100px]"
             />
 
             {/* Title */}
