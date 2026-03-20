@@ -35,7 +35,14 @@ export function QuoteSection({
   };
 
   const carClass = getCarClass(selectedBrand, selectedModel);
-  const totalPrice = cart.reduce((acc, curr) => typeof curr.price === 'number' ? acc + curr.price : acc, 0);
+  const totalPrice = cart.reduce((acc, curr) => {
+    const parse = (p: number | string) => {
+      if (typeof p === 'number') return p;
+      const m = p.toString().replace(/\s/g, "").match(/\d+/);
+      return m ? parseInt(m[0]) : 0;
+    };
+    return acc + parse(curr.price);
+  }, 0);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "");

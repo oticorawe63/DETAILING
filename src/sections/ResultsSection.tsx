@@ -96,7 +96,7 @@ export function ResultsSection() {
           priority={itemIndex < 3}
           className={cn("transition-opacity duration-300 opacity-100", !active && "pointer-events-none")}
         />
-      
+
         {/* Info Overlay - Visible on active card */}
         <div className={cn(
           "absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent z-[100] pointer-events-none",
@@ -148,7 +148,7 @@ export function ResultsSection() {
           <h2 className="font-display text-3xl md:text-5xl font-black text-white tracking-tight uppercase leading-none mb-3">
             ПРЕОБРАЖЕНИЕ АВТО
           </h2>
-          <p className="font-sans text-[10px] md:text-sm text-white max-w-xl font-bold tracking-[0.2em] uppercase">
+          <p className="font-sans text-[16px] md:text-m text-white max-w-xl font-bold tracking-[0.2em] uppercase">
             Результат нашей работы
           </p>
         </div>
@@ -174,7 +174,7 @@ export function ResultsSection() {
           />
         </div>
       </div>
-      
+
       {/* Background Decor */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] pointer-events-none opacity-20">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0,transparent_70%)]" />

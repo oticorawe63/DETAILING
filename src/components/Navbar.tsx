@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const [activeSection, setActiveSection] = useState("hero");
-  
+
   // Флаг для игнорирования IntersectionObserver при клике
   const isScrollingLock = useRef(false);
 
@@ -46,7 +46,7 @@ export function Navbar() {
       isScrollingLock.current = true;
       setActiveSection(id); // Сразу перемещаем плашку
       el.scrollIntoView({ behavior: "smooth" });
-      
+
       // На случай если браузер не поддерживает scrollend
       setTimeout(() => {
         isScrollingLock.current = false;
@@ -57,7 +57,7 @@ export function Navbar() {
   const navItems = [
     { id: "hero", label: "Главная" },
     { id: "results", label: "Услуги" },
-    { id: "configurator", label: "Конфигуратор" },
+    { id: "configurator", label: "Конструктор" },
     { id: "pricing", label: "Цены" },
     { id: "testimonials", label: "Отзывы" },
     { id: "quote", label: "Оставить заявку" },

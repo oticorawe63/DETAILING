@@ -74,14 +74,6 @@ export default function Home() {
         </div>
       </main>
       
-      {/* Golden Canon Grid Overlay */}
-      <div className="fixed inset-0 z-[9999] pointer-events-none">
-        <img 
-          src="/GoldenCanonGrid-1920.png" 
-          alt="Grid Overlay" 
-          className="w-full h-full object-fill opacity-20"
-        />
-      </div>
     </>
   );
 }
